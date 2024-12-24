@@ -3,50 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stages</title>
-    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../public/css/styles.scss">
+    <title>Accueil</title>
+    <link rel="stylesheet" href="{{ routes.bootstrap }}">
+    <link rel="stylesheet" href="{{ routes.css }}/styles.scss">
 </head>
-
+<body>
 <div class="navbar navbar-dark bg-dark box-shadow">
     <div class="container d-flex justify-content-between">
         <!-- Logo ou Titre de la page -->
-        <a href="../templates/Accueil.twig" class="navbar-brand d-flex align-items-center">
-            <img src="../public/images/home.png" width="25" height="25">
+        <a href="?page=home" class="navbar-brand d-flex align-items-center">
+            <img src="{{ routes.images }}/home.png" width="25" height="25">
             <strong>Accueil</strong>
         </a>
 
-         <a href="../templates/Entreprise.twig" class="navbar-brand d-flex align-items-center">
-         <img src="../public/images/entreprise.png" width="25" height="25" class="me-2">
-    <p class="mb-0">Entreprise</p>
+        <a href="?page=entreprise" class="navbar-brand d-flex align-items-center">
+            <img src="{{ routes.images }}/entreprise.png" width="25" height="25" class="me-2">
+            <p class="mb-0">Entreprise</p>
         </a>
 
-         <a href="../templates/Stagiaire.twig" class="navbar-brand d-flex align-items-center">
-         <img src="../public/images/stage.png" width="25" height="25" class="me-2">
+        <a href="?page=stagiaire" class="navbar-brand d-flex align-items-center">
+            <img src="{{ routes.images }}/stage.png" width="25" height="25" class="me-2">
             <p class="mb-0">Stagiaire</p>
         </a>
 
-         <a href="../templates/Inscription.twig" class="navbar-brand d-flex align-items-center">
-         <img src="../public/images/inscrire.png" width="25" height="25" class="me-2">
+        <a href="?page=inscription" class="navbar-brand d-flex align-items-center">
+            <img src="{{ routes.images }}/inscrire.png" width="25" height="25" class="me-2">
             <p class="mb-0">Inscription</p>
         </a>
 
-         <a href="../templates/Aide.twig" class="navbar-brand d-flex align-items-center">
-         <img src="../public/images/aide.png" width="25" height="25" class="me-2">
+        <a href="?page=aide" class="navbar-brand d-flex align-items-center">
+            <img src="{{ routes.images }}/aide.png" width="25" height="25" class="me-2">
             <p class="mb-0">Aide</p>
         </a>
 
-         <a href="../templates/Deconnexion.twig" class="navbar-brand d-flex align-items-center">
-         <img src="../public/images/deconnexion.png" width="25" height="25" class="me-2">
+        <a href="?page=deconnexion" class="navbar-brand d-flex align-items-center">
+            <img src="{{ routes.images }}/deconnexion.png" width="25" height="25" class="me-2">
             <p class="mb-0">Déconnexion</p>
         </a>
-
-
     </div>
 </div>
-
-
-	
 <body>
     <header>
         <div class="container text-center">
@@ -54,7 +49,7 @@
             <p>Bienvenue sur la page de gestion des stages</p>
             <hr class="my-4" />
             <p class="strike">Version précédente en maintenance</p>
-              <img src="../public/images/stage-bts-cg.jpg" width="900" height="600"/>
+              <img src="{{ routes.images }}/stage-bts-cg.jpg" width="900" height="600"/>
         </div>
     </header>
 

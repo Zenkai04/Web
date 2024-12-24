@@ -1,13 +1,13 @@
 <?php
 $routes = [
-    'home'         => '/projets/Web/templates/Accueil.twig',
-    'entreprise'   => '/projets/Web/templates/Entreprise.twig',
-    'stagiaire'    => '/projets/Web/templates/Stagiaire.twig',
-    'inscription'  => '/projets/Web/templates/Inscription.twig',
-    'aide'         => '/projets/Web/templates/Aide.twig',
-    'deconnexion'  => '/projets/Web/templates/Déconnexion.twig',
-    'images'       => '/projets/Web/public/images',
-    'css'          => '/projets/Web/public/css',
-    'bootstrap'    => '/projets/Web/node_modules/bootstrap/dist/css/bootstrap.min.css'
+    'home'         => 'Accueil.twig',
+    'entreprise'   => 'Entreprise.twig',
+    'stagiaire'    => 'Stagiaire.twig',
+    'inscription'  => 'Inscription.twig',
+    'aide'         => 'Aide.twig',
+    'deconnexion'  => 'Déconnexion.twig',
+    'images'       => '../public/images',
+    'css'          => '../public/css',
+    'bootstrap'    => '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 ];
 ?>
