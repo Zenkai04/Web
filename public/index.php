@@ -1,7 +1,7 @@
 <?php
-require_once('../src/connect.php');
-require_once('../src/twig.php');
-require_once('../src/close.php');
+require_once('../src/Model/connect.php');
+require_once('../src/Model/twig.php');
+require_once('../src/Model/close.php');
 require_once('../config/routes.php'); // Inclusion des routes
 
 // Passer les routes dans Twig

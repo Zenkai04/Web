@@ -1,4 +1,5 @@
 problème d'affichage des pages selon accès (accès direct donne un affichage correct alors que via index.php on avait pas de mise en page)
 solution1: créer des références absolues (pas trop efficace)
 solution2 : définir dynamiquement une URL de base (ça n'a rien changé)
-solution3 : tout recommencer et passer par des routes
+solution3 : tout recommencer et passer par des routes (on a des nouveaux problèmes dus à des chargments de liens étranges)
+solution4 : mieux ranger les différents fichiers pour faciliter leur accès (ça marche).
