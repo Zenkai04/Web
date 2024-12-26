@@ -7,11 +7,28 @@ require_once('../config/routes.php');
 // Déterminer quelle page afficher
 $page = isset($_GET['page']) ? $_GET['page'] : 'home';
 
+switch ($page) {
+    case 'home':
+        require_once('../src/Controller/Accueil.php');
+        break;
+    case 'entreprise':
+        require_once('../src/Controller/Entreprise.php');
+        break;
+    case 'inscription':
+        require_once('../src/Controller/Inscription.php');
+        break;
+    
+    default:
+        // Page par défaut ou page d'erreur
+        echo "Page non trouvée";
+        break;
+}
+
 // Récupérer les données depuis la base de données
 $entreprises = $pdo->query('SELECT num_entreprise, raison_sociale, nom_contact, nom_resp, rue_entreprise, cp_entreprise, ville_entreprise, tel_entreprise, fax_entreprise, email, observation, site_entreprise FROM entreprise')->fetchAll();
 $etudiants = $pdo->query('SELECT num_etudiant, nom_etudiant, prenom_etudiant FROM etudiant')->fetchAll();
 $professeurs = $pdo->query('SELECT num_prof, nom_prof FROM professeur')->fetchAll();
-$specialites = $pdo->query('SELECT num_spec, libelle FROM specialite')->fetchAll();
+$specialite = $pdo->query('SELECT num_spec, libelle FROM specialite')->fetchAll();
 $spec_entreprises = $pdo->query('SELECT num_entreprise, num_spec FROM spec_entreprise')->fetchAll();
 $classes = $pdo->query('SELECT num_classe, nom_classe FROM classe')->fetchAll();
 $stages = $pdo->query('SELECT num_stage, debut_stage, fin_stage, type_stage, desc_projet, observation_stage, num_etudiant, num_prof, num_entreprise FROM stage')->fetchAll();

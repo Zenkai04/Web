@@ -4,33 +4,62 @@ require_once('connect.php');
 // Fonction pour récupérer les entreprises avec leurs spécialités
 function getEntreprises($pdo) {
     $query = '
-        SELECT e.num_entreprise, e.raison_sociale, e.nom_resp, e.rue_entreprise, e.cp_entreprise, e.ville_entreprise, e.site_entreprise, sp.libelle
-        FROM entreprise e
-        INNER JOIN spec_entreprise se ON e.num_entreprise = se.num_entreprise
-        INNER JOIN specialite sp ON se.num_spec = sp.num_spec
+        SELECT 
+            e.num_entreprise,
+            e.raison_sociale,
+            e.nom_resp,
+            e.rue_entreprise,
+            e.cp_entreprise,
+            e.ville_entreprise,
+            e.site_entreprise,
+    GROUP_CONCAT(s.libelle SEPARATOR ", ") AS specialites
+        FROM 
+            entreprise e
+        LEFT JOIN 
+            spec_entreprise se ON e.num_entreprise = se.num_entreprise
+        LEFT JOIN 
+            specialite s ON se.num_spec = s.num_spec
+        GROUP BY 
+            e.num_entreprise, e.raison_sociale
     ';
     $result = $pdo->query($query)->fetchAll(PDO::FETCH_ASSOC);
 
-    // Regrouper les spécialités par entreprise
-    $entreprises = [];
-    foreach ($result as $row) {
-        $num_entreprise = $row['num_entreprise'];
-        if (!isset($entreprises[$num_entreprise])) {
-            $entreprises[$num_entreprise] = [
-                'num_entreprise' => $row['num_entreprise'],
-                'raison_sociale' => $row['raison_sociale'],
-                'nom_resp' => $row['nom_resp'],
-                'rue_entreprise' => $row['rue_entreprise'],
-                'cp_entreprise' => $row['cp_entreprise'],
-                'ville_entreprise' => $row['ville_entreprise'],
-                'site_entreprise' => $row['site_entreprise'],
-                'specialites' => []
-            ];
-        }
-        $entreprises[$num_entreprise]['specialites'][] = $row['libelle'];
-    }
+    return $result;
+}
 
-    return array_values($entreprises);
+// Fonction pour récupérer les numéros des étudiants à partir de leur nom et prénom
+function getEtudiant($pdo, $etudiant) {
+    list($nom, $prenom) = explode(' ', $etudiant, 2);
+    $query = $pdo->prepare('SELECT num_etudiant FROM etudiant WHERE nom_etudiant = :nom AND prenom_etudiant = :prenom');
+    $query->execute([
+        ':nom' => $nom,
+        ':prenom' => $prenom,
+    ]);
+    $result = $query->fetch(PDO::FETCH_ASSOC);
+
+    return $result['num_etudiant'];
+}
+
+// Fonction pour récupérer les numéros des professeurs à partir de leur nom
+function getProfesseur($pdo, $professeur) {
+    $query = $pdo->prepare('SELECT num_prof FROM professeur WHERE nom_prof = :nom_prof');
+    $query->execute([
+        ':nom_prof' => $professeur,
+    ]);
+    $result = $query->fetch(PDO::FETCH_ASSOC);
+
+    return $result['num_prof'];
+}
+
+// Fonction pour récupérer les numéros des entreprises à partir de leur raison sociale
+function getEntreprise($pdo, $entreprise) {
+    $query = $pdo->prepare('SELECT num_entreprise FROM entreprise WHERE raison_sociale = :raison_sociale');
+    $query->execute([
+        ':raison_sociale' => $entreprise,
+    ]);
+    $result = $query->fetch(PDO::FETCH_ASSOC);
+
+    return $result['num_entreprise'];
 }
 
 // Fonction pour insérer les données d'inscription dans la base de données
