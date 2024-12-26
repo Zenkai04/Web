@@ -2,7 +2,7 @@
 require_once('../src/Model/connect.php');
 require_once('../src/Model/twig.php');
 require_once('../src/Model/close.php');
-require_once('../config/routes.php'); // Inclusion des routes
+require_once('../config/routes.php');
 
 // Déterminer quelle page afficher
 $page = isset($_GET['page']) ? $_GET['page'] : 'home';
@@ -26,7 +26,7 @@ $data = [
     'professeurs' => $professeurs
 ];
 
-// Afficher la page appropriée
+// Afficher la page accueil
 $template = isset($routes[$page]) ? $routes[$page] : $routes['home'];
 echo $twig->render($template, $data);
 ?>

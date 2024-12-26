@@ -8,6 +8,7 @@ $routes = [
     'deconnexion'  => 'Déconnexion.twig',
     'images'       => '../public/images',
     'css'          => '../public/css',
-    'bootstrap'    => '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+    'bootstrap'    => '../node_modules/bootstrap/dist/css/bootstrap.min.css',
+    'js'           => '../public/js'
 ];
 ?>

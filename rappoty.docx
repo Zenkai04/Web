@@ -10,3 +10,5 @@ remarque1 : utiliser route.page_demandée n'est pas une bonne approche ni path('
 
 difficulté pour associer chaque entreprise à la spécialité qui la concerne
 solution : une fonction php qui récupère les spécialités pour chaque entreprise et les ajoute à l'objet entreprise
+
+ajout de model.php pour regrouper toutes les fonctions php

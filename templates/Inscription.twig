@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription</title>
-    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../public/css/styles.scss">
+    <link rel="stylesheet" href="{{ routes.bootstrap }}">
+    <link rel="stylesheet" href="{{ routes.css }}/styles.scss">
 </head>
-
+<body>
 <div class="navbar navbar-dark bg-dark box-shadow">
     <div class="container d-flex justify-content-between">
         <!-- Logo ou Titre de la page -->
@@ -43,12 +43,8 @@
     </div>
 </div>
 
-
-	
-<body>
-    
 <main class="container">
-    <form action="inscription.php" method="POST">
+    <form id="inscriptionForm">
         <h2>Contacts</h2>
         <div class="form-group">
             <label for="entreprise">Entreprise</label>
@@ -102,10 +98,13 @@
 
         <button type="submit" class="btn btn-primary">Soumettre</button>
     </form>
+
+    <div id="confirmationMessage" class="alert alert-success mt-3" style="display: none;">
+        Inscription réussie !
+    </div>
 </main>
 
 <script src="{{ routes.bootstrap | replace({'.css': '.bundle.min.js'}) }}"></script>
-
-    
+<script src="{{ routes.js }}/javascript.js"></script>
 </body>
 </html>
