@@ -8,8 +8,11 @@ problème de récupération des données depuis la base des données (probableme
 solution1 : modification du fichier index.php + reimplémentation du fichier routes.php + adaptation du fichier connect.php à partir d'un fichiers de l'année précédente
 remarque1 : utiliser route.page_demandée n'est pas une bonne approche ni path('page_demandée') d'ailleur
 
-difficulté pour associer chaque entreprise à la spécialité qui la concerne
+problème pour associer chaque entreprise à la spécialité qui la concerne
 solution : une fonction php qui récupère les spécialités pour chaque entreprise et les ajoute à l'objet entreprise
 remarque : faudrait requerir au moins une fois dans index.php les controleurs avant de charger les pages sinon c'est pas très wow
 
 ajout de model.php pour regrouper toutes les fonctions php
+
+problème qui affiche en double les pages
+solution1 : redifinir les données initiales comme un tableau vide qui se remplie lorsque je denade la page

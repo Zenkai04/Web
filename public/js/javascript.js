@@ -7,11 +7,7 @@ document.getElementById('inscriptionForm').addEventListener('submit', function(e
         method: 'POST',
         body: formData
     })
-    .then(response => response.text()) // Change to text() to see the raw response
-    .then(text => {
-        console.log('Raw response:', text); // Log the raw response
-        return JSON.parse(text); // Parse the text as JSON
-    })
+    .then(response => response.json())
     .then(data => {
         if (data.success) {
             document.getElementById('confirmationMessage').style.display = 'block';

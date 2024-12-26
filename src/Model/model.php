@@ -27,39 +27,58 @@ function getEntreprises($pdo) {
     return $result;
 }
 
+// Fonction pour récupérer les étudiants
+function getEtudiants($pdo) {
+    $query = $pdo->prepare("SELECT num_etudiant, nom_etudiant, prenom_etudiant FROM etudiant");
+    $query->execute();
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Fonction pour récupérer les professeurs
+function getProfesseurs($pdo) {
+    $query = $pdo->prepare("SELECT num_prof, nom_prof FROM professeur");
+    $query->execute();
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Fonction pour récupérer les entreprises
+function getEntreprises2($pdo) {
+    $query = $pdo->prepare("SELECT num_entreprise, raison_sociale FROM entreprise");
+    $query->execute();
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+}
+
 // Fonction pour récupérer les numéros des étudiants à partir de leur nom et prénom
 function getEtudiant($pdo, $etudiant) {
-    list($nom, $prenom) = explode(' ', $etudiant, 2);
-    $query = $pdo->prepare('SELECT num_etudiant FROM etudiant WHERE nom_etudiant = :nom AND prenom_etudiant = :prenom');
-    $query->execute([
-        ':nom' => $nom,
-        ':prenom' => $prenom,
-    ]);
+    $nom = substr($etudiant, 0, strpos($etudiant, ' '));
+    $prenom = substr($etudiant, strpos($etudiant, ' ') + 1);
+    $query = $pdo->prepare("SELECT num_etudiant FROM etudiant WHERE nom_etudiant = :nom AND prenom_etudiant = :prenom");
+    $query->bindParam(':nom', $nom);
+    $query->bindParam(':prenom', $prenom);
+    $query->execute();
     $result = $query->fetch(PDO::FETCH_ASSOC);
 
-    return $result['num_etudiant'];
+    return $result ? $result['num_etudiant'] : null;
 }
 
 // Fonction pour récupérer les numéros des professeurs à partir de leur nom
 function getProfesseur($pdo, $professeur) {
-    $query = $pdo->prepare('SELECT num_prof FROM professeur WHERE nom_prof = :nom_prof');
-    $query->execute([
-        ':nom_prof' => $professeur,
-    ]);
+    $query = $pdo->prepare("SELECT num_prof FROM professeur WHERE nom_prof = :nom_prof");
+    $query->bindParam(':nom_prof', $professeur);
+    $query->execute();
     $result = $query->fetch(PDO::FETCH_ASSOC);
 
-    return $result['num_prof'];
+    return $result ? $result['num_prof'] : null;
 }
 
 // Fonction pour récupérer les numéros des entreprises à partir de leur raison sociale
 function getEntreprise($pdo, $entreprise) {
-    $query = $pdo->prepare('SELECT num_entreprise FROM entreprise WHERE raison_sociale = :raison_sociale');
-    $query->execute([
-        ':raison_sociale' => $entreprise,
-    ]);
+    $query = $pdo->prepare("SELECT num_entreprise FROM entreprise WHERE raison_sociale = :raison_sociale");
+    $query->bindParam(':raison_sociale', $entreprise);
+    $query->execute();
     $result = $query->fetch(PDO::FETCH_ASSOC);
 
-    return $result['num_entreprise'];
+    return $result ? $result['num_entreprise'] : null;
 }
 
 // Fonction pour insérer les données d'inscription dans la base de données
@@ -69,16 +88,15 @@ function insertInscription($pdo, $entreprise, $etudiant, $professeur, $date_debu
             INSERT INTO stage (num_entreprise, num_etudiant, num_prof, debut_stage, fin_stage, type_stage, desc_projet, observation_stage)
             VALUES (:num_entreprise, :num_etudiant, :num_prof, :debut_stage, :fin_stage, :type_stage, :desc_projet, :observation_stage)
         ");
-        $query->execute([
-            ':num_entreprise' => $entreprise,
-            ':num_etudiant' => $etudiant,
-            ':num_prof' => $professeur,
-            ':debut_stage' => $date_debut,
-            ':fin_stage' => $date_fin,
-            ':type_stage' => $type,
-            ':desc_projet' => $description,
-            ':observation_stage' => $observations,
-        ]);
+        $query->bindParam(':num_entreprise', $entreprise);
+        $query->bindParam(':num_etudiant', $etudiant);
+        $query->bindParam(':num_prof', $professeur);
+        $query->bindParam(':debut_stage', $date_debut);
+        $query->bindParam(':fin_stage', $date_fin);
+        $query->bindParam(':type_stage', $type);
+        $query->bindParam(':desc_projet', $description);
+        $query->bindParam(':observation_stage', $observations);
+        $query->execute();
     } catch (PDOException $e) {
         throw new Exception('Erreur lors de l\'insertion : ' . $e->getMessage());
     }
