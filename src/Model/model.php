@@ -2,7 +2,7 @@
 require_once('connect.php');
 
 // Fonction pour récupérer les entreprises avec leurs spécialités
-function getEntreprises($pdo) {
+function getEntreprises1($pdo) {
     $query = '
         SELECT 
             e.num_entreprise,
