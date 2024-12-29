@@ -45,7 +45,7 @@
 
 
 <main class="container">
-    <h2>Liste des entreprises</h2>
+    <h1 style="text-align: center;">Liste des entreprises</h1>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -65,7 +65,15 @@
                     <td>{{ entreprise.nom_resp }}</td>
                     <td>{{ entreprise.rue_entreprise }}<br>
                     {{ entreprise.cp_entreprise }} {{ entreprise.ville_entreprise }}</td>
-                    <td>{{ entreprise.site_entreprise }}</td>
+                    <td>
+                    {% if entreprise.site_entreprise %}
+                        <a href="{{ entreprise.site_entreprise }}" target="_blank" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;">
+                            <img src="{{ routes.images }}/lien.png" alt="Site de l'entreprise" width="20" height="20">
+                        </a>
+                    {% else %}
+                        <img src="{{ routes.images }}/supprimer.png" alt="Pas de site" width="20" height="20" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;">
+                    {% endif %}
+                </td>
                     <td>{{ entreprise.specialites }}</td>
                 </tr>
             {% endfor %}
