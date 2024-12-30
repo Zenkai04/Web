@@ -27,10 +27,11 @@ function confirmDelete(numEtudiant) {
     }
 }
 
-function showAddForm() {
+function ajoutEtu() {
     const formContainer = document.getElementById('add-form-container');
     formContainer.innerHTML = `
         <form id="add-student-form" action="?page=stagiaire" method="post">
+            <input type="hidden" name="action" value="add">
             <div class="mb-3">
                 <label for="nom_etudiant" class="form-label">Nom</label>
                 <input type="text" class="form-control" id="nom_etudiant" name="nom_etudiant" required>

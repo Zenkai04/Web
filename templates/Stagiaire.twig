@@ -44,40 +44,44 @@
 </div>
 
 <main class="container">
-<h1 style="text-align: center;">Liste des stagiaires</h1>
-<div class="text-end mb-3">
-        <button class="btn btn-primary" onclick="showAddForm()">Ajouter</button>
+    <h1 style="text-align: center;">Liste des stagiaires</h1>
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+    <div class="text-end mb-3">
+        <button class="btn btn-primary" onclick="ajoutEtu()">Ajouter</button>
     </div>
     <div id="add-form-container" style="display: none;">
         <!-- Le formulaire sera inséré ici par JavaScript -->
     </div>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Options</th>
-            <th>Etudiant</th>
-            <th>Entreprise</th>
-            <th>Professeur</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for etudiant in etudiants %}
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <td>
-                <form id="delete-form-{{ etudiant.num_etudiant }}" action="?page=stagiaire" method="post">
-                    <input type="hidden" name="num_etudiant" value="{{ etudiant.num_etudiant }}">
-                    <button type="button" class="btn btn-link p-0" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;" onclick="confirmDelete({{ etudiant.num_etudiant }})">
-                        <img src="{{ routes.images }}/supprimer.png" alt="Supprimer" width="25" height="25">
-                    </button>
-                </form>
-            </td>
-                <td>{{ etudiant.nom_etudiant }} {{ etudiant.prenom_etudiant }}</td>
-                <td>{{ etudiant.entreprises }}</td>
-                <td>{{ etudiant.professeurs }}</td>
+                <th>Options</th>
+                <th>Etudiant</th>
+                <th>Entreprise</th>
+                <th>Professeur</th>
             </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            {% for etudiant in etudiants %}
+                <tr>
+                    <td>
+                        <form id="delete-form-{{ etudiant.num_etudiant }}" action="?page=stagiaire" method="post">
+                            <input type="hidden" name="action" value="delete">
+                            <input type="hidden" name="num_etudiant" value="{{ etudiant.num_etudiant }}">
+                            <button type="button" class="btn btn-link p-0" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;" onclick="confirmDelete({{ etudiant.num_etudiant }})">
+                                <img src="{{ routes.images }}/supprimer.png" alt="Supprimer" width="25" height="25">
+                            </button>
+                        </form>
+                    </td>
+                    <td>{{ etudiant.nom_etudiant }} {{ etudiant.prenom_etudiant }}</td>
+                    <td>{{ etudiant.entreprises }}</td>
+                    <td>{{ etudiant.professeurs }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </main>
 
 <script src="{{ routes.bootstrap | replace({'.css': '.bundle.min.js'}) }}"></script>
