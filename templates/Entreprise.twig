@@ -46,35 +46,39 @@
 
 <main class="container">
     <h1 style="text-align: center;">Liste des entreprises</h1>
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+    <div class="text-end mb-3">
+        <button class="btn btn-primary" onclick="ajoutEnt()">Ajouter Entreprise</button>
+    </div>
+    <div id="add-form-container" style="display: none;">
+        <!-- Le formulaire sera inséré ici par JavaScript -->
+    </div>
     <table class="table table-striped">
         <thead>
             <tr>
                 <th>Options</th>
-                <th>Entreprise</th>
-                <th>Responsable</th>
-                <th>Adresse</th>
-                <th>Site</th>
-                <th>Specialités</th>
+                <th>Raison Sociale</th>
+                <th>Contact</th>
+                <th>Ville</th>
             </tr>
         </thead>
         <tbody>
             {% for entreprise in entreprises %}
                 <tr>
-                    <td></td>
-                    <td>{{ entreprise.raison_sociale }}</td>
-                    <td>{{ entreprise.nom_resp }}</td>
-                    <td>{{ entreprise.rue_entreprise }}<br>
-                    {{ entreprise.cp_entreprise }} {{ entreprise.ville_entreprise }}</td>
                     <td>
-                    {% if entreprise.site_entreprise %}
-                        <a href="{{ entreprise.site_entreprise }}" target="_blank" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;">
-                            <img src="{{ routes.images }}/lien.png" alt="Site de l'entreprise" width="20" height="20">
-                        </a>
-                    {% else %}
-                        <img src="{{ routes.images }}/supprimer.png" alt="Pas de site" width="20" height="20" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;">
-                    {% endif %}
-                </td>
-                    <td>{{ entreprise.specialites }}</td>
+                        <form id="delete-form-{{ entreprise.id_entreprise }}" action="?page=entreprise" method="post">
+                            <input type="hidden" name="action" value="delete">
+                            <input type="hidden" name="id_entreprise" value="{{ entreprise.id_entreprise }}">
+                            <button type="button" class="btn btn-link p-0" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;" onclick="confirmDelete({{ entreprise.id_entreprise }})">
+                                <img src="{{ routes.images }}/supprimer.png" alt="Supprimer" width="25" height="25">
+                            </button>
+                        </form>
+                    </td>
+                    <td>{{ entreprise.raison_sociale }}</td>
+                    <td>{{ entreprise.nom_contact }}</td>
+                    <td>{{ entreprise.ville_entreprise }}</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -82,5 +86,6 @@
 </main>
 
 <script src="{{ routes.bootstrap | replace({'.css': '.bundle.min.js'}) }}"></script>
+<script src="{{ routes.js }}/javascript.js"></script>
 </body>
 </html>

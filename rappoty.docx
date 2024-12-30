@@ -17,3 +17,5 @@ ajout de model.php pour regrouper toutes les fonctions php
 problème qui affiche en double les pages
 solution1 : redifinir les données initiales comme un tableau vide qui se remplie lorsque je demanade la page selon le nom .php
 
+problème après avoir ajouter la fonction d'ajouter un étudiant : apparament le fait de définir la supression avant l'ajout pose problème de conflit
+solution1 : utiliser des "if" dans le controleur et définir le type d'action dans twig si éliminer et dans js si ajouter

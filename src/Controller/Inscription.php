@@ -24,11 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Log des valeurs reçues
         error_log("Entreprise: $entreprise, Etudiant: $etudiant, Professeur: $professeur");
 
-        // Récupérer les numéros correspondants
-        //$entreprise = getEntreprise($pdo, $entreprise_nom);
-        //$etudiant = getEtudiant($pdo, $etudiant_nom);
-        //$professeur = getProfesseur($pdo, $professeur_nom);
-
         // Log des résultats des requêtes
         error_log("Numéro entreprise: $entreprise, Numéro étudiant: $etudiant, Numéro professeur: $professeur");
 
