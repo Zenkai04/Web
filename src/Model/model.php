@@ -62,7 +62,7 @@ function getEtudiant($pdo, $etudiant) {
 }
 
 // Fonction pour récupérer les numéros des professeurs à partir de leur nom
-function getProfesseur($pdo, $professeur) {
+function getProfesseur1($pdo, $professeur) {
     $query = $pdo->prepare("SELECT num_prof FROM professeur WHERE nom_prof = :nom_prof");
     $query->bindParam(':nom_prof', $professeur);
     $query->execute();
@@ -101,4 +101,92 @@ function insertInscription($pdo, $entreprise, $etudiant, $professeur, $date_debu
         throw new Exception('Erreur lors de l\'insertion : ' . $e->getMessage());
     }
 }
+
+// Fonction pour récupérer tous les étudiants ainsi que leur entreprise et leur professeur
+function getEtudiants2($pdo) {
+    $query = '
+        SELECT 
+            etu.num_etudiant, 
+            etu.nom_etudiant, 
+            etu.prenom_etudiant, 
+            GROUP_CONCAT(e.raison_sociale SEPARATOR ", ") AS entreprises, 
+            GROUP_CONCAT(p.nom_prof SEPARATOR ", ") AS professeurs
+        FROM 
+            etudiant etu
+        LEFT JOIN 
+            stage s ON etu.num_etudiant = s.num_etudiant
+        LEFT JOIN 
+            entreprise e ON s.num_entreprise = e.num_entreprise
+        LEFT JOIN 
+            professeur p ON s.num_prof = p.num_prof
+        GROUP BY 
+            etu.num_etudiant, etu.nom_etudiant, etu.prenom_etudiant
+        ORDER BY 
+            etu.nom_etudiant
+    ';
+    $result = $pdo->query($query)->fetchAll(PDO::FETCH_ASSOC);
+
+    return $result;
+}
+
+//Fonction pour supprimer un étudiant
+function deleteEtudiant($pdo, $num_etudiant) {
+    try {
+        $query = $pdo->prepare("DELETE FROM etudiant WHERE num_etudiant = :num_etudiant");
+        $query->bindParam(':num_etudiant', $num_etudiant);
+        $query->execute();
+    } catch (PDOException $e) {
+        throw new Exception('Erreur lors de la suppression : ' . $e->getMessage());
+    }
+}
+
+//Fonction pour supprimer une entreprise
+function deleteEntreprise($pdo, $num_entreprise) {
+    try {
+        $query = $pdo->prepare("DELETE FROM entreprise WHERE num_entreprise = :num_entreprise");
+        $query->bindParam(':num_entreprise', $num_entreprise);
+        $query->execute();
+    } catch (PDOException $e) {
+        throw new Exception('Erreur lors de la suppression : ' . $e->getMessage());
+    }
+}
+
+//Fonction pour ajouter une entreprise
+function insertEntreprise($pdo, $raison_sociale, $nom_resp, $rue_entreprise, $cp_entreprise, $ville_entreprise, $site_entreprise) {
+    try {
+        $query = $pdo->prepare("
+            INSERT INTO entreprise (raison_sociale, nom_resp, rue_entreprise, cp_entreprise, ville_entreprise, site_entreprise)
+            VALUES (:raison_sociale, :nom_resp, :rue_entreprise, :cp_entreprise, :ville_entreprise, :site_entreprise)
+        ");
+        $query->bindParam(':raison_sociale', $raison_sociale);
+        $query->bindParam(':nom_resp', $nom_resp);
+        $query->bindParam(':rue_entreprise', $rue_entreprise);
+        $query->bindParam(':cp_entreprise', $cp_entreprise);
+        $query->bindParam(':ville_entreprise', $ville_entreprise);
+        $query->bindParam(':site_entreprise', $site_entreprise);
+        $query->execute();
+    } catch (PDOException $e) {
+        throw new Exception('Erreur lors de l\'insertion : ' . $e->getMessage());
+    }
+}
+
+//Fonction pour ajouter un étudiant
+function insertEtudiant($pdo, $nom_etudiant, $prenom_etudiant, $login, $mdp, $num_classe, $en_activite) {
+    try {
+        $query = $pdo->prepare("
+            INSERT INTO etudiant (nom_etudiant, prenom_etudiant, annee_obtention, login, mdp, num_classe, en_activite)
+            VALUES (:nom_etudiant, :prenom_etudiant, NULL, :login, :mdp, :num_classe, :en_activite)
+        ");
+        $query->bindParam(':nom_etudiant', $nom_etudiant);
+        $query->bindParam(':prenom_etudiant', $prenom_etudiant);
+        $query->bindParam(':login', $login);
+        $query->bindParam(':mdp', $mdp);
+        $query->bindParam(':num_classe', $num_classe);
+        $query->bindParam(':en_activite', $en_activite);
+        $query->execute();
+    } catch (PDOException $e) {
+        throw new Exception('Erreur lors de l\'insertion : ' . $e->getMessage());
+    }
+}
+
 ?>
