@@ -292,6 +292,7 @@ function updateEtudiant($pdo, $num_etudiant, $nom, $prenom, $login, $mdp, $num_c
 function getEntrepriseInfo($pdo, $num_entreprise) {
     $query = $pdo->prepare("
         SELECT  
+            num_entreprise,
             raison_sociale, 
             nom_contact, 
             nom_resp, 
