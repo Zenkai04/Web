@@ -13,12 +13,12 @@
         <!-- Logo ou Titre de la page -->
         <a href="?page=home" class="navbar-brand d-flex align-items-center {% if current_page == 'home' %}active{% endif %}">
             <img src="{{ routes.images }}/home.png" width="25" height="25">
-            <strong>Accueil</strong>
+            <p class="mb-0">Accueil</p>
         </a>
 
         <a href="?page=entreprise" class="navbar-brand d-flex align-items-center {% if current_page == 'entreprise' %}active{% endif %}">
             <img src="{{ routes.images }}/entreprise.png" width="25" height="25" class="me-2">
-            <p class="mb-0">Entreprise</p>
+            <strong>Entreprise</strong>
         </a>
 
         <a href="?page=stagiaire" class="navbar-brand d-flex align-items-center {% if current_page == 'stagiaire' %}active{% endif %}">
