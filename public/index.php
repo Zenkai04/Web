@@ -35,6 +35,10 @@ switch ($page) {
         $data = require_once(__DIR__ . '/../src/Controller/EditEtu.php');
         $template = 'EditEtu.twig';
             break;
+    case 'showEtu':
+        $data = require_once(__DIR__ . '/../src/Controller/ShowEtu.php');
+        $template = 'ShowEtu.twig';
+             break;        
     default:
         // Page par défaut ou page d'erreur
         echo "Page non trouvée";

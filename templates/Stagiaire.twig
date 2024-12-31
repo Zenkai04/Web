@@ -77,6 +77,10 @@
                         <button class="btn btn-link p-0" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;" onclick="window.location.href='?page=editEtu&num_etudiant={{ etudiant.num_etudiant }}'">
                             <img src="{{ routes.images }}/modifier.png" alt="Modifier" width="25" height="25">
                         </button>
+                         <button class="btn btn-link p-0" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;" onclick="window.location.href='?page=showEtu&num_etudiant={{ etudiant.num_etudiant }}'">
+                            <img src="{{ routes.images }}/voir.png" alt="Details" width="25" height="25">
+                        </button>
+                        
                     </td>
                     <td>{{ etudiant.nom_etudiant }} {{ etudiant.prenom_etudiant }}</td>
                     <td>{{ etudiant.entreprises }}</td>

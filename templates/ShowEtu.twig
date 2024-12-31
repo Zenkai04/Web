@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stagiaires</title>
+    <link rel="stylesheet" href="{{ routes.bootstrap }}">
+    <link rel="stylesheet" href="{{ routes.css }}/styles.scss">
+</head>
+<body>
+<div class="navbar navbar-dark bg-dark box-shadow">
+    <div class="container d-flex justify-content-between">
+        <!-- Logo ou Titre de la page -->
+        <a href="?page=home" class="navbar-brand d-flex align-items-center {% if current_page == 'home' %}active{% endif %}">
+            <img src="{{ routes.images }}/home.png" width="25" height="25">
+            <p class="mb-0">Accueil</p>
+        </a>
+
+        <a href="?page=entreprise" class="navbar-brand d-flex align-items-center {% if current_page == 'entreprise' %}active{% endif %}">
+            <img src="{{ routes.images }}/entreprise.png" width="25" height="25" class="me-2">
+            <p class="mb-0">Entreprise</p>
+        </a>
+
+        <a href="?page=stagiaire" class="navbar-brand d-flex align-items-center {% if current_page == 'stagiaire' %}active{% endif %}">
+            <img src="{{ routes.images }}/stage.png" width="25" height="25" class="me-2">
+            <strong>Stagiaire</strong>
+        </a>
+
+        <a href="?page=inscription" class="navbar-brand d-flex align-items-center {% if current_page == 'inscription' %}active{% endif %}">
+            <img src="{{ routes.images }}/inscrire.png" width="25" height="25" class="me-2">
+            <p class="mb-0">Inscription</p>
+        </a>
+
+        <a href="?page=aide" class="navbar-brand d-flex align-items-center {% if current_page == 'aide' %}active{% endif %}">
+            <img src="{{ routes.images }}/aide.png" width="25" height="25" class="me-2">
+            <p class="mb-0">Aide</p>
+        </a>
+
+        <a href="?page=deconnexion" class="navbar-brand d-flex align-items-center">
+            <img src="{{ routes.images }}/deconnexion.png" width="25" height="25" class="me-2">
+            <p class="mb-0">Déconnexion</p>
+        </a>
+    </div>
+</div>
+
+<main class="container">
+
+ {% block content %}
+    <h1>Détails de l'étudiant</h1>
+
+    {% if etudiant %}
+        <table>
+            <tr>
+                <th>Nom</th>
+                <td>{{ etudiant.nom_etudiant }}</td>
+            </tr>
+            <tr>
+                <th>Prénom</th>
+                <td>{{ etudiant.prenom_etudiant }}</td>
+            </tr>
+            <tr>
+                <th>Login</th>
+                <td>{{ etudiant.login }}</td>
+            </tr>
+            <tr>
+                <th>Numéro de classe </th>
+                <td>{{ etudiant.num_classe }}</td>
+            </tr>
+            <tr>
+                <th>En activité</th>
+                <td>{{ etudiant.en_activite ? 'Oui' : 'Non' }}</td>
+            </tr>
+        </table>
+    {% else %}
+        <p>Aucun étudiant trouvé.</p>
+    {% endif %}
+{% endblock %}
+
+<button type="button" class="btn btn-secondary" onclick="window.location.href='?page=stagiaire'">Retour</button>
+
+<script src="{{ routes.bootstrap | replace({'.css': '.bundle.min.js'}) }}"></script>
+<script src="{{ routes.js }}/javascript.js"></script>
+</body>
+</html>
+
