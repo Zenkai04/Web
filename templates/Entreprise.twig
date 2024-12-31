@@ -74,14 +74,17 @@
             {% for entreprise in entreprises %}
                 <tr>
                     <td>
-                        <form id="delete-form-{{ entreprise.id_entreprise }}" action="?page=entreprise" method="post">
-                            <input type="hidden" name="action" value="delete">
-                            <input type="hidden" name="id_entreprise" value="{{ entreprise.id_entreprise }}">
-                            <button type="button" class="btn btn-link p-0" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;" onclick="confirmDelete({{ entreprise.id_entreprise }})">
-                                <img src="{{ routes.images }}/supprimer.png" alt="Supprimer" width="25" height="25">
-                            </button>
-                        </form>
-                    </td>
+                <form id="delete-form-{{ entreprise.id_entreprise }}" action="?page=entreprise" method="post" style="display: inline;">
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="id_entreprise" value="{{ entreprise.id_entreprise }}">
+                    <button type="button" class="btn btn-link p-0" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;" onclick="confirmDelete({{ entreprise.id_entreprise }})">
+                        <img src="{{ routes.images }}/supprimer.png" alt="Supprimer" width="25" height="25">
+                    </button>
+                </form>
+                <button class="btn btn-link p-0" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;" onclick="window.location.href='?page=editEnt&num_entreprise={{ entreprise.id_entreprise }}'">
+                    <img src="{{ routes.images }}/modifier.png" alt="Modifier" width="25" height="25">
+                </button>
+            </td>
                     <td>{{ entreprise.raison_sociale }}</td>
                     <td>{{ entreprise.contacts }}</td>
                     <td>{{ entreprise.rue_entreprise }} </br> 

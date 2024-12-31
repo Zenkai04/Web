@@ -301,7 +301,7 @@ function getEntrepriseInfo($pdo, $num_entreprise) {
             tel_entreprise, 
             fax_entreprise, 
             email, 
-            observations, 
+            observation, 
             site_entreprise, 
             niveau, 
             en_activite
@@ -316,7 +316,7 @@ function getEntrepriseInfo($pdo, $num_entreprise) {
 }
 
 //Fonction pour mettre à jour une entreprise
-function updateEntreprise($pdo, $num_entreprise, $raison_sociale, $nom_contact, $nom_responeable, $rue_entreprise, $cp_entreprise, $ville_entreprise, $tel_entreprise, $fax_entreprise, $email, $observations, $site_entreprise, $niveau, $en_activite) {
+function updateEntreprise($pdo, $num_entreprise, $raison_sociale, $nom_contact, $nom_responeable, $rue_entreprise, $cp_entreprise, $ville_entreprise, $tel_entreprise, $fax_entreprise, $email, $observation, $site_entreprise, $niveau, $en_activite) {
     try {
         $query = $pdo->prepare("
             UPDATE 
@@ -331,7 +331,7 @@ function updateEntreprise($pdo, $num_entreprise, $raison_sociale, $nom_contact, 
                 tel_entreprise = :tel_entreprise,
                 fax_entreprise = :fax_entreprise,
                 email = :email,
-                observations = :observations,
+                observation = :observation,
                 site_entreprise = :site_entreprise,
                 niveau = :niveau,
                 en_activite = :en_activite
@@ -348,7 +348,7 @@ function updateEntreprise($pdo, $num_entreprise, $raison_sociale, $nom_contact, 
         $query->bindParam(':tel_entreprise', $tel_entreprise);
         $query->bindParam(':fax_entreprise', $fax_entreprise);
         $query->bindParam(':email', $email);
-        $query->bindParam(':observations', $observations);
+        $query->bindParam(':observation', $observation);
         $query->bindParam(':site_entreprise', $site_entreprise);
         $query->bindParam(':niveau', $niveau);
         $query->bindParam(':en_activite', $en_activite);
