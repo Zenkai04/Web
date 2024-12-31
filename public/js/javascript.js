@@ -144,8 +144,7 @@ function chercherEnt() {
                     <option value="">Sélectionner un critère</option>
                     <option value="raison_sociale">Raison Sociale</option>
                     <option value="libelle">Spécialité</option>
-                    <option value="nom_resp">Responsable</option>
-                    <option value="adresse">Adresse</option>
+                    <option value="nom_contact">Responsable</option>
                 </select>
             </div>
             <div class="mb-3" id="search-field-container">
@@ -173,10 +172,10 @@ function updateSearchField() {
             <label for="search_specialite" class="form-label">Spécialité</label>
             <input type="text" class="form-control" id="search_specialite" name="search_specialite">
         `;
-    } else if (criteria === 'nom_resp') {
+    } else if (criteria === 'nom_contact') {
         fieldHtml = `
-            <label for="search_nom_resp" class="form-label">Responsable</label>
-            <input type="text" class="form-control" id="search_nom_resp" name="search_nom_resp">
+            <label for="search_nom_contact" class="form-label">Responsable</label>
+            <input type="text" class="form-control" id="search_nom_contact" name="search_nom_contact">
         `;
     } else if (criteria === 'adresse') {
         fieldHtml = `

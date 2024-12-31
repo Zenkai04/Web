@@ -7,7 +7,7 @@ function getEntreprises1($pdo) {
         SELECT 
             e.num_entreprise,
             e.raison_sociale,
-            GROUP_CONCAT(DISTINCT e.nom_resp SEPARATOR ", ") AS responsables,
+            GROUP_CONCAT(DISTINCT e.nom_contact SEPARATOR ", ") AS contacts,
             e.rue_entreprise,
             e.cp_entreprise,
             e.ville_entreprise,
@@ -152,13 +152,14 @@ function deleteEntreprise($pdo, $num_entreprise) {
 }
 
 //Fonction pour ajouter une entreprise
-function insertEntreprise($pdo, $raison_sociale, $nom_resp, $rue_entreprise, $cp_entreprise, $ville_entreprise, $site_entreprise) {
+function insertEntreprise($pdo, $raison_sociale, $nom_contact, $nom_responeable, $rue_entreprise, $cp_entreprise, $ville_entreprise, $tel_entreprise, $fax_entreprise, $email, $observations, $site_entreprise, $niveau, $en_activite) {
     try {
         $query = $pdo->prepare("
-            INSERT INTO entreprise (raison_sociale, nom_resp, rue_entreprise, cp_entreprise, ville_entreprise, site_entreprise)
-            VALUES (:raison_sociale, :nom_resp, :rue_entreprise, :cp_entreprise, :ville_entreprise, :site_entreprise)
+            INSERT INTO entreprise (raison_sociale, nom_contact, nom_resp, rue_entreprise, cp_entreprise, ville_entreprise, site_entreprise)
+            VALUES (:raison_sociale, :nom_contact, :nom_resp, :rue_entreprise, :cp_entreprise, :ville_entreprise, :site_entreprise)
         ");
         $query->bindParam(':raison_sociale', $raison_sociale);
+        $query->bindParam(':nom_contact', $nom_contact);
         $query->bindParam(':nom_resp', $nom_resp);
         $query->bindParam(':rue_entreprise', $rue_entreprise);
         $query->bindParam(':cp_entreprise', $cp_entreprise);
@@ -192,24 +193,39 @@ function insertEtudiant($pdo, $nom_etudiant, $prenom_etudiant, $login, $mdp, $nu
 //Fonction pour chercher une entreprise
 function searchEntreprises($pdo, $criteria, $value) {
     try {
-        $allowedCriteria = ['raison_sociale', 'libelle', 'adresse','nom_resp'];
+        $allowedCriteria = ['raison_sociale', 'libelle', 'adresse','nom_contact'];
         if (!in_array($criteria, $allowedCriteria)) {
             throw new Exception("Critère de recherche non valide : {$criteria}");
         }
 
-        $queryStr = "
-            SELECT e.*, s.libelle
+        $queryStr = '
+            SELECT 
+            e.num_entreprise,
+            e.raison_sociale,
+            e.nom_contact AS contacts,
+            e.rue_entreprise,
+            e.cp_entreprise,
+            e.ville_entreprise,
+            e.site_entreprise,
+            s.libelle AS specialites
             FROM entreprise e
             LEFT JOIN spec_entreprise es ON e.num_entreprise = es.num_entreprise
             LEFT JOIN specialite s ON es.num_spec = s.num_spec
-        ";
+        ';
 
         if ($criteria === 'libelle') {
-            $queryStr .= "WHERE s.libelle LIKE :value";
-        } elseif ($criteria === 'adresse') {
-            $queryStr .= "WHERE (e.rue_entreprise LIKE :value OR e.cp_entreprise LIKE :value OR e.ville_entreprise LIKE :value)";
+            $queryStr .= "
+            WHERE 
+            s.libelle LIKE :value
+            GROUP BY 
+            e.num_entreprise, e.raison_sociale
+            ";
         } else {
-            $queryStr .= "WHERE e.{$criteria} LIKE :value";
+            $queryStr .= "
+            WHERE e.{$criteria} LIKE :value
+            GROUP BY 
+            e.num_entreprise, e.raison_sociale
+            ";
         }
 
         $query = $pdo->prepare($queryStr);

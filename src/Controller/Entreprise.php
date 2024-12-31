@@ -50,10 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $search_value = $_POST['search_raison_sociale'] ?? '';
         } elseif ($search_criteria === 'libelle') {
             $search_value = $_POST['search_specialite'] ?? '';
-        } elseif ($search_criteria === 'nom_resp') {
-            $search_value = $_POST['search_nom_resp'] ?? '';
-        } elseif ($search_criteria === 'adresse') {
-            $search_value = $_POST['search_adresse'] ?? '';
+        } elseif ($search_criteria === 'nom_contact') {
+            $search_value = $_POST['search_nom_contact'] ?? '';
         }
 
         if ($search_value) {
