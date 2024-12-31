@@ -132,3 +132,64 @@ function hideAddForm() {
     formContainer.style.display = 'none';
     formContainer.innerHTML = '';
 }
+
+function chercherEnt() {
+    const formContainer = document.getElementById('search-form-container');
+    formContainer.innerHTML = `
+        <form id="search-form" action="?page=entreprise" method="post">
+            <input type="hidden" name="page" value="entreprise">
+            <div class="mb-3">
+                <label for="search_criteria" class="form-label">Critère de recherche</label>
+                <select class="form-select" id="search_criteria" name="search_criteria" onchange="updateSearchField()">
+                    <option value="">Sélectionner un critère</option>
+                    <option value="raison_sociale">Raison Sociale</option>
+                    <option value="libelle">Spécialité</option>
+                    <option value="nom_resp">Responsable</option>
+                    <option value="adresse">Adresse</option>
+                </select>
+            </div>
+            <div class="mb-3" id="search-field-container">
+                <!-- Le champ de saisie sera inséré ici par JavaScript -->
+            </div>
+            <button type="submit" class="btn btn-primary">Rechercher</button>
+            <button type="button" class="btn btn-secondary" onclick="hideSearchForm()">Annuler</button>
+        </form>
+    `;
+    formContainer.style.display = 'block';
+}
+
+function updateSearchField() {
+    const criteria = document.getElementById('search_criteria').value;
+    const fieldContainer = document.getElementById('search-field-container');
+    let fieldHtml = '';
+
+    if (criteria === 'raison_sociale') {
+        fieldHtml = `
+            <label for="search_raison_sociale" class="form-label">Raison Sociale</label>
+            <input type="text" class="form-control" id="search_raison_sociale" name="search_raison_sociale">
+        `;
+    } else if (criteria === 'libelle') {
+        fieldHtml = `
+            <label for="search_specialite" class="form-label">Spécialité</label>
+            <input type="text" class="form-control" id="search_specialite" name="search_specialite">
+        `;
+    } else if (criteria === 'nom_resp') {
+        fieldHtml = `
+            <label for="search_nom_resp" class="form-label">Responsable</label>
+            <input type="text" class="form-control" id="search_nom_resp" name="search_nom_resp">
+        `;
+    } else if (criteria === 'adresse') {
+        fieldHtml = `
+            <label for="search_adresse" class="form-label">Adresse</label>
+            <input type="text" class="form-control" id="search_adresse" name="search_adresse">
+        `;
+    }
+
+    fieldContainer.innerHTML = fieldHtml;
+}
+
+function hideSearchForm() {
+    const formContainer = document.getElementById('search-form-container');
+    formContainer.style.display = 'none';
+    formContainer.innerHTML = '';
+}

@@ -50,10 +50,14 @@
         <div class="alert alert-danger">{{ error }}</div>
     {% endif %}
     <div class="text-end mb-3">
-        <button class="btn btn-primary" onclick="ajoutEnt()">Ajouter Entreprise</button>
+        <button class="btn btn-primary" onclick="ajoutEntreprise()">Ajouter Entreprise</button>
+        <button class="btn btn-secondary" onclick="chercherEnt()">Rechercher</button>
     </div>
     <div id="add-form-container" style="display: none;">
         <!-- Le formulaire sera inséré ici par JavaScript -->
+    </div>
+    <div id="search-form-container" style="display: none;">
+        <!-- Le formulaire de recherche sera inséré ici par JavaScript -->
     </div>
     <table class="table table-striped">
         <thead>
@@ -61,7 +65,9 @@
                 <th>Options</th>
                 <th>Raison Sociale</th>
                 <th>Contact</th>
-                <th>Ville</th>
+                <th>Adresse</th>
+                <th>Site Web</th>
+                <th>Spécialités</th>
             </tr>
         </thead>
         <tbody>
@@ -77,8 +83,19 @@
                         </form>
                     </td>
                     <td>{{ entreprise.raison_sociale }}</td>
-                    <td>{{ entreprise.nom_contact }}</td>
-                    <td>{{ entreprise.ville_entreprise }}</td>
+                    <td>{{ entreprise.responsables }}</td>
+                    <td>{{ entreprise.rue_entreprise }} </br> 
+                        {{ entreprise.cp_entreprise }}, {{ entreprise.ville_entreprise }}</td>
+                    <td>
+                        {% if entreprise.site_entreprise %}
+                            <a href="{{ entreprise.site_entreprise }}" target="_blank" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;">
+                                <img src="{{ routes.images }}/lien.png" alt="Site Web" width="25" height="25">
+                            </a>
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </td>
+                    <td>{{ entreprise.specialites }}</td>
                 </tr>
             {% endfor %}
         </tbody>

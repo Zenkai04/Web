@@ -7,7 +7,7 @@ function getEntreprises1($pdo) {
         SELECT 
             e.num_entreprise,
             e.raison_sociale,
-            e.nom_resp,
+            GROUP_CONCAT(DISTINCT e.nom_resp SEPARATOR ", ") AS responsables,
             e.rue_entreprise,
             e.cp_entreprise,
             e.ville_entreprise,
@@ -189,4 +189,42 @@ function insertEtudiant($pdo, $nom_etudiant, $prenom_etudiant, $login, $mdp, $nu
     }
 }
 
+//Fonction pour chercher une entreprise
+function searchEntreprises($pdo, $criteria, $value) {
+    try {
+        $queryStr = "
+            SELECT e.*, s.libelle
+            FROM entreprise e
+            LEFT JOIN spec_entreprise es ON e.num_entreprise = es.num_entreprise
+            LEFT JOIN specialite s ON es.num_spec = s.num_spec
+            WHERE (e.{$criteria} LIKE :value OR :value = '')
+        ";
+
+        if ($criteria === 'libelle') {
+            $queryStr = "
+                SELECT e.*, s.libelle
+                FROM entreprise e
+                LEFT JOIN spec_entreprise es ON e.num_entreprise = es.num_entreprise
+                LEFT JOIN specialite s ON es.num_spec = s.num_spec
+                WHERE (s.libelle LIKE :value OR :value = '')
+            ";
+        } elseif ($criteria === 'adresse') {
+            $queryStr = "
+                SELECT e.*, s.libelle
+                FROM entreprise e
+                LEFT JOIN spec_entreprise es ON e.num_entreprise = es.num_entreprise
+                LEFT JOIN specialite s ON es.num_spec = s.num_spec
+                WHERE (e.rue_entreprise LIKE :value OR e.cp_entreprise LIKE :value OR e.ville_entreprise LIKE :value OR :value = '')
+            ";
+        }
+
+        $query = $pdo->prepare($queryStr);
+        $value = '%' . $value . '%';
+        $query->bindParam(':value', $value);
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        throw new Exception('Erreur lors de la recherche : ' . $e->getMessage());
+    }
+}
 ?>
