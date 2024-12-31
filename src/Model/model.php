@@ -238,4 +238,53 @@ function searchEntreprises($pdo, $criteria, $value) {
     }
 }
 
+//Fonction qui retourne toutes les informations d'un étudiant
+function getEtudiantInfo($pdo, $num_etudiant) {
+    $query = $pdo->prepare("
+        SELECT 
+            num_etudiant, 
+            nom_etudiant, 
+            prenom_etudiant, 
+            login, 
+            mdp, 
+            num_classe, 
+            en_activite
+        FROM 
+            etudiant
+        WHERE 
+            num_etudiant = :num_etudiant
+    ");
+    $query->bindParam(':num_etudiant', $num_etudiant);
+    $query->execute();
+    return $query->fetch(PDO::FETCH_ASSOC);
+}
+
+//Fonction pour mettre à jour un étudiant
+function updateEtudiant($pdo, $num_etudiant, $nom, $prenom, $login, $mdp, $num_classe, $en_activite) {
+    try {
+        $query = $pdo->prepare("
+            UPDATE 
+                etudiant
+            SET 
+                nom_etudiant = :nom,
+                prenom_etudiant = :prenom,
+                login = :login,
+                mdp = :mdp,
+                num_classe = :num_classe,
+                en_activite = :en_activite
+            WHERE 
+                num_etudiant = :num_etudiant
+        ");
+        $query->bindParam(':num_etudiant', $num_etudiant);
+        $query->bindParam(':nom', $nom);
+        $query->bindParam(':prenom', $prenom);
+        $query->bindParam(':login', $login);
+        $query->bindParam(':mdp', $mdp);
+        $query->bindParam(':num_classe', $num_classe);
+        $query->bindParam(':en_activite', $en_activite);
+        $query->execute();
+    } catch (PDOException $e) {
+        throw new Exception('Erreur lors de la mise à jour : ' . $e->getMessage());
+    }
+}
 ?>

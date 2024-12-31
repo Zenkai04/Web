@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stagiaires</title>
+    <title>Modifier les informations de l'étudiant</title>
     <link rel="stylesheet" href="{{ routes.bootstrap }}">
     <link rel="stylesheet" href="{{ routes.css }}/styles.scss">
 </head>
@@ -44,47 +44,40 @@
 </div>
 
 <main class="container">
-    <h1 style="text-align: center;">Liste des stagiaires</h1>
+    <h1 style="text-align: center;">Modifier les informations de l'étudiant</h1>
     {% if error %}
         <div class="alert alert-danger">{{ error }}</div>
     {% endif %}
-    <div class="text-end mb-3">
-        <button class="btn btn-primary" onclick="ajoutEtu()">Ajouter Etudiant</button>
+    <form id="edit-form" action="?page=editEtu" method="post">
+    <input type="hidden" name="action" value="update">
+    <input type="hidden" name="num_etudiant" value="{{ etudiant.num_etudiant }}">
+    <div class="mb-3">
+        <label for="nom" class="form-label">Nom</label>
+        <input type="text" class="form-control" id="nom" name="nom" value="{{ etudiant.nom_etudiant }}">
     </div>
-    <div id="add-form-container" style="display: none;">
-        <!-- Le formulaire sera inséré ici par JavaScript -->
+    <div class="mb-3">
+        <label for="prenom" class="form-label">Prénom</label>
+        <input type="text" class="form-control" id="prenom" name="prenom" value="{{ etudiant.prenom_etudiant }}">
     </div>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Options</th>
-                <th>Etudiant</th>
-                <th>Entreprise</th>
-                <th>Professeur</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for etudiant in etudiants %}
-                <tr>
-                    <td>
-                        <form id="delete-form-{{ etudiant.num_etudiant }}" action="?page=stagiaire" method="post">
-                            <input type="hidden" name="action" value="delete">
-                            <input type="hidden" name="num_etudiant" value="{{ etudiant.num_etudiant }}">
-                            <button type="button" class="btn btn-link p-0" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;" onclick="confirmDelete({{ etudiant.num_etudiant }})">
-                                <img src="{{ routes.images }}/supprimer.png" alt="Supprimer" width="25" height="25">
-                            </button>
-                        </form>
-                        <button class="btn btn-link p-0" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;" onclick="window.location.href='?page=editEtu&num_etudiant={{ etudiant.num_etudiant }}'">
-                            <img src="{{ routes.images }}/modifier.png" alt="Modifier" width="25" height="25">
-                        </button>
-                    </td>
-                    <td>{{ etudiant.nom_etudiant }} {{ etudiant.prenom_etudiant }}</td>
-                    <td>{{ etudiant.entreprises }}</td>
-                    <td>{{ etudiant.professeurs }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="mb-3">
+        <label for="login" class="form-label">Login</label>
+        <input type="text" class="form-control" id="login" name="login" value="{{ etudiant.login }}">
+    </div>
+    <div class="mb-3">
+        <label for="mdp" class="form-label">Mot de passe</label>
+        <input type="password" class="form-control" id="mdp" name="mdp" value="{{ etudiant.mdp }}">
+    </div>
+    <div class="mb-3">
+        <label for="num_classe" class="form-label">Classe</label>
+        <input type="text" class="form-control" id="num_classe" name="num_classe" value="{{ etudiant.num_classe }}">
+    </div>
+    <div class="mb-3">
+        <label for="en_activite" class="form-label">En activité</label>
+        <input type="checkbox" class="form-check-input" id="en_activite" name="en_activite" {{ etudiant.en_activite ? 'checked' : '' }}>
+    </div>
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+    <button type="button" class="btn btn-secondary" onclick="window.location.href='?page=stagiaire'">Annuler</button>
+</form>
 </main>
 
 <script src="{{ routes.bootstrap | replace({'.css': '.bundle.min.js'}) }}"></script>
