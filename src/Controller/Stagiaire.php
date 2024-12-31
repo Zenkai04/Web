@@ -5,6 +5,38 @@ require_once(__DIR__ . '/../Model/model.php');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
 
+    $input = json_decode(file_get_contents('php://input'), true);
+
+    $num_etudiant = $input['num_etudiant'];
+    $nom_etudiant = $input['nom'] ?? null;
+    $prenom_etudiant = $input['prenom'] ?? null;
+    $entreprise = $input['entreprise'] ?? null;
+    $professeur = $input['professeur'] ?? null;
+
+    try {
+        // Mise à jour des données
+        $stmt = $pdo->prepare("
+            UPDATE etudiant
+            SET nom_etudiant = :nom,
+                prenom_etudiant = :prenom,
+                entreprises = :entreprise,
+                professeurs = :professeur
+            WHERE num_etudiant = :num_etudiant
+        ");
+
+        $stmt->execute([
+            ':nom' => $nom_etudiant,
+            ':prenom' => $prenom_etudiant,
+            ':entreprise' => $entreprise,
+            ':professeur' => $professeur,
+            ':num_etudiant' => $num_etudiant
+        ]);
+
+        echo json_encode(['success' => true]);
+    } catch (Exception $e) {
+        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+    }
+
     if ($action === 'delete') {
         // Suppression d'un étudiant
         try {
