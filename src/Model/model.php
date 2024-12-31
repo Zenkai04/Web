@@ -287,4 +287,74 @@ function updateEtudiant($pdo, $num_etudiant, $nom, $prenom, $login, $mdp, $num_c
         throw new Exception('Erreur lors de la mise à jour : ' . $e->getMessage());
     }
 }
+
+//Fonction qui retourne toutes les informations d'une entreprise
+function getEntrepriseInfo($pdo, $num_entreprise) {
+    $query = $pdo->prepare("
+        SELECT  
+            raison_sociale, 
+            nom_contact, 
+            nom_resp, 
+            rue_entreprise, 
+            cp_entreprise, 
+            ville_entreprise, 
+            tel_entreprise, 
+            fax_entreprise, 
+            email, 
+            observations, 
+            site_entreprise, 
+            niveau, 
+            en_activite
+        FROM 
+            entreprise
+        WHERE 
+            num_entreprise = :num_entreprise
+    ");
+    $query->bindParam(':num_entreprise', $num_entreprise);
+    $query->execute();
+    return $query->fetch(PDO::FETCH_ASSOC);
+}
+
+//Fonction pour mettre à jour une entreprise
+function updateEntreprise($pdo, $num_entreprise, $raison_sociale, $nom_contact, $nom_responeable, $rue_entreprise, $cp_entreprise, $ville_entreprise, $tel_entreprise, $fax_entreprise, $email, $observations, $site_entreprise, $niveau, $en_activite) {
+    try {
+        $query = $pdo->prepare("
+            UPDATE 
+                entreprise
+            SET 
+                raison_sociale = :raison_sociale,
+                nom_contact = :nom_contact,
+                nom_resp = :nom_resp,
+                rue_entreprise = :rue_entreprise,
+                cp_entreprise = :cp_entreprise,
+                ville_entreprise = :ville_entreprise,
+                tel_entreprise = :tel_entreprise,
+                fax_entreprise = :fax_entreprise,
+                email = :email,
+                observations = :observations,
+                site_entreprise = :site_entreprise,
+                niveau = :niveau,
+                en_activite = :en_activite
+            WHERE 
+                num_entreprise = :num_entreprise
+        ");
+        $query->bindParam(':num_entreprise', $num_entreprise);
+        $query->bindParam(':raison_sociale', $raison_sociale);
+        $query->bindParam(':nom_contact', $nom_contact);
+        $query->bindParam(':nom_resp', $nom_responeable);
+        $query->bindParam(':rue_entreprise', $rue_entreprise);
+        $query->bindParam(':cp_entreprise', $cp_entreprise);
+        $query->bindParam(':ville_entreprise', $ville_entreprise);
+        $query->bindParam(':tel_entreprise', $tel_entreprise);
+        $query->bindParam(':fax_entreprise', $fax_entreprise);
+        $query->bindParam(':email', $email);
+        $query->bindParam(':observations', $observations);
+        $query->bindParam(':site_entreprise', $site_entreprise);
+        $query->bindParam(':niveau', $niveau);
+        $query->bindParam(':en_activite', $en_activite);
+        $query->execute();
+    } catch (PDOException $e) {
+        throw new Exception('Erreur lors de la mise à jour : ' . $e->getMessage());
+    }
+}
 ?>
