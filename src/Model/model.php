@@ -192,30 +192,24 @@ function insertEtudiant($pdo, $nom_etudiant, $prenom_etudiant, $login, $mdp, $nu
 //Fonction pour chercher une entreprise
 function searchEntreprises($pdo, $criteria, $value) {
     try {
+        $allowedCriteria = ['raison_sociale', 'libelle', 'adresse','nom_resp'];
+        if (!in_array($criteria, $allowedCriteria)) {
+            throw new Exception("Critère de recherche non valide : {$criteria}");
+        }
+
         $queryStr = "
             SELECT e.*, s.libelle
             FROM entreprise e
             LEFT JOIN spec_entreprise es ON e.num_entreprise = es.num_entreprise
             LEFT JOIN specialite s ON es.num_spec = s.num_spec
-            WHERE (e.{$criteria} LIKE :value OR :value = '')
         ";
 
         if ($criteria === 'libelle') {
-            $queryStr = "
-                SELECT e.*, s.libelle
-                FROM entreprise e
-                LEFT JOIN spec_entreprise es ON e.num_entreprise = es.num_entreprise
-                LEFT JOIN specialite s ON es.num_spec = s.num_spec
-                WHERE (s.libelle LIKE :value OR :value = '')
-            ";
+            $queryStr .= "WHERE s.libelle LIKE :value";
         } elseif ($criteria === 'adresse') {
-            $queryStr = "
-                SELECT e.*, s.libelle
-                FROM entreprise e
-                LEFT JOIN spec_entreprise es ON e.num_entreprise = es.num_entreprise
-                LEFT JOIN specialite s ON es.num_spec = s.num_spec
-                WHERE (e.rue_entreprise LIKE :value OR e.cp_entreprise LIKE :value OR e.ville_entreprise LIKE :value OR :value = '')
-            ";
+            $queryStr .= "WHERE (e.rue_entreprise LIKE :value OR e.cp_entreprise LIKE :value OR e.ville_entreprise LIKE :value)";
+        } else {
+            $queryStr .= "WHERE e.{$criteria} LIKE :value";
         }
 
         $query = $pdo->prepare($queryStr);
@@ -227,4 +221,5 @@ function searchEntreprises($pdo, $criteria, $value) {
         throw new Exception('Erreur lors de la recherche : ' . $e->getMessage());
     }
 }
+
 ?>
