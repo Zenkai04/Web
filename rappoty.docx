@@ -22,3 +22,6 @@ solution1 : utiliser des "if" dans le controleur et définir le type d'action da
 
 problème pour récupérer les différentes specialités lors de l'ajout d'une entreprise
 solution1 : à l'aide de l'intelligence artificielle nous avons pu coder une fonction en javascript qui récupère les spécialités et les affiche dans une liste déroulante
+
+probleme "Erreur lors de l'inscription: Unexpected token '<', "<!DOCTYPE "... is not valid JSON" lorsque je définis la fonction hideSuccessMessage() dans le fichier javascript.js
+solution1 : inclure la fonction dans le fichier Inscription.twig

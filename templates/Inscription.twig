@@ -108,6 +108,10 @@
 </main>
 
 <script src="{{ routes.bootstrap | replace({'.css': '.bundle.min.js'}) }}"></script>
-<script src="{{ routes.js }}/javascript.js"></script>
+<script>
+    function hideSuccessMessage() {
+        document.getElementById('success-message').style.display = 'none';
+    }
+</script>
 </body>
 </html>
