@@ -74,10 +74,10 @@
             {% for entreprise in entreprises %}
                 <tr>
                     <td>
-                <form id="delete-form-{{ entreprise.id_entreprise }}" action="?page=entreprise" method="post" style="display: inline;">
+                <form id="delete-form-{{ entreprise.num_entreprise }}" action="?page=entreprise" method="post" style="display: inline;">
                     <input type="hidden" name="action" value="delete">
-                    <input type="hidden" name="id_entreprise" value="{{ entreprise.id_entreprise }}">
-                    <button type="button" class="btn btn-link p-0" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;" onclick="confirmDelete({{ entreprise.id_entreprise }})">
+                    <input type="hidden" name="num_entreprise" value="{{ entreprise.num_entreprise }}">
+                    <button type="button" class="btn btn-link p-0" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;" onclick="confirmDeleteEnt({{ entreprise.num_entreprise }})">
                         <img src="{{ routes.images }}/supprimer.png" alt="Supprimer" width="25" height="25">
                     </button>
                 </form>

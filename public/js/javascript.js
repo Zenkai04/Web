@@ -21,9 +21,15 @@ document.getElementById('inscriptionForm').addEventListener('submit', function(e
     });
 });
 
-function confirmDelete(numEtudiant) {
+function confirmDeleteEtu(numEtudiant) {
     if (confirm('Êtes-vous sûr de vouloir supprimer ce stagiaire ?')) {
         document.getElementById('delete-form-' + numEtudiant).submit();
+    }
+}
+
+function confirmDeleteEnt(numEntreprise) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer cette entreprise ?')) {
+        document.getElementById('delete-form-' + numEntreprise).submit();
     }
 }
 
@@ -97,7 +103,7 @@ function ajoutEnt() {
             </div>
             <div class="mb-3">
                 <label for="nom_resp" class="form-label">Nom du responsable</label>
-                <input type="text" class="form-control" id="nom_resp" name="nom_resp" required>
+                <input type="text" class="form-control" id="nom_resp" name="nom_resp">
             </div>
             
             <h3>Contact</h3>
@@ -128,8 +134,8 @@ function ajoutEnt() {
             
             <h3>Divers</h3>
             <div class="mb-3">
-                <label for="observations" class="form-label">Observations</label>
-                <textarea class="form-control" id="observations" name="observations"></textarea>
+                <label for="observation" class="form-label">Observation</label>
+                <textarea class="form-control" id="observation" name="observation"></textarea>
             </div>
             <div class="mb-3">
                 <label for="site_entreprise" class="form-label">Site Web</label>
@@ -201,8 +207,8 @@ function updateSearchFieldEnt() {
         `;
     } else if (criteria === 'libelle') {
         fieldHtml = `
-            <label for="search_specialite" class="form-label">Spécialité</label>
-            <input type="text" class="form-control" id="search_specialite" name="search_specialite">
+            <label for="search_libelle" class="form-label">Spécialité</label>
+            <input type="text" class="form-control" id="search_libelle" name="search_libelle">
         `;
     } else if (criteria === 'nom_contact') {
         fieldHtml = `

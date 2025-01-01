@@ -27,14 +27,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $tel_entreprise = $_POST['tel_entreprise'];
             $fax_entreprise = $_POST['fax_entreprise'];
             $email = $_POST['email'];
-            $observations = $_POST['observations'];
+            $observation = $_POST['observation'] ?? ''; // Assurez-vous que le champ observation est défini
             $site_entreprise = $_POST['site_entreprise'];
             $niveau = $_POST['niveau'];
-            $specialite = $_POST['specialite'];
+            $specialite = $_POST['specialite']; // Utilisez num_spec ici
             $en_activite = isset($_POST['en_activite']) ? 1 : 0;
 
             // Appel à la fonction pour insérer l'entreprise
-            insertEntreprise($pdo, $raison_sociale, $nom_contact, $nom_resp, $rue_entreprise, $cp_entreprise, $ville_entreprise, $tel_entreprise, $fax_entreprise, $email, $observations, $site_entreprise, $niveau, $specialite, $en_activite);
+            insertEntreprise($pdo, $raison_sociale, $nom_contact, $nom_resp, $rue_entreprise, $cp_entreprise, $ville_entreprise, $tel_entreprise, $fax_entreprise, $email, $observation, $site_entreprise, $niveau, $specialite, $en_activite);
 
             // Rediriger vers la page des entreprises après l'ajout
             header('Location: ?page=entreprise');
@@ -55,14 +55,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $search_value = $_POST['search_nom_contact'] ?? '';
         }
 
-        $specialites = getSpecialites($pdo);
         $entreprises = searchEntreprises($pdo, $search_criteria, $search_value);
+        $specialites = getSpecialites($pdo);
     }
 } else {
     // Récupération des entreprises et des spécialités
     $entreprises = getEntreprises1($pdo);
     $specialites = getSpecialites($pdo);
 }
+
+// Assurez-vous que les variables sont définies même en cas d'erreur
+$entreprises = $entreprises ?? [];
+$specialites = $specialites ?? [];
 
 $data = [
     'routes' => $routes,

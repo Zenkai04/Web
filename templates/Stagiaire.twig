@@ -74,7 +74,7 @@
                         <form id="delete-form-{{ etudiant.num_etudiant }}" action="?page=stagiaire" method="post" style="display: inline;">
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="num_etudiant" value="{{ etudiant.num_etudiant }}">
-                            <button type="button" class="btn btn-link p-0" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;" onclick="confirmDelete({{ etudiant.num_etudiant }})">
+                            <button type="button" class="btn btn-link p-0" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;" onclick="confirmDeleteEtu({{ etudiant.num_etudiant }})">
                                 <img src="{{ routes.images }}/supprimer.png" alt="Supprimer" width="25" height="25">
                             </button>
                         </form>

@@ -136,34 +136,86 @@ function getEtudiants2($pdo) {
     return $result;
 }
 
-//Fonction pour supprimer un étudiant
+// Fonction pour supprimer un étudiant
 function deleteEtudiant($pdo, $num_etudiant) {
     try {
+        // Commencer une transaction
+        $pdo->beginTransaction();
+
+        // Supprimer les enregistrements dans la table stage qui référencent l'étudiant
+        $query = $pdo->prepare("DELETE FROM stage WHERE num_etudiant = :num_etudiant");
+        $query->bindParam(':num_etudiant', $num_etudiant);
+        $query->execute();
+
+        // Supprimer l'étudiant
         $query = $pdo->prepare("DELETE FROM etudiant WHERE num_etudiant = :num_etudiant");
         $query->bindParam(':num_etudiant', $num_etudiant);
         $query->execute();
+
+        // Valider la transaction
+        $pdo->commit();
     } catch (PDOException $e) {
+        // Annuler la transaction en cas d'erreur
+        $pdo->rollBack();
         throw new Exception('Erreur lors de la suppression : ' . $e->getMessage());
     }
 }
 
-//Fonction pour supprimer une entreprise
+// Fonction pour supprimer une entreprise
 function deleteEntreprise($pdo, $num_entreprise) {
     try {
+        // Commencer une transaction
+        $pdo->beginTransaction();
+
+        // Supprimer les enregistrements dans la table spec_entreprise qui référencent l'entreprise
+        $query = $pdo->prepare("DELETE FROM spec_entreprise WHERE num_entreprise = :num_entreprise");
+        $query->bindParam(':num_entreprise', $num_entreprise);
+        $query->execute();
+
+        // Supprimer l'entreprise
         $query = $pdo->prepare("DELETE FROM entreprise WHERE num_entreprise = :num_entreprise");
         $query->bindParam(':num_entreprise', $num_entreprise);
         $query->execute();
+
+        // Valider la transaction
+        $pdo->commit();
     } catch (PDOException $e) {
+        // Annuler la transaction en cas d'erreur
+        $pdo->rollBack();
         throw new Exception('Erreur lors de la suppression : ' . $e->getMessage());
     }
 }
 
-//Fonction pour ajouter une entreprise
-function insertEntreprise($pdo, $raison_sociale, $nom_contact, $nom_responeable, $rue_entreprise, $cp_entreprise, $ville_entreprise, $tel_entreprise, $fax_entreprise, $email, $observations, $site_entreprise, $niveau, $en_activite) {
+// Fonction qui retourne l'identifiant d'une entreprise à partir de son nom
+function getEntrepriseId($pdo, $raison_sociale) {
+    $query = $pdo->prepare("SELECT num_entreprise FROM entreprise WHERE raison_sociale = :raison_sociale");
+    $query->bindParam(':raison_sociale', $raison_sociale);
+    $query->execute();
+    return $query->fetch(PDO::FETCH_ASSOC);
+}
+
+// Fonction qui retourne l'identifiant d'une spécialité à partir de son libellé
+function getSpecialiteId($pdo, $libelle) {
     try {
+        $query = $pdo->prepare("SELECT num_spec FROM specialite WHERE libelle = :libelle");
+        $query->bindParam(':libelle', $libelle);
+        $query->execute();
+        return $query->fetchColumn();
+    } catch (PDOException $e) {
+        throw new Exception('Erreur lors de la récupération de l\'identifiant de la spécialité : ' . $e->getMessage());
+    }
+}
+
+// Fonction pour ajouter une entreprise
+function insertEntreprise($pdo, $raison_sociale, $nom_contact, $nom_resp, $rue_entreprise, $cp_entreprise, $ville_entreprise, $tel_entreprise, $fax_entreprise, $email, $observation, $site_entreprise, $niveau, $num_spec, $en_activite) {
+    try {
+        // Commencer une transaction
+        $pdo->beginTransaction();
+
+        // Insérer la nouvelle entreprise dans la table entreprise
         $query = $pdo->prepare("
-            INSERT INTO entreprise (raison_sociale, nom_contact, nom_resp, rue_entreprise, cp_entreprise, ville_entreprise, site_entreprise)
-            VALUES (:raison_sociale, :nom_contact, :nom_resp, :rue_entreprise, :cp_entreprise, :ville_entreprise, :site_entreprise)
+            INSERT INTO entreprise (raison_sociale, nom_contact, nom_resp, rue_entreprise, cp_entreprise, ville_entreprise, tel_entreprise, fax_entreprise, email, observation, site_entreprise, niveau, en_activite)
+            VALUES (:raison_sociale, :nom_contact, :nom_resp, :rue_entreprise, :cp_entreprise, :ville_entreprise, :tel_entreprise, :fax_entreprise, :email, :observation, :site_entreprise, :niveau, :en_activite)
         ");
         $query->bindParam(':raison_sociale', $raison_sociale);
         $query->bindParam(':nom_contact', $nom_contact);
@@ -171,9 +223,32 @@ function insertEntreprise($pdo, $raison_sociale, $nom_contact, $nom_responeable,
         $query->bindParam(':rue_entreprise', $rue_entreprise);
         $query->bindParam(':cp_entreprise', $cp_entreprise);
         $query->bindParam(':ville_entreprise', $ville_entreprise);
+        $query->bindParam(':tel_entreprise', $tel_entreprise);
+        $query->bindParam(':fax_entreprise', $fax_entreprise);
+        $query->bindParam(':email', $email);
+        $query->bindParam(':observation', $observation);
         $query->bindParam(':site_entreprise', $site_entreprise);
+        $query->bindParam(':niveau', $niveau);
+        $query->bindParam(':en_activite', $en_activite);
         $query->execute();
+
+        // Récupérer le numéro de l'entreprise nouvellement insérée
+        $num_entreprise = $pdo->lastInsertId();
+
+        // Insérer le numéro de l'entreprise et le numéro de la spécialité dans la table spec_entreprise
+        $query = $pdo->prepare("
+            INSERT INTO spec_entreprise (num_entreprise, num_spec)
+            VALUES (:num_entreprise, :num_spec)
+        ");
+        $query->bindParam(':num_entreprise', $num_entreprise);
+        $query->bindParam(':num_spec', $num_spec);
+        $query->execute();
+
+        // Valider la transaction
+        $pdo->commit();
     } catch (PDOException $e) {
+        // Annuler la transaction en cas d'erreur
+        $pdo->rollBack();
         throw new Exception('Erreur lors de l\'insertion : ' . $e->getMessage());
     }
 }
@@ -208,21 +283,21 @@ function insertEtudiant($pdo, $nom_etudiant, $prenom_etudiant, $login, $mdp, $an
 // Fonction pour chercher une entreprise
 function searchEntreprises($pdo, $criteria, $value) {
     try {
-        $allowedCriteria = ['raison_sociale', 'libelle', 'adresse','nom_contact'];
+        $allowedCriteria = ['raison_sociale', 'libelle', 'nom_contact'];
         if (!in_array($criteria, $allowedCriteria)) {
             throw new Exception("Critère de recherche non valide : {$criteria}");
         }
 
         $queryStr = '
             SELECT 
-            e.num_entreprise,
-            e.raison_sociale,
-            e.nom_contact AS contacts,
-            e.rue_entreprise,
-            e.cp_entreprise,
-            e.ville_entreprise,
-            e.site_entreprise,
-            s.libelle AS specialites
+                e.num_entreprise,
+                e.raison_sociale,
+                e.nom_contact AS contacts,
+                e.rue_entreprise,
+                e.cp_entreprise,
+                e.ville_entreprise,
+                e.site_entreprise,
+                GROUP_CONCAT(s.libelle SEPARATOR ", ") AS specialites
             FROM entreprise e
             LEFT JOIN spec_entreprise es ON e.num_entreprise = es.num_entreprise
             LEFT JOIN specialite s ON es.num_spec = s.num_spec
@@ -230,16 +305,16 @@ function searchEntreprises($pdo, $criteria, $value) {
 
         if ($criteria === 'libelle') {
             $queryStr .= "
-            WHERE 
-            s.libelle LIKE :value
             GROUP BY 
-            e.num_entreprise, e.raison_sociale
+                e.num_entreprise, e.raison_sociale
+            HAVING
+                specialites LIKE :value
             ";
         } else {
             $queryStr .= "
             WHERE e.{$criteria} LIKE :value
             GROUP BY 
-            e.num_entreprise, e.raison_sociale
+                e.num_entreprise, e.raison_sociale
             ";
         }
 
