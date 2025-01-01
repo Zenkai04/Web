@@ -1,16 +1,23 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Succès</title>
-    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-</head>
-<body>
-<div class="container text-center">
-    <h1>Inscription réussie</h1>
-    <p>Votre inscription a été enregistrée avec succès.</p>
-    <a href="index.php" class="btn btn-primary">Retour à l'accueil</a>
-</div>
-</body>
-</html>
+<?php
+// Assurez-vous de définir l'en-tête Content-Type pour JSON
+header('Content-Type: application/json');
+
+// Logique de traitement de l'inscription (ici, on simule un succès)
+$success = true; // Changez ceci en fonction du résultat de votre logique d'inscription
+
+// Réponse en JSON
+if ($success) {
+    echo json_encode([
+        'success' => true,
+        'message' => 'Inscription réussie'
+    ]);
+} else {
+    echo json_encode([
+        'success' => false,
+        'message' => 'Une erreur est survenue lors de l\'inscription.'
+    ]);
+}
+
+// Terminer le script
+exit;
+?>
