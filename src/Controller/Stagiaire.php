@@ -35,6 +35,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } catch (Exception $e) {
             $error = $e->getMessage();
         }
+    } elseif ($action === 'search') {
+        // Recherche d'un étudiant
+        $search_criteria = $_POST['search_criteria'] ?? '';
+        $search_value = '';
+
+        if ($search_criteria === 'nom_etudiant') {
+            $search_value = $_POST['search_nom_etudiant'] ?? '';
+        } elseif ($search_criteria === 'prenom_etudiant') {
+            $search_value = $_POST['search_prenom_etudiant'] ?? '';
+        } elseif ($search_criteria === 'nom_prof') {
+            $search_value = $_POST['search_nom_prof'] ?? '';
+        } elseif ($search_criteria === 'raison_sociale') {
+            $search_value = $_POST['search_raison_sociale'] ?? '';
+        }
+
+        $etudiants = searchEtudiants($pdo, $search_criteria, $search_value);
+        $classes = getClasses($pdo); // Assurez-vous que $classes est défini même lors de la recherche
     }
 } else {
     // Récupération des stagiaires et des classes

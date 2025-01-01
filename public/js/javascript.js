@@ -169,10 +169,10 @@ function chercherEnt() {
     const formContainer = document.getElementById('search-form-container');
     formContainer.innerHTML = `
         <form id="search-form" action="?page=entreprise" method="post">
-            <input type="hidden" name="page" value="entreprise">
+            <input type="hidden" name="action" value="search">
             <div class="mb-3">
                 <label for="search_criteria" class="form-label">Critère de recherche</label>
-                <select class="form-select" id="search_criteria" name="search_criteria" onchange="updateSearchField()">
+                <select class="form-select" id="search_criteria" name="search_criteria" onchange="updateSearchFieldEnt()">
                     <option value="">Sélectionner un critère</option>
                     <option value="raison_sociale">Raison Sociale</option>
                     <option value="libelle">Spécialité</option>
@@ -189,7 +189,7 @@ function chercherEnt() {
     formContainer.style.display = 'block';
 }
 
-function updateSearchField() {
+function updateSearchFieldEnt() {
     const criteria = document.getElementById('search_criteria').value;
     const fieldContainer = document.getElementById('search-field-container');
     let fieldHtml = '';
@@ -209,10 +209,60 @@ function updateSearchField() {
             <label for="search_nom_contact" class="form-label">Responsable</label>
             <input type="text" class="form-control" id="search_nom_contact" name="search_nom_contact">
         `;
-    } else if (criteria === 'adresse') {
+    }
+
+    fieldContainer.innerHTML = fieldHtml;
+}
+
+function chercherEtu() {
+    const formContainer = document.getElementById('search-form-container');
+    formContainer.innerHTML = `
+        <form id="search-form" action="?page=stagiaire" method="post">
+            <input type="hidden" name="action" value="search">
+            <div class="mb-3">
+                <label for="search_criteria" class="form-label">Critère de recherche</label>
+                <select class="form-select" id="search_criteria" name="search_criteria" onchange="updateSearchFieldEtu()">
+                    <option value="">Sélectionner un critère</option>
+                    <option value="nom_etudiant">Nom</option>
+                    <option value="prenom_etudiant">Prénom</option>
+                    <option value="nom_prof">Professeur</option>
+                    <option value="raison_sociale">Entreprise</option>
+                </select>
+            </div>
+            <div class="mb-3" id="search-field-container">
+                <!-- Le champ de saisie sera inséré ici par JavaScript -->
+            </div>
+            <button type="submit" class="btn btn-primary">Rechercher</button>
+            <button type="button" class="btn btn-secondary" onclick="hideSearchForm()">Annuler</button>
+        </form>
+    `;
+    formContainer.style.display = 'block';
+}
+
+function updateSearchFieldEtu() {
+    const criteria = document.getElementById('search_criteria').value;
+    const fieldContainer = document.getElementById('search-field-container');
+    let fieldHtml = '';
+
+    if (criteria === 'nom_etudiant') {
         fieldHtml = `
-            <label for="search_adresse" class="form-label">Adresse</label>
-            <input type="text" class="form-control" id="search_adresse" name="search_adresse">
+            <label for="search_nom_etudiant" class="form-label">Nom</label>
+            <input type="text" class="form-control" id="search_nom_etudiant" name="search_nom_etudiant">
+        `;
+    } else if (criteria === 'prenom_etudiant') {
+        fieldHtml = `
+            <label for="search_prenom_etudiant" class="form-label">Prénom</label>
+            <input type="text" class="form-control" id="search_prenom_etudiant" name="search_prenom_etudiant">
+        `;
+    } else if (criteria === 'nom_prof') {
+        fieldHtml = `
+            <label for="search_nom_prof" class="form-label">Nom du professeur</label>
+            <input type="text" class="form-control" id="search_nom_prof" name="search_nom_prof">
+        `;
+    } else if (criteria === 'raison_sociale') {
+        fieldHtml = `
+            <label for="search_raison_sociale" class="form-label">Raison Sociale</label>
+            <input type="text" class="form-control" id="search_raison_sociale" name="search_raison_sociale">
         `;
     }
 
@@ -220,9 +270,7 @@ function updateSearchField() {
 }
 
 function hideSearchForm() {
-    const formContainer = document.getElementById('search-form-container');
-    formContainer.style.display = 'none';
-    formContainer.innerHTML = '';
+    document.getElementById('search-form-container').style.display = 'none';
 }
 
 function hideSuccessMessage() {

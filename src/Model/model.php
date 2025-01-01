@@ -205,7 +205,7 @@ function insertEtudiant($pdo, $nom_etudiant, $prenom_etudiant, $login, $mdp, $an
     }
 }
 
-//Fonction pour chercher une entreprise
+// Fonction pour chercher une entreprise
 function searchEntreprises($pdo, $criteria, $value) {
     try {
         $allowedCriteria = ['raison_sociale', 'libelle', 'adresse','nom_contact'];
@@ -240,6 +240,59 @@ function searchEntreprises($pdo, $criteria, $value) {
             WHERE e.{$criteria} LIKE :value
             GROUP BY 
             e.num_entreprise, e.raison_sociale
+            ";
+        }
+
+        $query = $pdo->prepare($queryStr);
+        $value = '%' . $value . '%';
+        $query->bindParam(':value', $value);
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        throw new Exception('Erreur lors de la recherche : ' . $e->getMessage());
+    }
+}
+
+// Fonction pour chercher un étudiant
+function searchEtudiants($pdo, $criteria, $value) {
+    try {
+        $allowedCriteria = ['nom_etudiant', 'prenom_etudiant', 'raison_sociale', 'nom_prof'];
+        if (!in_array($criteria, $allowedCriteria)) {
+            throw new Exception("Critère de recherche non valide : {$criteria}");
+        }
+
+        $queryStr = '
+            SELECT 
+            etu.num_etudiant, 
+            etu.nom_etudiant, 
+            etu.prenom_etudiant, 
+            GROUP_CONCAT(e.raison_sociale SEPARATOR ", ") AS entreprises, 
+            GROUP_CONCAT(p.nom_prof SEPARATOR ", ") AS professeurs
+            FROM etudiant etu
+            LEFT JOIN stage s ON etu.num_etudiant = s.num_etudiant
+            LEFT JOIN entreprise e ON s.num_entreprise = e.num_entreprise
+            LEFT JOIN professeur p ON s.num_prof = p.num_prof
+        ';
+
+        if ($criteria === 'raison_sociale') {
+            $queryStr .= "
+            WHERE 
+            e.raison_sociale LIKE :value
+            GROUP BY 
+            etu.num_etudiant, etu.nom_etudiant, etu.prenom_etudiant
+            ";
+        } elseif ($criteria === 'nom_prof') {
+            $queryStr .= "
+            WHERE 
+            p.nom_prof LIKE :value
+            GROUP BY 
+            etu.num_etudiant, etu.nom_etudiant, etu.prenom_etudiant
+            ";
+        } else {
+            $queryStr .= "
+            WHERE etu.{$criteria} LIKE :value
+            GROUP BY 
+            etu.num_etudiant, etu.nom_etudiant, etu.prenom_etudiant
             ";
         }
 

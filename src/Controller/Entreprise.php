@@ -15,34 +15,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } catch (Exception $e) {
             echo json_encode(['success' => false, 'message' => $e->getMessage()]);
         }
-    } elseif ($action === 'update') {
-        // Mise à jour d'une entreprise
-        try {
-            $num_entreprise = $_POST['num_entreprise'];
-            $raison_sociale = $_POST['raison_sociale'];
-            $nom_contact = $_POST['nom_contact'];
-            $nom_resp = $_POST['nom_resp'];
-            $rue_entreprise = $_POST['rue_entreprise'];
-            $cp_entreprise = $_POST['cp_entreprise'];
-            $ville_entreprise = $_POST['ville_entreprise'];
-            $tel_entreprise = $_POST['tel_entreprise'];
-            $fax_entreprise = $_POST['fax_entreprise'];
-            $email = $_POST['email'];
-            $observations = $_POST['observations'];
-            $site_entreprise = $_POST['site_entreprise'];
-            $niveau = $_POST['niveau'];
-            $en_activite = isset($_POST['en_activite']) ? 1 : 0;
-
-            // Log des données reçues
-            error_log("Updating company: $num_entreprise, $raison_sociale, $nom_contact, $nom_resp, $rue_entreprise, $cp_entreprise, $ville_entreprise, $tel_entreprise, $fax_entreprise, $email, $observations, $site_entreprise, $niveau, $en_activite");
-
-            updateEntreprise($pdo, $num_entreprise, $raison_sociale, $nom_contact, $nom_resp, $rue_entreprise, $cp_entreprise, $ville_entreprise, $tel_entreprise, $fax_entreprise, $email, $observations, $site_entreprise, $niveau, $en_activite);
-            header('Location: ?page=entreprise');
-            exit;
-        } catch (Exception $e) {
-            echo json_encode(['success' => false, 'message' => $e->getMessage()]);
-            exit;
-        }
     } elseif ($action === 'add') {
         // Ajout d'une entreprise
         try {
@@ -70,14 +42,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } catch (Exception $e) {
             $error = $e->getMessage();
         }
-    } else {
-        // Gestion de la recherche
+    } elseif ($action === 'search') {
+        // Recherche d'une entreprise
         $search_criteria = $_POST['search_criteria'] ?? '';
-        $search_value = $_POST['search_value'] ?? '';
+        $search_value = '';
+
+        if ($search_criteria === 'raison_sociale') {
+            $search_value = $_POST['search_raison_sociale'] ?? '';
+        } elseif ($search_criteria === 'libelle') {
+            $search_value = $_POST['search_libelle'] ?? '';
+        } elseif ($search_criteria === 'nom_contact') {
+            $search_value = $_POST['search_nom_contact'] ?? '';
+        }
+
+        $specialites = getSpecialites($pdo);
         $entreprises = searchEntreprises($pdo, $search_criteria, $search_value);
     }
 } else {
-    // Récupération des entreprises
+    // Récupération des entreprises et des spécialités
     $entreprises = getEntreprises1($pdo);
     $specialites = getSpecialites($pdo);
 }

@@ -49,10 +49,14 @@
         <div class="alert alert-danger">{{ error }}</div>
     {% endif %}
     <div class="text-end mb-3">
-        <button class="btn btn-primary" onclick="ajoutEtu()">Ajouter Etudiant</button>
+        <button class="btn btn-primary" onclick="ajoutEtu()">Ajouter Stagiaire</button>
+        <button class="btn btn-secondary" onclick="chercherEtu()">Rechercher</button>
     </div>
     <div id="add-form-container" style="display: none;">
         <!-- Le formulaire sera inséré ici par JavaScript -->
+    </div>
+    <div id="search-form-container" style="display: none;">
+        <!-- Le formulaire de recherche sera inséré ici par JavaScript -->
     </div>
     <table class="table table-striped">
         <thead>
