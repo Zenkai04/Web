@@ -3,7 +3,7 @@ document.getElementById('inscriptionForm').addEventListener('submit', function(e
 
     const formData = new FormData(this);
 
-    fetch('/projets/Web/src/Controller/Inscription.php', {
+    fetch('/projets/Web/public/success.php', {
         method: 'POST',
         body: formData
     })
@@ -30,36 +30,53 @@ function confirmDelete(numEtudiant) {
 function ajoutEtu() {
     const formContainer = document.getElementById('add-form-container');
     formContainer.innerHTML = `
-        <form id="add-student-form" action="?page=stagiaire" method="post">
+        <form id="add-stagiaire-form" action="?page=stagiaire" method="post">
             <input type="hidden" name="action" value="add">
+            
+            <h3>Information</h3>
             <div class="mb-3">
-                <label for="nom_etudiant" class="form-label">Nom</label>
+                <label for="nom_etudiant" class="form-label">Nom*</label>
                 <input type="text" class="form-control" id="nom_etudiant" name="nom_etudiant" required>
             </div>
             <div class="mb-3">
-                <label for="prenom_etudiant" class="form-label">Prénom</label>
+                <label for="prenom_etudiant" class="form-label">Prénom*</label>
                 <input type="text" class="form-control" id="prenom_etudiant" name="prenom_etudiant" required>
             </div>
             <div class="mb-3">
-                <label for="login" class="form-label">Login</label>
+                <label for="login" class="form-label">Login*</label>
                 <input type="text" class="form-control" id="login" name="login" required>
             </div>
             <div class="mb-3">
-                <label for="mdp" class="form-label">Mot de passe</label>
+                <label for="mdp" class="form-label">Mot de passe*</label>
                 <input type="password" class="form-control" id="mdp" name="mdp" required>
             </div>
             <div class="mb-3">
-                <label for="num_classe" class="form-label">Numéro de classe</label>
-                <input type="text" class="form-control" id="num_classe" name="num_classe" required>
+                <label for="annee_obtention" class="form-label">Année d'obtention</label>
+                <input type="text" class="form-control" id="annee_obtention" name="annee_obtention">
             </div>
+            
+            <h3>Classe</h3>
+            <div class="mb-3">
+                <label for="num_classe" class="form-label">Classe*</label>
+                <select class="form-control" id="num_classe" name="num_classe" required>
+                    ${classes.map(classe => `<option value="${classe.num_classe}">${classe.nom_classe}</option>`).join('')}
+                </select>
+            </div>
+            
             <div class="mb-3">
                 <label for="en_activite" class="form-label">En activité</label>
                 <input type="checkbox" class="form-check-input" id="en_activite" name="en_activite">
             </div>
+
+            <div class="mb-3" style="text-align: center; background-color: #ff6161; color: white; padding: 10px;">
+                <p>Les champs désignés par un * sont obligatoires</p>
+            </div>
+            
             <button type="submit" class="btn btn-primary">Ajouter</button>
             <button type="button" class="btn btn-secondary" onclick="hideAddForm()">Annuler</button>
         </form>
     `;
+
     formContainer.style.display = 'block';
 }
 
@@ -85,19 +102,19 @@ function ajoutEnt() {
             
             <h3>Contact</h3>
             <div class="mb-3">
-                <label for="rue_entreprise" class="form-label">Rue de l'entreprise</label>
+                <label for="rue_entreprise" class="form-label">Rue*</label>
                 <input type="text" class="form-control" id="rue_entreprise" name="rue_entreprise" required>
             </div>
             <div class="mb-3">
-                <label for="cp_entreprise" class="form-label">Code postal</label>
+                <label for="cp_entreprise" class="form-label">Code postal*</label>
                 <input type="text" class="form-control" id="cp_entreprise" name="cp_entreprise" required>
             </div>
             <div class="mb-3">
-                <label for="ville_entreprise" class="form-label">Ville</label>
+                <label for="ville_entreprise" class="form-label">Ville*</label>
                 <input type="text" class="form-control" id="ville_entreprise" name="ville_entreprise" required>
             </div>
             <div class="mb-3">
-                <label for="tel_entreprise" class="form-label">Téléphone</label>
+                <label for="tel_entreprise" class="form-label">Téléphone*</label>
                 <input type="text" class="form-control" id="tel_entreprise" name="tel_entreprise" required>
             </div>
             <div class="mb-3">
@@ -119,16 +136,20 @@ function ajoutEnt() {
                 <input type="url" class="form-control" id="site_entreprise" name="site_entreprise">
             </div>
             <div class="mb-3">
-                <label for="niveau" class="form-label">Niveau</label>
+                <label for="niveau" class="form-label">Niveau*</label>
                 <input type="text" class="form-control" id="niveau" name="niveau">
             </div>
             
             <h3>Spécialité</h3>
             <div class="mb-3">
-                <label for="specialite" class="form-label">Spécialité</label>
+                <label for="specialite" class="form-label">Spécialité*</label>
                 <select class="form-control" id="specialite" name="specialite" required>
                     ${specialites.map(specialite => `<option value="${specialite.num_spec}">${specialite.libelle}</option>`).join('')}
                 </select>
+            </div>
+
+            <div class="mb-3" style="text-align: center; background-color: #ff6161; color: white; padding: 10px;">
+                <p>Les champs désignés par un * sont obligatoires</p>
             </div>
             
             <button type="submit" class="btn btn-primary">Ajouter</button>
@@ -204,3 +225,6 @@ function hideSearchForm() {
     formContainer.innerHTML = '';
 }
 
+function hideSuccessMessage() {
+    document.getElementById('success-message').style.display = 'none';
+}

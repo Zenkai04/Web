@@ -178,17 +178,25 @@ function insertEntreprise($pdo, $raison_sociale, $nom_contact, $nom_responeable,
     }
 }
 
+// Fonction pour récupérer les classes
+function getClasses($pdo) {
+    $query = $pdo->prepare("SELECT num_classe, nom_classe FROM classe");
+    $query->execute();
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+}
+
 //Fonction pour ajouter un étudiant
-function insertEtudiant($pdo, $nom_etudiant, $prenom_etudiant, $login, $mdp, $num_classe, $en_activite) {
+function insertEtudiant($pdo, $nom_etudiant, $prenom_etudiant, $login, $mdp, $annee_obtention, $num_classe, $en_activite) {
     try {
         $query = $pdo->prepare("
             INSERT INTO etudiant (nom_etudiant, prenom_etudiant, annee_obtention, login, mdp, num_classe, en_activite)
-            VALUES (:nom_etudiant, :prenom_etudiant, NULL, :login, :mdp, :num_classe, :en_activite)
+            VALUES (:nom_etudiant, :prenom_etudiant, :annee_obtention, :login, :mdp, :num_classe, :en_activite)
         ");
         $query->bindParam(':nom_etudiant', $nom_etudiant);
         $query->bindParam(':prenom_etudiant', $prenom_etudiant);
         $query->bindParam(':login', $login);
         $query->bindParam(':mdp', $mdp);
+        $query->bindParam(':annee_obtention', $annee_obtention);
         $query->bindParam(':num_classe', $num_classe);
         $query->bindParam(':en_activite', $en_activite);
         $query->execute();

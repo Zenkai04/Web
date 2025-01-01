@@ -10,7 +10,6 @@ require_once(__DIR__ . '/../../config/routes.php');
 require_once(__DIR__ . '/../Model/model.php'); 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    header('Content-Type: application/json');
     try {
         $entreprise = $_POST['entreprise'];
         $etudiant = $_POST['etudiant'];
@@ -41,25 +40,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Insérer les données dans la base de données
         insertInscription($pdo, $entreprise, $etudiant, $professeur, $date_debut, $date_fin, $type, $description, $observations);
 
-        echo json_encode(['success' => true]);
+        // Rediriger vers la page d'inscription avec un message de succès
+        header('Location: /projets/Web/public/?page=inscription&success=1');
+        exit;
     } catch (Exception $e) {
-        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+        $error = $e->getMessage();
+        header('Location: /projets/Web/public/?page=inscription&error=' . urlencode($error));
+        exit;
     }
 } else {
-    // Récupérer les données nécessaires pour le formulaire d'inscription
-    $entreprises = getEntreprises2($pdo);
+    // Récupération des entreprises, étudiants et professeurs
+    $entreprises = getEntreprises1($pdo);
     $etudiants = getEtudiants($pdo);
     $professeurs = getProfesseurs($pdo);
 
-    // Passer les données et les routes dans un tableau
     $data = [
         'routes' => $routes,
         'entreprises' => $entreprises,
         'etudiants' => $etudiants,
-        'professeurs' => $professeurs
+        'professeurs' => $professeurs,
+        'current_page' => 'inscription',
+        'success' => isset($_GET['success']),
+        'error' => isset($_GET['error']) ? $_GET['error'] : null,
     ];
 
-    // Retourner les données
+    // Retourner les données pour l'inclusion
     return $data;
 }
 ?>

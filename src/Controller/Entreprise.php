@@ -90,6 +90,6 @@ $data = [
     'error' => isset($error) ? $error : null,
 ];
 
-// Charger le template Twig
-echo $twig->render('Entreprise.twig', $data);
+// Retourner les données pour l'inclusion
+return $data;
 ?>

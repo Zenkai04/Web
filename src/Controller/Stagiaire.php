@@ -22,11 +22,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $prenom_etudiant = $_POST['prenom_etudiant'];
             $login = $_POST['login'];
             $mdp = $_POST['mdp'];
+            $annee_obtention = $_POST['annee_obtention'];
             $num_classe = $_POST['num_classe'];
             $en_activite = isset($_POST['en_activite']) ? 1 : 0;
 
             // Appel à la fonction pour insérer l'étudiant
-            insertEtudiant($pdo, $nom_etudiant, $prenom_etudiant, $login, $mdp, $num_classe, $en_activite);
+            insertEtudiant($pdo, $nom_etudiant, $prenom_etudiant, $login, $mdp, $annee_obtention, $num_classe, $en_activite);
 
             // Rediriger vers la page des stagiaires après l'ajout
             header('Location: ?page=stagiaire');
@@ -35,17 +36,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = $e->getMessage();
         }
     }
+} else {
+    // Récupération des stagiaires et des classes
+    $etudiants = getEtudiants2($pdo);
+    $classes = getClasses($pdo);
 }
 
-// Récupérer les étudiants pour les afficher dans la liste
-$etudiants = getEtudiants2($pdo);
-
-// Passer les données et les routes dans un tableau
 $data = [
     'routes' => $routes,
     'etudiants' => $etudiants,
-    'error' => isset($error) ? $error : null
+    'classes' => $classes,
+    'current_page' => 'stagiaire',
+    'error' => isset($error) ? $error : null,
 ];
 
-// Retourner les données
+// Retourner les données pour l'inclusion
 return $data;
+?>
