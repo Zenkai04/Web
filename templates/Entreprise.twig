@@ -50,7 +50,7 @@
         <div class="alert alert-danger">{{ error }}</div>
     {% endif %}
     <div class="text-end mb-3">
-        <button class="btn btn-primary" onclick="ajoutEntreprise()">Ajouter Entreprise</button>
+        <button class="btn btn-primary" onclick="ajoutEnt()">Ajouter Entreprise</button>
         <button class="btn btn-secondary" onclick="chercherEnt()">Rechercher</button>
     </div>
     <div id="add-form-container" style="display: none;">
@@ -84,6 +84,10 @@
                 <button class="btn btn-link p-0" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;" onclick="window.location.href='?page=editEnt&num_entreprise={{ entreprise.num_entreprise }}'">
                     <img src="{{ routes.images }}/modifier.png" alt="Modifier" width="25" height="25">
                 </button>
+                </button>
+                <button class="btn btn-link p-0" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;" onclick="window.location.href='?page=showEnt&num_entreprise={{ entreprise.num_entreprise }}'">
+                    <img src="{{ routes.images }}/voir.png" alt="Details" width="25" height="25">
+                </button>
             </td>
                     <td>{{ entreprise.raison_sociale }}</td>
                     <td>{{ entreprise.contacts }}</td>
@@ -104,6 +108,10 @@
         </tbody>
     </table>
 </main>
+
+<script>
+    const specialites = {{ specialites|json_encode|raw }};
+</script>
 
 <script src="{{ routes.bootstrap | replace({'.css': '.bundle.min.js'}) }}"></script>
 <script src="{{ routes.js }}/javascript.js"></script>

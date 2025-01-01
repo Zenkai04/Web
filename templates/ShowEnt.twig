@@ -44,42 +44,31 @@
 </div>
 
 <main class="container">
-
- {% block content %}
-    <h1>Détails de l'étudiant</h1>
-
-    {% if etudiant %}
-        <table>
-            <tr>
-                <th>Nom</th>
-                <td>{{ etudiant.nom_etudiant }}</td>
-            </tr>
-            <tr>
-                <th>Prénom</th>
-                <td>{{ etudiant.prenom_etudiant }}</td>
-            </tr>
-            <tr>
-                <th>Login</th>
-                <td>{{ etudiant.login }}</td>
-            </tr>
-            <tr>
-                <th>Numéro de classe </th>
-                <td>{{ etudiant.num_classe }}</td>
-            </tr>
-            <tr>
-                <th>En activité</th>
-                <td>{{ etudiant.en_activite ? 'Oui' : 'Non' }}</td>
-            </tr>
-        </table>
-    {% else %}
-        <p>Aucun étudiant trouvé.</p>
+    <h1 style="text-align: center;">Informations de l'entreprise</h1>
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
     {% endif %}
-{% endblock %}
-
-<button type="button" class="btn btn-secondary" onclick="window.location.href='?page=stagiaire'">Retour</button>
+    <div class="card">
+        <div class="card-header">
+            <h2>{{ entreprise.raison_sociale }}</h2>
+        </div>
+        <div class="card-body">
+            <p><strong>Nom du Contact:</strong> {{ entreprise.nom_contact }}</p>
+            <p><strong>Nom du Responsable:</strong> {{ entreprise.nom_resp }}</p>
+            <p><strong>Adresse:</strong> {{ entreprise.rue_entreprise }}, {{ entreprise.cp_entreprise }}, {{ entreprise.ville_entreprise }}</p>
+            <p><strong>Téléphone:</strong> {{ entreprise.tel_entreprise }}</p>
+            <p><strong>Fax:</strong> {{ entreprise.fax_entreprise }}</p>
+            <p><strong>Email:</strong> {{ entreprise.email }}</p>
+            <p><strong>Observations:</strong> {{ entreprise.observations }}</p>
+            <p><strong>Site Web:</strong> <a href="{{ entreprise.site_entreprise }}" target="_blank">{{ entreprise.site_entreprise }}</a></p>
+            <p><strong>Niveau:</strong> {{ entreprise.niveau }}</p>
+            <p><strong>En activité:</strong> {{ entreprise.en_activite ? 'Oui' : 'Non' }}</p>
+        </div>
+    </div>
+    <button type="button" class="btn btn-secondary mt-3" onclick="window.location.href='?page=entreprise'">Retour</button>
+</main>
 
 <script src="{{ routes.bootstrap | replace({'.css': '.bundle.min.js'}) }}"></script>
 <script src="{{ routes.js }}/javascript.js"></script>
 </body>
 </html>
-

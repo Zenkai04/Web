@@ -19,3 +19,6 @@ solution1 : redifinir les données initiales comme un tableau vide qui se rempli
 
 problème après avoir ajouter la fonction d'ajouter un étudiant : apparament le fait de définir la supression avant l'ajout pose problème de conflit
 solution1 : utiliser des "if" dans le controleur et définir le type d'action dans twig si éliminer et dans js si ajouter
+
+problème pour récupérer les différentes specialités lors de l'ajout d'une entreprise
+solution1 : à l'aide de l'intelligence artificielle nous avons pu coder une fonction en javascript qui récupère les spécialités et les affiche dans une liste déroulante

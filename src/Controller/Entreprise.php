@@ -8,19 +8,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'delete') {
         // Suppression d'une entreprise
         try {
-            $id_entreprise = $_POST['id_entreprise'];
-            deleteEntreprise($pdo, $id_entreprise);
+            $num_entreprise = $_POST['num_entreprise'];
+            deleteEntreprise($pdo, $num_entreprise);
             header('Location: ?page=entreprise');
             exit;
         } catch (Exception $e) {
             echo json_encode(['success' => false, 'message' => $e->getMessage()]);
         }
-    } elseif ($action === 'add') {
-        // Ajout d'une entreprise
+    } elseif ($action === 'update') {
+        // Mise à jour d'une entreprise
         try {
+            $num_entreprise = $_POST['num_entreprise'];
             $raison_sociale = $_POST['raison_sociale'];
             $nom_contact = $_POST['nom_contact'];
-            $nom_responeable = $_POST['nom_responeable'];
+            $nom_resp = $_POST['nom_resp'];
             $rue_entreprise = $_POST['rue_entreprise'];
             $cp_entreprise = $_POST['cp_entreprise'];
             $ville_entreprise = $_POST['ville_entreprise'];
@@ -32,8 +33,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $niveau = $_POST['niveau'];
             $en_activite = isset($_POST['en_activite']) ? 1 : 0;
 
+            // Log des données reçues
+            error_log("Updating company: $num_entreprise, $raison_sociale, $nom_contact, $nom_resp, $rue_entreprise, $cp_entreprise, $ville_entreprise, $tel_entreprise, $fax_entreprise, $email, $observations, $site_entreprise, $niveau, $en_activite");
+
+            updateEntreprise($pdo, $num_entreprise, $raison_sociale, $nom_contact, $nom_resp, $rue_entreprise, $cp_entreprise, $ville_entreprise, $tel_entreprise, $fax_entreprise, $email, $observations, $site_entreprise, $niveau, $en_activite);
+            header('Location: ?page=entreprise');
+            exit;
+        } catch (Exception $e) {
+            echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+            exit;
+        }
+    } elseif ($action === 'add') {
+        // Ajout d'une entreprise
+        try {
+            $raison_sociale = $_POST['raison_sociale'];
+            $nom_contact = $_POST['nom_contact'];
+            $nom_resp = $_POST['nom_resp'];
+            $rue_entreprise = $_POST['rue_entreprise'];
+            $cp_entreprise = $_POST['cp_entreprise'];
+            $ville_entreprise = $_POST['ville_entreprise'];
+            $tel_entreprise = $_POST['tel_entreprise'];
+            $fax_entreprise = $_POST['fax_entreprise'];
+            $email = $_POST['email'];
+            $observations = $_POST['observations'];
+            $site_entreprise = $_POST['site_entreprise'];
+            $niveau = $_POST['niveau'];
+            $specialite = $_POST['specialite'];
+            $en_activite = isset($_POST['en_activite']) ? 1 : 0;
+
             // Appel à la fonction pour insérer l'entreprise
-            insertEntreprise($pdo, $raison_sociale, $nom_contact, $nom_responeable, $rue_entreprise, $cp_entreprise, $ville_entreprise, $tel_entreprise, $fax_entreprise, $email, $observations, $site_entreprise, $niveau, $en_activite);
+            insertEntreprise($pdo, $raison_sociale, $nom_contact, $nom_resp, $rue_entreprise, $cp_entreprise, $ville_entreprise, $tel_entreprise, $fax_entreprise, $email, $observations, $site_entreprise, $niveau, $specialite, $en_activite);
 
             // Rediriger vers la page des entreprises après l'ajout
             header('Location: ?page=entreprise');
@@ -44,45 +73,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         // Gestion de la recherche
         $search_criteria = $_POST['search_criteria'] ?? '';
-        $search_value = '';
-
-        if ($search_criteria === 'raison_sociale') {
-            $search_value = $_POST['search_raison_sociale'] ?? '';
-        } elseif ($search_criteria === 'libelle') {
-            $search_value = $_POST['search_specialite'] ?? '';
-        } elseif ($search_criteria === 'nom_contact') {
-            $search_value = $_POST['search_nom_contact'] ?? '';
-        }
-
-        if ($search_value) {
-            $entreprises = searchEntreprises($pdo, $search_criteria, $search_value);
-        } else {
-            // Récupérer les entreprises pour les afficher dans la liste
-            $entreprises = getEntreprises1($pdo);
-        }
-
-        // Passer les données et les routes dans un tableau
-        $data = [
-            'routes' => $routes,
-            'entreprises' => $entreprises,
-            'error' => isset($error) ? $error : null,
-        ];
-
-        // Retourner les données
-        return $data;
+        $search_value = $_POST['search_value'] ?? '';
+        $entreprises = searchEntreprises($pdo, $search_criteria, $search_value);
     }
 } else {
-    // Récupérer les entreprises pour les afficher dans la liste
+    // Récupération des entreprises
     $entreprises = getEntreprises1($pdo);
-
-    // Passer les données et les routes dans un tableau
-    $data = [
-        'routes' => $routes,
-        'entreprises' => $entreprises,
-        'error' => isset($error) ? $error : null,
-    ];
-
-    // Retourner les données
-    return $data;
+    $specialites = getSpecialites($pdo);
 }
+
+$data = [
+    'routes' => $routes,
+    'entreprises' => $entreprises,
+    'specialites' => $specialites,
+    'current_page' => 'entreprise',
+    'error' => isset($error) ? $error : null,
+];
+
+// Charger le template Twig
+echo $twig->render('Entreprise.twig', $data);
 ?>

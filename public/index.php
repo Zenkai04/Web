@@ -43,6 +43,10 @@ switch ($page) {
         $data = require_once(__DIR__ . '/../src/Controller/EditEnt.php');
         $template = 'EditEnt.twig';
         break;
+    case 'showEnt':
+        $data = require_once(__DIR__ . '/../src/Controller/ShowEnt.php');
+        $template = 'ShowEnt.twig';
+        break;
     default:
         // Page par défaut ou page d'erreur
         echo "Page non trouvée";

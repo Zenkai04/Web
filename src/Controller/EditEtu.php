@@ -46,7 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $data = [
             'routes' => $routes,
             'etudiant' => $etudiant,
-            'error' => isset($error) ? $error : null,
+            'current_page' => 'editEtu',
+            'error' => isset($error) ? $error : null
         ];
         // Charger le template Twig
         echo $twig->render('EditEtu.twig', $data);

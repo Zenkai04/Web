@@ -68,8 +68,10 @@ function ajoutEnt() {
     formContainer.innerHTML = `
         <form id="add-enterprise-form" action="?page=entreprise" method="post">
             <input type="hidden" name="action" value="add">
+            
+            <h3>Information</h3>
             <div class="mb-3">
-                <label for="raison_sociale" class="form-label">Raison sociale</label>
+                <label for="raison_sociale" class="form-label">Nom de l'entreprise*</label>
                 <input type="text" class="form-control" id="raison_sociale" name="raison_sociale" required>
             </div>
             <div class="mb-3">
@@ -77,9 +79,11 @@ function ajoutEnt() {
                 <input type="text" class="form-control" id="nom_contact" name="nom_contact" required>
             </div>
             <div class="mb-3">
-                <label for="nom_responeable" class="form-label">Nom du responsable</label>
-                <input type="text" class="form-control" id="nom_responeable" name="nom_responeable" required>
+                <label for="nom_resp" class="form-label">Nom du responsable</label>
+                <input type="text" class="form-control" id="nom_resp" name="nom_resp" required>
             </div>
+            
+            <h3>Contact</h3>
             <div class="mb-3">
                 <label for="rue_entreprise" class="form-label">Rue de l'entreprise</label>
                 <input type="text" class="form-control" id="rue_entreprise" name="rue_entreprise" required>
@@ -104,33 +108,40 @@ function ajoutEnt() {
                 <label for="email" class="form-label">Email</label>
                 <input type="email" class="form-control" id="email" name="email" required>
             </div>
+            
+            <h3>Divers</h3>
             <div class="mb-3">
                 <label for="observations" class="form-label">Observations</label>
                 <textarea class="form-control" id="observations" name="observations"></textarea>
             </div>
             <div class="mb-3">
-                <label for="site_entreprise" class="form-label">Site web</label>
-                <input type="text" class="form-control" id="site_entreprise" name="site_entreprise">
+                <label for="site_entreprise" class="form-label">Site Web</label>
+                <input type="url" class="form-control" id="site_entreprise" name="site_entreprise">
             </div>
             <div class="mb-3">
                 <label for="niveau" class="form-label">Niveau</label>
-                <input type="text" class="form-control" id="niveau" name="niveau" required>
+                <input type="text" class="form-control" id="niveau" name="niveau">
             </div>
+            
+            <h3>Spécialité</h3>
             <div class="mb-3">
-                <label for="en_activite" class="form-label">En activité</label>
-                <input type="checkbox" class="form-check-input" id="en_activite" name="en_activite">
+                <label for="specialite" class="form-label">Spécialité</label>
+                <select class="form-control" id="specialite" name="specialite" required>
+                    ${specialites.map(specialite => `<option value="${specialite.num_spec}">${specialite.libelle}</option>`).join('')}
+                </select>
             </div>
+            
             <button type="submit" class="btn btn-primary">Ajouter</button>
             <button type="button" class="btn btn-secondary" onclick="hideAddForm()">Annuler</button>
         </form>
     `;
+
     formContainer.style.display = 'block';
 }
 
 function hideAddForm() {
     const formContainer = document.getElementById('add-form-container');
     formContainer.style.display = 'none';
-    formContainer.innerHTML = '';
 }
 
 function chercherEnt() {

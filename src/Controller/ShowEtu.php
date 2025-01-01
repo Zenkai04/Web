@@ -16,7 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['num_etudiant'])) {
         $data = [
             'routes' => $routes,
             'etudiant' => $etudiant,
-            'error' => isset($error) ? $error : null,
+            'current_page' => 'showEtu',
+            'error' => isset($error) ? $error : null
         ];
         
         // Charger le template Twig pour afficher les données

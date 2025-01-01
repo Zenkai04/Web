@@ -27,6 +27,13 @@ function getEntreprises1($pdo) {
     return $result;
 }
 
+// Fonction pour récupérer les spécialités
+function getSpecialites($pdo) {
+    $query = $pdo->prepare("SELECT num_spec, libelle FROM specialite");
+    $query->execute();
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+}
+
 // Fonction pour récupérer les étudiants
 function getEtudiants($pdo) {
     $query = $pdo->prepare("SELECT num_etudiant, nom_etudiant, prenom_etudiant FROM etudiant");
@@ -259,6 +266,34 @@ function getEtudiantInfo($pdo, $num_etudiant) {
     return $query->fetch(PDO::FETCH_ASSOC);
 }
 
+//Fonction qui retourne toutes les informations d'une entreprise
+function getEntrepriseInfo($pdo, $num_entreprise) {
+    $query = $pdo->prepare("
+        SELECT 
+            num_entreprise, 
+            raison_sociale, 
+            nom_contact, 
+            nom_resp, 
+            rue_entreprise, 
+            cp_entreprise, 
+            ville_entreprise, 
+            tel_entreprise, 
+            fax_entreprise, 
+            email, 
+            observation, 
+            site_entreprise, 
+            niveau, 
+            en_activite
+        FROM 
+            entreprise
+        WHERE 
+            num_entreprise = :num_entreprise
+    ");
+    $query->bindParam(':num_entreprise', $num_entreprise);
+    $query->execute();
+    return $query->fetch(PDO::FETCH_ASSOC);
+}
+
 //Fonction pour mettre à jour un étudiant
 function updateEtudiant($pdo, $num_etudiant, $nom, $prenom, $login, $mdp, $num_classe, $en_activite) {
     try {
@@ -286,34 +321,6 @@ function updateEtudiant($pdo, $num_etudiant, $nom, $prenom, $login, $mdp, $num_c
     } catch (PDOException $e) {
         throw new Exception('Erreur lors de la mise à jour : ' . $e->getMessage());
     }
-}
-
-//Fonction qui retourne toutes les informations d'une entreprise
-function getEntrepriseInfo($pdo, $num_entreprise) {
-    $query = $pdo->prepare("
-        SELECT  
-            num_entreprise,
-            raison_sociale, 
-            nom_contact, 
-            nom_resp, 
-            rue_entreprise, 
-            cp_entreprise, 
-            ville_entreprise, 
-            tel_entreprise, 
-            fax_entreprise, 
-            email, 
-            observation, 
-            site_entreprise, 
-            niveau, 
-            en_activite
-        FROM 
-            entreprise
-        WHERE 
-            num_entreprise = :num_entreprise
-    ");
-    $query->bindParam(':num_entreprise', $num_entreprise);
-    $query->execute();
-    return $query->fetch(PDO::FETCH_ASSOC);
 }
 
 //Fonction pour mettre à jour une entreprise
