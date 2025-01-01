@@ -3,57 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accueil</title>
+    <title>Aide - Fonctionnalités du Site</title>
     <link rel="stylesheet" href="{{ routes.bootstrap }}">
     <link rel="stylesheet" href="{{ routes.css }}/styles.scss">
 </head>
 <body>
-<div class="navbar navbar-dark bg-dark box-shadow">
-    <div class="container d-flex justify-content-between">
-        <!-- Logo ou Titre de la page -->
-        <a href="?page=home" class="navbar-brand d-flex align-items-center {% if current_page == 'home' %}active{% endif %}">
-            <img src="{{ routes.images }}/home.png" width="25" height="25">
-            <p class="mb-0">Accueil</p>
-        </a>
-
-        <a href="?page=entreprise" class="navbar-brand d-flex align-items-center {% if current_page == 'entreprise' %}active{% endif %}">
-            <img src="{{ routes.images }}/entreprise.png" width="25" height="25" class="me-2">
-            <p class="mb-0">Entreprise</p>
-        </a>
-
-        <a href="?page=stagiaire" class="navbar-brand d-flex align-items-center {% if current_page == 'stagiaire' %}active{% endif %}">
-            <img src="{{ routes.images }}/stage.png" width="25" height="25" class="me-2">
-            <p class="mb-0">Stagiaire</p>
-        </a>
-
-        <a href="?page=inscription" class="navbar-brand d-flex align-items-center {% if current_page == 'inscription' %}active{% endif %}">
-            <img src="{{ routes.images }}/inscrire.png" width="25" height="25" class="me-2">
-            <p class="mb-0">Inscription</p>
-        </a>
-
-        <a href="?page=aide" class="navbar-brand d-flex align-items-center {% if current_page == 'aide' %}active{% endif %}">
-            <img src="{{ routes.images }}/aide.png" width="25" height="25" class="me-2">
-            <strong>Aide</strong>
-        </a>
-
-        <a href="?page=deconnexion" class="navbar-brand d-flex align-items-center">
-            <img src="{{ routes.images }}/deconnexion.png" width="25" height="25" class="me-2">
-            <p class="mb-0">Déconnexion</p>
-        </a>
-    </div>
-</div>
-    <header>
-        <div class="container text-center">
-           
+    <!-- Barre de navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+        <div class="container">
+            <a href="?page=home" class="navbar-brand d-flex align-items-center {% if current_page == 'home' %}active{% endif %}">
+                <img src="{{ routes.images }}/home.png" alt="Accueil" width="25" height="25" class="me-2">
+                <span>Accueil</span>
+            </a>
+            <a href="?page=entreprise" class="navbar-brand d-flex align-items-center {% if current_page == 'entreprise' %}active{% endif %}">
+                <img src="{{ routes.images }}/entreprise.png" alt="Entreprise" width="25" height="25" class="me-2">
+                <span>Entreprise</span>
+            </a>
+            <a href="?page=stagiaire" class="navbar-brand d-flex align-items-center {% if current_page == 'stagiaire' %}active{% endif %}">
+                <img src="{{ routes.images }}/stage.png" alt="Stagiaire" width="25" height="25" class="me-2">
+                <span>Stagiaire</span>
+            </a>
+            <a href="?page=inscription" class="navbar-brand d-flex align-items-center {% if current_page == 'inscription' %}active{% endif %}">
+                <img src="{{ routes.images }}/inscrire.png" alt="Inscription" width="25" height="25" class="me-2">
+                <span>Inscription</span>
+            </a>
+            <a href="?page=aide" class="navbar-brand d-flex align-items-center {% if current_page == 'aide' %}active{% endif %}">
+                <img src="{{ routes.images }}/aide.png" alt="Aide" width="25" height="25" class="me-2">
+                <strong>Aide</strong>
+            </a>
+            <a href="?page=deconnexion" class="navbar-brand d-flex align-items-center">
+                <img src="{{ routes.images }}/deconnexion.png" alt="Déconnexion" width="25" height="25" class="me-2">
+                <span>Déconnexion</span>
+            </a>
         </div>
-    </header>
+    </nav>
 
-    <main>
-    </main>
+    <!-- Contenu principal -->
+    <div class="container my-5">
+        <!-- En-tête -->
+        <header class="text-center mb-4">
+            <h1 class="display-4">Page d'Aide</h1>
+            <p class="lead text-muted">Bienvenue sur la page d'aide. Découvrez les différentes fonctionnalités du site stage BTS.</p>
+        </header>
 
-    <!-- Votre contenu ici -->
+        <!-- Bloc : Gestion des entreprises -->
+        <section class="mb-5">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="h5 mb-0">Gestion des Entreprises</h2>
+                </div>
+                <div class="card-body">
+                    <p>Cette section vous permet de gérer les entreprises enregistrées dans la base de données :</p>
+                    <ul class="list-unstyled">
+                        <li>✔ <strong>Ajouter :</strong> Cliquez sur <em>Ajouter Entreprise</em> pour entrer les détails d'une entreprise.</li>
+                        <li>✔ <strong>Rechercher :</strong> Trouvez une entreprise en fonction de critères spécifiques.</li>
+                        <li>✔ <strong>Modifier :</strong> Mettez à jour les informations d'une entreprise existante.</li>
+                        <li>✔ <strong>Supprimer :</strong> Supprimez une entreprise avec confirmation préalable.</li>
+                        <li>✔ <strong>Voir les détails :</strong> Consultez toutes les informations d'une entreprise.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
 
+        <!-- Bloc : Gestion des stagiaires -->
+        <section class="mb-5">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h2 class="h5 mb-0">Gestion des Stagiaires</h2>
+                </div>
+                <div class="card-body">
+                    <p>La gestion des stagiaires comprend les fonctionnalités suivantes :</p>
+                    <ul class="list-unstyled">
+                        <li>✔ <strong>Ajouter :</strong> Renseignez les informations personnelles et académiques.</li>
+                        <li>✔ <strong>Rechercher :</strong> Trouvez un stagiaire par nom, école, etc.</li>
+                        <li>✔ <strong>Modifier :</strong> Mettez à jour les détails d'un stagiaire.</li>
+                        <li>✔ <strong>Supprimer :</strong> Supprimez un stagiaire avec confirmation.</li>
+                        <li>✔ <strong>Voir les détails :</strong> Affichez toutes les informations d'un stagiaire.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bloc : Navigation -->
+        <section class="mb-5">
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-dark">
+                    <h2 class="h5 mb-0">Navigation</h2>
+                </div>
+                <div class="card-body">
+                    <p>Le menu de navigation permet d'accéder aux sections suivantes :</p>
+                    <ul class="list-unstyled">
+                        <li>🏠 <strong>Accueil :</strong> Retournez à la page principale.</li>
+                        <li>🏢 <strong>Entreprise :</strong> Gérer les entreprises.</li>
+                        <li>🎓 <strong>Stagiaire :</strong> Gérer les stagiaires.</li>
+                        <li>📝 <strong>Inscription :</strong> Ajouter un utilisateur.</li>
+                        <li>❓ <strong>Aide :</strong> Consulter cette page.</li>
+                        <li>🔒 <strong>Déconnexion :</strong> Quitter votre session.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Scripts -->
     <script src="{{ routes.bootstrap | replace({'.css': '.bundle.min.js'}) }}"></script>
-    
 </body>
 </html>
