@@ -45,6 +45,18 @@ switch ($page) {
         $data = require_once('../src/Controller/EditEtu.php');
         $template = 'EditEtu.twig';
         break;
+    case 'editEnt':
+        $data = require_once('../src/Controller/EditEnt.php');
+        $template = 'EditEnt.twig';
+        break;
+    case 'showEtu':
+        $data = require_once('../src/Controller/ShowEtu.php');
+        $template = 'ShowEtu.twig';
+        break;
+    case 'showEnt':
+        $data = require_once('../src/Controller/ShowEnt.php');
+        $template = 'ShowEnt.twig';
+        break;
     // Ajoutez d'autres cas ici si nécessaire
     default:
         $data = require_once('../src/Controller/Accueil.php');
