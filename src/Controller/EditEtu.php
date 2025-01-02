@@ -23,13 +23,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $prenom = $_POST['prenom'];
             $login = $_POST['login'];
             $mdp = $_POST['mdp'];
-            $num_classe = $_POST['num_classe'];
             $en_activite = isset($_POST['en_activite']) ? 1 : 0;
 
-            // Log des données reçues
-            error_log("Updating student: $num_etudiant, $nom, $prenom, $login, $mdp, $num_classe, $en_activite");
 
-            updateEtudiant($pdo, $num_etudiant, $nom, $prenom, $login, $mdp, $num_classe, $en_activite);
+            updateEtudiant($pdo, $num_etudiant, $nom, $prenom, $login, $mdp, $en_activite);
             header('Location: ?page=stagiaire');
             exit;
         } catch (Exception $e) {

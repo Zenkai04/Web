@@ -8,83 +8,75 @@
     <link rel="stylesheet" href="{{ routes.css }}/styles.scss">
 </head>
 <body>
-<div class="navbar navbar-dark bg-dark box-shadow">
-    <div class="container d-flex justify-content-between">
-        <!-- Logo ou Titre de la page -->
-        <a href="?page=home" class="navbar-brand d-flex align-items-center {% if current_page == 'home' %}active{% endif %}">
-            <img src="{{ routes.images }}/home.png" width="25" height="25">
-            <p class="mb-0">Accueil</p>
-        </a>
+    <div class="navbar navbar-dark bg-dark box-shadow">
+        <div class="container d-flex justify-content-between">
+            <!-- Logo ou Titre de la page -->
+            <a href="?page=home" class="navbar-brand d-flex align-items-center {% if current_page == 'home' %}active{% endif %}">
+                <img src="{{ routes.images }}/home.png" width="25" height="25">
+                <p class="mb-0">Accueil</p>
+            </a>
 
-        <a href="?page=entreprise" class="navbar-brand d-flex align-items-center {% if current_page == 'entreprise' %}active{% endif %}">
-            <img src="{{ routes.images }}/entreprise.png" width="25" height="25" class="me-2">
-            <p class="mb-0">Entreprise</p>
-        </a>
+            <a href="?page=entreprise" class="navbar-brand d-flex align-items-center {% if current_page == 'entreprise' %}active{% endif %}">
+                <img src="{{ routes.images }}/entreprise.png" width="25" height="25" class="me-2">
+                <p class="mb-0">Entreprise</p>
+            </a>
 
-        <a href="?page=stagiaire" class="navbar-brand d-flex align-items-center {% if current_page == 'stagiaire' or current_page == 'editEtu' %}active{% endif %}">
-            <img src="{{ routes.images }}/stage.png" width="25" height="25" class="me-2">
-            <strong>Stagiaire</strong>
-        </a>
+            <a href="?page=stagiaire" class="navbar-brand d-flex align-items-center {% if current_page == 'stagiaire' or current_page == 'editEtu' %}active{% endif %}">
+                <img src="{{ routes.images }}/stage.png" width="25" height="25" class="me-2">
+                <strong>Stagiaire</strong>
+            </a>
 
-        <a href="?page=inscription" class="navbar-brand d-flex align-items-center {% if current_page == 'inscription' %}active{% endif %}">
-            <img src="{{ routes.images }}/inscrire.png" width="25" height="25" class="me-2">
-            <p class="mb-0">Inscription</p>
-        </a>
+            <a href="?page=inscription" class="navbar-brand d-flex align-items-center {% if current_page == 'inscription' %}active{% endif %}">
+                <img src="{{ routes.images }}/inscrire.png" width="25" height="25" class="me-2">
+                <p class="mb-0">Inscription</p>
+            </a>
 
-        <a href="?page=aide" class="navbar-brand d-flex align-items-center {% if current_page == 'aide' %}active{% endif %}">
-            <img src="{{ routes.images }}/aide.png" width="25" height="25" class="me-2">
-            <p class="mb-0">Aide</p>
-        </a>
+            <a href="?page=aide" class="navbar-brand d-flex align-items-center {% if current_page == 'aide' %}active{% endif %}">
+                <img src="{{ routes.images }}/aide.png" width="25" height="25" class="me-2">
+                <p class="mb-0">Aide</p>
+            </a>
 
-        <a href="?page=deconnexion" class="navbar-brand d-flex align-items-center">
-            <img src="{{ routes.images }}/deconnexion.png" width="25" height="25" class="me-2">
-            <p class="mb-0">Déconnexion</p>
-        </a>
+            <a href="?page=deconnexion" class="navbar-brand d-flex align-items-center">
+                <img src="{{ routes.images }}/deconnexion.png" width="25" height="25" class="me-2">
+                <p class="mb-0">Déconnexion</p>
+            </a>
+        </div>
     </div>
-</div>
 
-<main class="container">
-    <h1 style="text-align: center;">Modifier les informations de l'étudiant</h1>
-    {% if error %}
-        <div class="alert alert-danger">{{ error }}</div>
-    {% endif %}
-    <form id="edit-form" action="?page=editEtu" method="post">
-    <input type="hidden" name="action" value="update">
-    <input type="hidden" name="num_etudiant" value="{{ etudiant.num_etudiant }}">
-    <div class="mb-3">
-        <label for="nom" class="form-label">Nom</label>
-        <input type="text" class="form-control" id="nom" name="nom" value="{{ etudiant.nom_etudiant }}">
-    </div>
-    <div class="mb-3">
-        <label for="prenom" class="form-label">Prénom</label>
-        <input type="text" class="form-control" id="prenom" name="prenom" value="{{ etudiant.prenom_etudiant }}">
-    </div>
-    <div class="mb-3">
-        <label for="login" class="form-label">Login</label>
-        <input type="text" class="form-control" id="login" name="login" value="{{ etudiant.login }}">
-    </div>
-    <div class="mb-3">
-        <label for="mdp" class="form-label">Mot de passe</label>
-        <input type="password" class="form-control" id="mdp" name="mdp" value="{{ etudiant.mdp }}">
-    </div>
-    <div class="mb-3">
-        <label for="classe" class="form-label">Classe</label>
-        <select class="form-select" id="classe" name="classe">
-            {% for classe in classes %}
-                <option value="{{ classe.num_classe }}" {% if classe.num_classe == etudiant.num_classe %}selected{% endif %}>{{ classe.nom_classe }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="mb-3">
-        <label for="en_activite" class="form-label">En activité</label>
-        <input type="checkbox" class="form-check-input" id="en_activite" name="en_activite" {{ etudiant.en_activite ? 'checked' : '' }}>
-    </div>
-    <button type="submit" class="btn btn-primary">Enregistrer</button>
-    <button type="button" class="btn btn-secondary" onclick="window.location.href='?page=stagiaire'">Annuler</button>
-</form>
-</main>
+    <main class="container">
+        <h1 style="text-align: center;">Modifier les informations de l'étudiant</h1>
+        {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+        <form id="edit-form" action="?page=editEtu" method="post">
+            <input type="hidden" name="action" value="update">
+            <input type="hidden" name="num_etudiant" value="{{ etudiant.num_etudiant }}">
+            <div class="mb-3">
+                <label for="nom" class="form-label">Nom</label>
+                <input type="text" class="form-control" id="nom" name="nom" value="{{ etudiant.nom_etudiant }}">
+            </div>
+            <div class="mb-3">
+                <label for="prenom" class="form-label">Prénom</label>
+                <input type="text" class="form-control" id="prenom" name="prenom" value="{{ etudiant.prenom_etudiant }}">
+            </div>
+            <div class="mb-3">
+                <label for="login" class="form-label">Login</label>
+                <input type="text" class="form-control" id="login" name="login" value="{{ etudiant.login }}">
+            </div>
+            <div class="mb-3">
+                <label for="mdp" class="form-label">Mot de passe</label>
+                <input type="password" class="form-control" id="mdp" name="mdp" value="{{ etudiant.mdp }}">
+            </div>
+            <div class="mb-3">
+                <label for="en_activite" class="form-label">En activité</label>
+                <input type="checkbox" class="form-check-input" id="en_activite" name="en_activite" {{ etudiant.en_activite ? 'checked' : '' }}>
+            </div>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <button type="button" class="btn btn-secondary" onclick="window.location.href='?page=stagiaire'">Annuler</button>
+        </form>
+    </main>
 
-<script src="{{ routes.bootstrap | replace({'.css': '.bundle.min.js'}) }}"></script>
-<script src="{{ routes.js }}/javascript.js"></script>
+    <script src="{{ routes.bootstrap | replace({'.css': '.bundle.min.js'}) }}"></script>
+    <script src="{{ routes.js }}/javascript.js"></script>
 </body>
 </html>

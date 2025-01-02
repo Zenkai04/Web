@@ -294,6 +294,18 @@ function getClasseById($pdo, $num_classe) {
     }
 }
 
+// Fonction qui retourne le numéro d'une classe à partir de son nom
+function getClasseByName($pdo, $nom_classe) {
+    try {
+        $query = $pdo->prepare("SELECT num_classe FROM classe WHERE nom_classe = :nom_classe");
+        $query->bindParam(':nom_classe', $nom_classe);
+        $query->execute();
+        return $query->fetchColumn();
+    } catch (PDOException $e) {
+        throw new Exception('Erreur lors de la récupération de la classe : ' . $e->getMessage());
+    }
+}
+
 //Fonction pour ajouter un étudiant
 function insertEtudiant($pdo, $nom_etudiant, $prenom_etudiant, $login, $mdp, $annee_obtention, $num_classe, $en_activite) {
     try {
@@ -465,7 +477,7 @@ function getEntrepriseInfo($pdo, $num_entreprise) {
 }
 
 //Fonction pour mettre à jour un étudiant
-function updateEtudiant($pdo, $num_etudiant, $nom, $prenom, $login, $mdp, $num_classe, $en_activite) {
+function updateEtudiant($pdo, $num_etudiant, $nom, $prenom, $login, $mdp, $en_activite) {
     try {
         $query = $pdo->prepare("
             UPDATE 
@@ -475,7 +487,6 @@ function updateEtudiant($pdo, $num_etudiant, $nom, $prenom, $login, $mdp, $num_c
                 prenom_etudiant = :prenom,
                 login = :login,
                 mdp = :mdp,
-                num_classe = :num_classe,
                 en_activite = :en_activite
             WHERE 
                 num_etudiant = :num_etudiant
@@ -485,7 +496,6 @@ function updateEtudiant($pdo, $num_etudiant, $nom, $prenom, $login, $mdp, $num_c
         $query->bindParam(':prenom', $prenom);
         $query->bindParam(':login', $login);
         $query->bindParam(':mdp', $mdp);
-        $query->bindParam(':num_classe', $num_classe);
         $query->bindParam(':en_activite', $en_activite);
         $query->execute();
     } catch (PDOException $e) {
