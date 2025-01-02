@@ -32,6 +32,7 @@ function ajoutEtu() {
             <div class="mb-3">
                 <label for="mdp" class="form-label">Mot de passe*</label>
                 <input type="password" class="form-control" id="mdp" name="mdp" required>
+                <button type="button" class="btn btn-outline-secondary" id="togglePassword">Afficher</button>
             </div>
             <div class="mb-3">
                 <label for="annee_obtention" class="form-label">Année d'obtention</label>
@@ -58,7 +59,15 @@ function ajoutEtu() {
             <button type="submit" class="btn btn-primary">Ajouter</button>
             <button type="button" class="btn btn-secondary" onclick="hideAddForm()">Annuler</button>
         </form>
+
+        
     `;
+    document.getElementById('togglePassword').addEventListener('click', function () {
+        const passwordField = document.getElementById('mdp');
+        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField.setAttribute('type', type);
+        this.textContent = type === 'password' ? 'Afficher' : 'Masquer';
+    });
 
     formContainer.style.display = 'block';
 }
@@ -259,3 +268,10 @@ function hideSearchForm() {
 function hideSuccessMessage() {
     document.getElementById('success-message').style.display = 'none';
 }
+
+document.getElementById('togglePassword').addEventListener('click', function () {
+    const passwordField = document.getElementById('mdp');
+    const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordField.setAttribute('type', type);
+    this.textContent = type === 'password' ? 'Afficher' : 'Masquer';
+});

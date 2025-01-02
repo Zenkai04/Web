@@ -7,15 +7,15 @@ $error = null;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $role = $_POST['role'];
     $identifiant = $_POST['identifiant'];
-    $password = $_POST['password'];
+    $mdp = $_POST['mdp'];
 
     if ($role === 'etudiant') {
-        $user = getEtudiantByLogin($pdo, $identifiant, $password);
+        $user = getEtudiantByLogin($pdo, $identifiant, $mdp);
     } elseif ($role === 'professeur') {
-        $user = getProfesseurByLogin($pdo, $identifiant, $password);
+        $user = getProfesseurByLogin($pdo, $identifiant, $mdp);
     }
 
-    if ($user or $identifiant === 'admin' and $password === 'admin') {
+    if ($user or $identifiant === 'admin' and $mdp === 'admin') {
         $_SESSION['user'] = $user;
         $_SESSION['role'] = $role;
         header('Location: ?page=home');

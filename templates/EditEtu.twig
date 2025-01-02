@@ -63,9 +63,9 @@
                 <label for="login" class="form-label">Login</label>
                 <input type="text" class="form-control" id="login" name="login" value="{{ etudiant.login }}">
             </div>
-            <div class="mb-3">
-                <label for="mdp" class="form-label">Mot de passe</label>
-                <input type="password" class="form-control" id="mdp" name="mdp" value="{{ etudiant.mdp }}">
+            <div class="input-group">
+                <input type="password" class="form-control" id="mdp" name="mdp" value="{{ etudiant.mdp }}" required>
+                <button type="button" class="btn btn-outline-secondary" id="togglePassword">Afficher</button>
             </div>
             <div class="mb-3">
                 <label for="en_activite" class="form-label">En activité</label>

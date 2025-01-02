@@ -43,40 +43,44 @@
     </div>
 </div>
 
-<main class="container">
+<main class="container mt-5">
+    {% block content %}
+        <h1 class="mb-4">Détails de l'étudiant</h1>
 
- {% block content %}
-    <h1>Détails de l'étudiant</h1>
+        {% if etudiant %}
+            <table class="table table-bordered">
+                <tr>
+                    <th>Nom</th>
+                    <td>{{ etudiant.nom_etudiant }}</td>
+                </tr>
+                <tr>
+                    <th>Prénom</th>
+                    <td>{{ etudiant.prenom_etudiant }}</td>
+                </tr>
+                <tr>
+                    <th>Login</th>
+                    <td>{{ etudiant.login }}</td>
+                </tr>
+                <tr>
+                    <th>Mot de passe</th>
+                    <td>{{ etudiant.mdp }}</td>
+                </tr>
+                <tr>
+                    <th>Classe</th>
+                    <td>{{ classes.nom_classe }}</td>
+                </tr>
+                <tr>
+                    <th>En activité</th>
+                    <td>{{ etudiant.en_activite ? 'Oui' : 'Non' }}</td>
+                </tr>
+            </table>
+        {% else %}
+            <p class="text-danger">Aucun étudiant trouvé.</p>
+        {% endif %}
+    {% endblock %}
 
-    {% if etudiant %}
-        <table>
-            <tr>
-                <th>Nom</th>
-                <td>{{ etudiant.nom_etudiant }}</td>
-            </tr>
-            <tr>
-                <th>Prénom</th>
-                <td>{{ etudiant.prenom_etudiant }}</td>
-            </tr>
-            <tr>
-                <th>Login</th>
-                <td>{{ etudiant.login }}</td>
-            </tr>
-            <tr>
-                <th>Classe</th>
-                <td>{{ classes.nom_classe }}</td>
-            </tr>
-            <tr>
-                <th>En activité</th>
-                <td>{{ etudiant.en_activite ? 'Oui' : 'Non' }}</td>
-            </tr>
-        </table>
-    {% else %}
-        <p>Aucun étudiant trouvé.</p>
-    {% endif %}
-{% endblock %}
-
-<button type="button" class="btn btn-secondary" onclick="window.location.href='?page=stagiaire'">Retour</button>
+    <button type="button" class="btn btn-secondary mt-3" onclick="window.location.href='?page=stagiaire'">Retour</button>
+</main>
 
 <script src="{{ routes.bootstrap | replace({'.css': '.bundle.min.js'}) }}"></script>
 <script src="{{ routes.js }}/javascript.js"></script>
