@@ -5,6 +5,7 @@ $routes = [
     'stagiaire'    => 'Stagiaire.twig',
     'inscription'  => 'Inscription.twig',
     'aide'         => 'Aide.twig',
+    'connexion'    => 'Connexion.twig',
     'deconnexion'  => 'Déconnexion.twig',
     'images'       => '../public/images',
     'css'          => '../public/css',

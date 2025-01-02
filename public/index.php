@@ -1,8 +1,14 @@
 <?php
+session_start();
 require_once('../src/Model/twig.php');
 require_once('../config/routes.php');
 
 $page = isset($_GET['page']) ? $_GET['page'] : 'home';
+
+if (!isset($_SESSION['user']) && $page !== 'connexion') {
+    header('Location: ?page=connexion');
+    exit;
+}
 
 $data = [];
 
@@ -28,35 +34,23 @@ switch ($page) {
         $template = 'Aide.twig';
         break;
     case 'deconnexion':
-        $data = require_once('../src/Controller/Deconnexion.php');
-        $template = 'Deconnexion.twig';
+        session_destroy();
+        header('Location: ?page=connexion');
+        exit;
+    case 'connexion':
+        $data = require_once('../src/Controller/Connexion.php');
+        $template = 'Connexion.twig';
         break;
     case 'editEtu':
-        $data = require_once(__DIR__ . '/../src/Controller/EditEtu.php');
+        $data = require_once('../src/Controller/EditEtu.php');
         $template = 'EditEtu.twig';
-            break;
-    case 'showEtu':
-        $data = require_once(__DIR__ . '/../src/Controller/ShowEtu.php');
-        $template = 'ShowEtu.twig';
-             break;        
-    case 'editEnt':
-        $data = require_once(__DIR__ . '/../src/Controller/EditEnt.php');
-        $template = 'EditEnt.twig';
         break;
-    case 'showEnt':
-        $data = require_once(__DIR__ . '/../src/Controller/ShowEnt.php');
-        $template = 'ShowEnt.twig';
-        break;
+    // Ajoutez d'autres cas ici si nécessaire
     default:
-        // Page par défaut ou page d'erreur
-        echo "Page non trouvée";
-        exit;
+        $data = require_once('../src/Controller/Accueil.php');
+        $template = 'Accueil.twig';
+        break;
 }
 
-// Ajouter les routes et la page actuelle aux données
-$data['routes'] = $routes;
-$data['current_page'] = $page;
-
-// Afficher la page avec Twig
 echo $twig->render($template, $data);
 ?>

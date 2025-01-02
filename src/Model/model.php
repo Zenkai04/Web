@@ -564,4 +564,30 @@ function getStages($pdo, $num_entreprise) {
     $query->execute();
     return $query->fetchAll(PDO::FETCH_ASSOC);
 }
+
+// Fonction pour récupérer un étudiant par login et mot de passe
+function getEtudiantByLogin($pdo, $login, $password) {
+    try {
+        $query = $pdo->prepare("SELECT * FROM etudiant WHERE login = :login AND mdp = :password");
+        $query->bindParam(':login', $login);
+        $query->bindParam(':password', $password);
+        $query->execute();
+        return $query->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        throw new Exception('Erreur lors de la récupération de l\'étudiant : ' . $e->getMessage());
+    }
+}
+
+// Fonction pour récupérer un professeur par login et mot de passe
+function getProfesseurByLogin($pdo, $login, $password) {
+    try {
+        $query = $pdo->prepare("SELECT * FROM professeur WHERE login = :login AND mdp = :password");
+        $query->bindParam(':login', $login);
+        $query->bindParam(':password', $password);
+        $query->execute();
+        return $query->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        throw new Exception('Erreur lors de la récupération du professeur : ' . $e->getMessage());
+    }
+}
 ?>
