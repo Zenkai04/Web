@@ -24,7 +24,8 @@ problème pour récupérer les différentes specialités lors de l'ajout d'une e
 solution1 : à l'aide de l'intelligence artificielle nous avons pu coder une fonction en javascript qui récupère les spécialités et les affiche dans une liste déroulante
 
 problème "Erreur lors de l'inscription: Unexpected token '<', "<!DOCTYPE "... is not valid JSON" lorsque je définis la fonction hideSuccessMessage() dans le fichier javascript.js
-solution1 : inclure la fonction dans le fichier Inscription.twig
+solution1 : inclure la fonction dans le fichier Inscription.twig (c'est moche)
+solution2 : nettoyer le code du fichier javascript.js car il avait des anciens bouts de codes qui causaient des conflits
 
 problème pour inclure aussi la spécialité lors de l'ajout d'une entreprise
 solution1 : appeler une fonction qui récupère l'identifiant de la nouvelle entreprise à partir de son nom, puis appeler une fonction qui recupère le numero de la spécialité à partir de son nom et definir une fonction qui ajoute ces données à la table spec_entreprise (ça bug)

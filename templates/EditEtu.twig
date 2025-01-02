@@ -68,8 +68,12 @@
         <input type="password" class="form-control" id="mdp" name="mdp" value="{{ etudiant.mdp }}">
     </div>
     <div class="mb-3">
-        <label for="num_classe" class="form-label">Classe</label>
-        <input type="text" class="form-control" id="num_classe" name="num_classe" value="{{ etudiant.num_classe }}">
+        <label for="classe" class="form-label">Classe</label>
+        <select class="form-select" id="classe" name="classe">
+            {% for classe in classes %}
+                <option value="{{ classe.num_classe }}" {% if classe.num_classe == etudiant.num_classe %}selected{% endif %}>{{ classe.nom_classe }}</option>
+            {% endfor %}
+        </select>
     </div>
     <div class="mb-3">
         <label for="en_activite" class="form-label">En activité</label>

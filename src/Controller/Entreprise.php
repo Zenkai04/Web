@@ -10,7 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $num_entreprise = $_POST['num_entreprise'];
             deleteEntreprise($pdo, $num_entreprise);
-            header('Location: ?page=entreprise');
+            // Rediriger vers la page des entreprises après l'ajout avec succès
+            header('Location: /projets/Web/public/?page=entreprise&delete=1');
             exit;
         } catch (Exception $e) {
             echo json_encode(['success' => false, 'message' => $e->getMessage()]);
@@ -36,8 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Appel à la fonction pour insérer l'entreprise
             insertEntreprise($pdo, $raison_sociale, $nom_contact, $nom_resp, $rue_entreprise, $cp_entreprise, $ville_entreprise, $tel_entreprise, $fax_entreprise, $email, $observation, $site_entreprise, $niveau, $specialite, $en_activite);
 
-            // Rediriger vers la page des entreprises après l'ajout
-            header('Location: ?page=entreprise');
+            // Rediriger vers la page des entreprises après l'ajout avec succès
+            header('Location: /projets/Web/public/?page=entreprise&success=1');
             exit;
         } catch (Exception $e) {
             $error = $e->getMessage();
@@ -73,6 +74,8 @@ $data = [
     'entreprises' => $entreprises,
     'specialites' => $specialites,
     'current_page' => 'entreprise',
+    'success' => isset($_GET['success']),
+    'delete' => isset($_GET['delete']),
     'error' => isset($error) ? $error : null,
 ];
 

@@ -1,8 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 require_once(__DIR__ . '/../Model/connect.php');
 require_once(__DIR__ . '/../Model/twig.php');
 require_once(__DIR__ . '/../Model/close.php');
@@ -19,12 +15,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $type = $_POST['type'];
         $description = $_POST['description'];
         $observations = $_POST['observations'];
-
-        // Log des valeurs reçues
-        error_log("Entreprise: $entreprise, Etudiant: $etudiant, Professeur: $professeur");
-
-        // Log des résultats des requêtes
-        error_log("Numéro entreprise: $entreprise, Numéro étudiant: $etudiant, Numéro professeur: $professeur");
 
         // Vérifier que les numéros ne sont pas NULL
         if ($entreprise === null) {

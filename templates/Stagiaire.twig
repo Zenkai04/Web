@@ -48,6 +48,18 @@
     {% if error %}
         <div class="alert alert-danger">{{ error }}</div>
     {% endif %}
+    {% if success %}
+        <div id="success-message" class="alert alert-success">
+            Étudiant ajouté avec succès!
+            <button type="button" class="btn btn-success" onclick="hideSuccessMessage()">Fermer</button>
+        </div>
+    {% endif %}
+    {% if delete %}
+        <div id="delete-success-message" class="alert alert-success">
+            Étudiant supprimé avec succès!
+            <button type="button" class="btn btn-success" onclick="hideSuccessMessage()">Fermer</button>
+        </div>
+    {% endif %}
     <div class="text-end mb-3">
         <button class="btn btn-primary" onclick="ajoutEtu()">Ajouter Stagiaire</button>
         <button class="btn btn-secondary" onclick="chercherEtu()">Rechercher</button>
@@ -71,21 +83,22 @@
             {% for etudiant in etudiants %}
                 <tr>
                     <td>
-                        <form id="delete-form-{{ etudiant.num_etudiant }}" action="?page=stagiaire" method="post" style="display: inline;">
-                            <input type="hidden" name="action" value="delete">
-                            <input type="hidden" name="num_etudiant" value="{{ etudiant.num_etudiant }}">
-                            <button type="button" class="btn btn-link p-0" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;" onclick="confirmDeleteEtu({{ etudiant.num_etudiant }})">
-                                <img src="{{ routes.images }}/supprimer.png" alt="Supprimer" width="25" height="25">
-                            </button>
-                        </form>
-                        <button class="btn btn-link p-0" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;" onclick="window.location.href='?page=editEtu&num_etudiant={{ etudiant.num_etudiant }}'">
-                            <img src="{{ routes.images }}/modifier.png" alt="Modifier" width="25" height="25">
+                <div class="btn-group" role="group">
+                    <form id="delete-form-{{ etudiant.num_etudiant }}" action="?page=stagiaire" method="post" style="display: inline;">
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="num_etudiant" value="{{ etudiant.num_etudiant }}">
+                        <button type="button" class="btn btn-danger" onclick="confirmDeleteEtu({{ etudiant.num_etudiant }})">
+                            <img src="{{ routes.images }}/supprimer.png" alt="Supprimer" width="25" height="25">
                         </button>
-                         <button class="btn btn-link p-0" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;" onclick="window.location.href='?page=showEtu&num_etudiant={{ etudiant.num_etudiant }}'">
-                            <img src="{{ routes.images }}/voir.png" alt="Details" width="25" height="25">
-                        </button>
-                        
-                    </td>
+                    </form>
+                    <button class="btn btn-warning" onclick="window.location.href='?page=editEtu&num_etudiant={{ etudiant.num_etudiant }}'">
+                        <img src="{{ routes.images }}/modifier.png" alt="Modifier" width="25" height="25">
+                    </button>
+                    <button class="btn btn-info" onclick="window.location.href='?page=showEtu&num_etudiant={{ etudiant.num_etudiant }}'">
+                        <img src="{{ routes.images }}/voir.png" alt="Details" width="25" height="25">
+                    </button>
+                </div>
+            </td>
                     <td>{{ etudiant.nom_etudiant }} {{ etudiant.prenom_etudiant }}</td>
                     <td>{{ etudiant.entreprises }}</td>
                     <td>{{ etudiant.professeurs }}</td>

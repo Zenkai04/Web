@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stagiaires</title>
+    <title>Détails de l'entreprise</title>
     <link rel="stylesheet" href="{{ routes.bootstrap }}">
     <link rel="stylesheet" href="{{ routes.css }}/styles.scss">
 </head>
@@ -21,7 +21,7 @@
             <p class="mb-0">Entreprise</p>
         </a>
 
-        <a href="?page=stagiaire" class="navbar-brand d-flex align-items-center {% if current_page == 'stagiaire' or current_page == 'showEtu' %}active{% endif %}">
+        <a href="?page=stagiaire" class="navbar-brand d-flex align-items-center {% if current_page == 'stagiaire' %}active{% endif %}">
             <img src="{{ routes.images }}/stage.png" width="25" height="25" class="me-2">
             <strong>Stagiaire</strong>
         </a>
@@ -44,26 +44,83 @@
 </div>
 
 <main class="container">
-    <h1 style="text-align: center;">Informations de l'entreprise</h1>
-    {% if error %}
-        <div class="alert alert-danger">{{ error }}</div>
+    <h1>Détails de l'entreprise</h1>
+
+    {% if entreprise %}
+        <table class="table">
+            <tr>
+                <th>Raison Sociale</th>
+                <td>{{ entreprise.raison_sociale }}</td>
+            </tr>
+            <tr>
+                <th>Nom du Contact</th>
+                <td>{{ entreprise.nom_contact }}</td>
+            </tr>
+            <tr>
+                <th>Nom du Responsable</th>
+                <td>{{ entreprise.nom_resp }}</td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                <td>{{ entreprise.rue_entreprise }}<br>{{ entreprise.cp_entreprise }}, {{ entreprise.ville_entreprise }}</td>
+            </tr>
+            <tr>
+                <th>Téléphone</th>
+                <td>{{ entreprise.tel_entreprise }}</td>
+            </tr>
+            <tr>
+                <th>Fax</th>
+                <td>{{ entreprise.fax_entreprise }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ entreprise.email }}</td>
+            </tr>
+            <tr>
+                <th>Site Web</th>
+                <td>
+                    {% if entreprise.site_entreprise %}
+                        <a href="{{ entreprise.site_entreprise }}" target="_blank">{{ entreprise.site_entreprise }}</a>
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Spécialités</th>
+                <td>{{ entreprise.specialites }}</td>
+            </tr>
+            <tr>
+                <th>En activité</th>
+                <td>{{ entreprise.en_activite ? 'Oui' : 'Non' }}</td>
+            </tr>
+        </table>
+    {% else %}
+        <p>Aucune entreprise trouvée.</p>
     {% endif %}
-    <div class="card">
-        <div class="card-header">
-            <h2>{{ entreprise.raison_sociale }}</h2>
-        </div>
-        <div class="card-body">
-            <p><strong>Nom du Contact:</strong> {{ entreprise.nom_contact }}</p>
-            <p><strong>Nom du Responsable:</strong> {{ entreprise.nom_resp }}</p>
-            <p><strong>Adresse:</strong> {{ entreprise.rue_entreprise }}, {{ entreprise.cp_entreprise }}, {{ entreprise.ville_entreprise }}</p>
-            <p><strong>Téléphone:</strong> {{ entreprise.tel_entreprise }}</p>
-            <p><strong>Fax:</strong> {{ entreprise.fax_entreprise }}</p>
-            <p><strong>Email:</strong> {{ entreprise.email }}</p>
-            <p><strong>Observations:</strong> {{ entreprise.observations }}</p>
-            <p><strong>Site Web:</strong> <a href="{{ entreprise.site_entreprise }}" target="_blank">{{ entreprise.site_entreprise }}</a></p>
-            <p><strong>Niveau:</strong> {{ entreprise.niveau }}</p>
-            <p><strong>En activité:</strong> {{ entreprise.en_activite ? 'Oui' : 'Non' }}</p>
-        </div>
+
+    <div class="stages">
+        <h2>Stages</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Étudiant</th>
+                    <th>Classe</th>
+                    <th>Début</th>
+                    <th>Fin</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stage in stages %}
+                    <tr>
+                        <td>{{ stage.nom_etudiant }} {{ stage.prenom_etudiant }}</td>
+                        <td>{{ stage.nom_classe }}</td>
+                        <td>{{ stage.debut_stage }}</td>
+                        <td>{{ stage.fin_stage }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
     <button type="button" class="btn btn-secondary mt-3" onclick="window.location.href='?page=entreprise'">Retour</button>
 </main>

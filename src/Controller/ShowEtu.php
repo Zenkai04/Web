@@ -11,11 +11,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['num_etudiant'])) {
     try {
         $num_etudiant = $_GET['num_etudiant'];
         $etudiant = getEtudiantInfo($pdo, $num_etudiant);
+        $classes = getClasseById($pdo, $etudiant['num_classe']);
         
         // Passer les données et les routes dans un tableau
         $data = [
             'routes' => $routes,
             'etudiant' => $etudiant,
+            'classes' => $classes,
             'current_page' => 'showEtu',
             'error' => isset($error) ? $error : null
         ];

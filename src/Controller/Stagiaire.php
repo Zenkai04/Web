@@ -10,7 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $num_etudiant = $_POST['num_etudiant'];
             deleteEtudiant($pdo, $num_etudiant);
-            header('Location: ?page=stagiaire');
+            // Rediriger vers la page des stagiaires après la suppression
+            header('Location: /projets/Web/public/?page=stagiaire&delete=1');
             exit;
         } catch (Exception $e) {
             echo json_encode(['success' => false, 'message' => $e->getMessage()]);
@@ -29,8 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Appel à la fonction pour insérer l'étudiant
             insertEtudiant($pdo, $nom_etudiant, $prenom_etudiant, $login, $mdp, $annee_obtention, $num_classe, $en_activite);
 
-            // Rediriger vers la page des stagiaires après l'ajout
-            header('Location: ?page=stagiaire');
+            // Rediriger vers la page des stagiaires après l'ajout avec succès
+            header('Location: /projets/Web/public/?page=stagiaire&success=1');
             exit;
         } catch (Exception $e) {
             $error = $e->getMessage();
@@ -51,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $etudiants = searchEtudiants($pdo, $search_criteria, $search_value);
-        $classes = getClasses($pdo); // Assurez-vous que $classes est défini même lors de la recherche
+        $classes = getClasses($pdo);
     }
 } else {
     // Récupération des stagiaires et des classes
@@ -67,6 +68,8 @@ $data = [
     'routes' => $routes,
     'etudiants' => $etudiants,
     'classes' => $classes,
+    'success' => isset($_GET['success']),
+    'delete' => isset($_GET['delete']),
     'current_page' => 'stagiaire',
     'error' => isset($error) ? $error : null,
 ];

@@ -49,6 +49,18 @@
     {% if error %}
         <div class="alert alert-danger">{{ error }}</div>
     {% endif %}
+    {% if success %}
+        <div id="success-message" class="alert alert-success">
+            Entreprise ajoutée avec succès!
+            <button type="button" class="btn btn-success" onclick="hideSuccessMessage()">Fermer</button>
+        </div>
+    {% endif %}
+    {% if delete %}
+        <div id="delete-success-message" class="alert alert-success">
+            Entreprise supprimée avec succès!
+            <button type="button" class="btn btn-success" onclick="hideSuccessMessage()">Fermer</button>
+        </div>
+    {% endif %}
     <div class="text-end mb-3">
         <button class="btn btn-primary" onclick="ajoutEnt()">Ajouter Entreprise</button>
         <button class="btn btn-secondary" onclick="chercherEnt()">Rechercher</button>
@@ -74,21 +86,22 @@
             {% for entreprise in entreprises %}
                 <tr>
                     <td>
-                <form id="delete-form-{{ entreprise.num_entreprise }}" action="?page=entreprise" method="post" style="display: inline;">
-                    <input type="hidden" name="action" value="delete">
-                    <input type="hidden" name="num_entreprise" value="{{ entreprise.num_entreprise }}">
-                    <button type="button" class="btn btn-link p-0" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;" onclick="confirmDeleteEnt({{ entreprise.num_entreprise }})">
-                        <img src="{{ routes.images }}/supprimer.png" alt="Supprimer" width="25" height="25">
-                    </button>
-                </form>
-                <button class="btn btn-link p-0" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;" onclick="window.location.href='?page=editEnt&num_entreprise={{ entreprise.num_entreprise }}'">
-                    <img src="{{ routes.images }}/modifier.png" alt="Modifier" width="25" height="25">
-                </button>
-                </button>
-                <button class="btn btn-link p-0" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;" onclick="window.location.href='?page=showEnt&num_entreprise={{ entreprise.num_entreprise }}'">
-                    <img src="{{ routes.images }}/voir.png" alt="Details" width="25" height="25">
-                </button>
-            </td>
+                        <div class="btn-group" role="group">
+                            <form id="delete-form-{{ entreprise.num_entreprise }}" action="?page=entreprise" method="post" style="display: inline;">
+                                <input type="hidden" name="action" value="delete">
+                                <input type="hidden" name="num_entreprise" value="{{ entreprise.num_entreprise }}">
+                                <button type="button" class="btn btn-danger" onclick="confirmDeleteEnt({{ entreprise.num_entreprise }})">
+                                    <img src="{{ routes.images }}/supprimer.png" alt="Supprimer" width="25" height="25">
+                                </button>
+                            </form>
+                            <button class="btn btn-warning" onclick="window.location.href='?page=editEnt&num_entreprise={{ entreprise.num_entreprise }}'">
+                                <img src="{{ routes.images }}/modifier.png" alt="Modifier" width="25" height="25">
+                            </button>
+                            <button class="btn btn-info" onclick="window.location.href='?page=showEnt&num_entreprise={{ entreprise.num_entreprise }}'">
+                                <img src="{{ routes.images }}/voir.png" alt="Details" width="25" height="25">
+                            </button>
+                        </div>
+                    </td>
                     <td>{{ entreprise.raison_sociale }}</td>
                     <td>{{ entreprise.contacts }}</td>
                     <td>{{ entreprise.rue_entreprise }} </br> 

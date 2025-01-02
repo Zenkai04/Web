@@ -186,6 +186,28 @@ function deleteEntreprise($pdo, $num_entreprise) {
     }
 }
 
+// Fonction qui retourne les stages d'une entreprise
+function getStagesByEntreprise($pdo, $num_entreprise) {
+    $query = $pdo->prepare("
+        SELECT 
+            num_stage, 
+            num_etudiant, 
+            num_prof, 
+            debut_stage, 
+            fin_stage, 
+            type_stage, 
+            desc_projet, 
+            observation_stage
+        FROM 
+            stage
+        WHERE 
+            num_entreprise = :num_entreprise
+    ");
+    $query->bindParam(':num_entreprise', $num_entreprise);
+    $query->execute();
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+}
+
 // Fonction qui retourne l'identifiant d'une entreprise à partir de son nom
 function getEntrepriseId($pdo, $raison_sociale) {
     $query = $pdo->prepare("SELECT num_entreprise FROM entreprise WHERE raison_sociale = :raison_sociale");
@@ -258,6 +280,18 @@ function getClasses($pdo) {
     $query = $pdo->prepare("SELECT num_classe, nom_classe FROM classe");
     $query->execute();
     return $query->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Fonction qui retourne toutes les informations d'une classe à partir de son numéro
+function getClasseById($pdo, $num_classe) {
+    try {
+        $query = $pdo->prepare("SELECT * FROM classe WHERE num_classe = :num_classe");
+        $query->bindParam(':num_classe', $num_classe);
+        $query->execute();
+        return $query->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        throw new Exception('Erreur lors de la récupération de la classe : ' . $e->getMessage());
+    }
 }
 
 //Fonction pour ajouter un étudiant
@@ -500,5 +534,34 @@ function updateEntreprise($pdo, $num_entreprise, $raison_sociale, $nom_contact, 
     } catch (PDOException $e) {
         throw new Exception('Erreur lors de la mise à jour : ' . $e->getMessage());
     }
+}
+
+// Fonction qui retourne les stages ainsi que les étudiants et leur classe des stages selon l'entreprise
+function getStages($pdo, $num_entreprise) {
+    $query = $pdo->prepare("
+        SELECT 
+            s.num_stage, 
+            s.num_etudiant, 
+            s.num_prof, 
+            s.debut_stage, 
+            s.fin_stage, 
+            s.type_stage, 
+            s.desc_projet, 
+            s.observation_stage, 
+            e.nom_etudiant, 
+            e.prenom_etudiant, 
+            c.nom_classe
+        FROM 
+            stage s
+        JOIN 
+            etudiant e ON s.num_etudiant = e.num_etudiant
+        JOIN 
+            classe c ON e.num_classe = c.num_classe
+        WHERE 
+            s.num_entreprise = :num_entreprise
+    ");
+    $query->bindParam(':num_entreprise', $num_entreprise);
+    $query->execute();
+    return $query->fetchAll(PDO::FETCH_ASSOC);
 }
 ?>

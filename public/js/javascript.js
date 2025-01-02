@@ -1,26 +1,3 @@
-document.getElementById('inscriptionForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    const formData = new FormData(this);
-
-    fetch('/projets/Web/public/success.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            document.getElementById('confirmationMessage').style.display = 'block';
-        } else {
-            alert('Erreur lors de l\'inscription: ' + data.message);
-        }
-    })
-    .catch(error => {
-        console.error('Erreur:', error);
-        alert('Erreur lors de l\'inscription: ' + error.message);
-    });
-});
-
 function confirmDeleteEtu(numEtudiant) {
     if (confirm('Êtes-vous sûr de vouloir supprimer ce stagiaire ?')) {
         document.getElementById('delete-form-' + numEtudiant).submit();
@@ -98,7 +75,7 @@ function ajoutEnt() {
                 <input type="text" class="form-control" id="raison_sociale" name="raison_sociale" required>
             </div>
             <div class="mb-3">
-                <label for="nom_contact" class="form-label">Nom du contact</label>
+                <label for="nom_contact" class="form-label">Nom du contact*</label>
                 <input type="text" class="form-control" id="nom_contact" name="nom_contact" required>
             </div>
             <div class="mb-3">
@@ -128,7 +105,7 @@ function ajoutEnt() {
                 <input type="text" class="form-control" id="fax_entreprise" name="fax_entreprise">
             </div>
             <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
+                <label for="email" class="form-label">Email*</label>
                 <input type="email" class="form-control" id="email" name="email" required>
             </div>
             
@@ -143,7 +120,7 @@ function ajoutEnt() {
             </div>
             <div class="mb-3">
                 <label for="niveau" class="form-label">Niveau*</label>
-                <input type="text" class="form-control" id="niveau" name="niveau">
+                <input type="text" class="form-control" id="niveau" name="niveau" required>
             </div>
             
             <h3>Spécialité</h3>
