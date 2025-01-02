@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 } else {
     // Récupération des entreprises, étudiants et professeurs
-    $entreprises = getEntreprises1($pdo);
+    $entreprises = getEntreprises($pdo);
     $etudiants = getEtudiants($pdo);
     $professeurs = getProfesseurs($pdo);
 

@@ -33,9 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $niveau = $_POST['niveau'];
             $en_activite = isset($_POST['en_activite']) ? 1 : 0;
 
-            // Log des données reçues
-            error_log("Updating company: $num_entreprise, $raison_sociale, $nom_contact, $nom_resp, $rue_entreprise, $cp_entreprise, $ville_entreprise, $tel_entreprise, $fax_entreprise, $email, $observation, $site_entreprise, $niveau, $en_activite");
-
             updateEntreprise($pdo, $num_entreprise, $raison_sociale, $nom_contact, $nom_resp, $rue_entreprise, $cp_entreprise, $ville_entreprise, $tel_entreprise, $fax_entreprise, $email, $observation, $site_entreprise, $niveau, $en_activite);
             header('Location: ?page=entreprise');
             exit;
@@ -49,14 +46,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $num_entreprise = $_GET['num_entreprise'];
         $entreprise = getEntrepriseInfo($pdo, $num_entreprise);
-        // Passer les données et les routes dans un tableau
         $data = [
             'routes' => $routes,
             'entreprise' => $entreprise,
             'current_page' => 'editEnt',
             'error' => isset($error) ? $error : null,
         ];
-        // Charger le template Twig
         echo $twig->render('EditEnt.twig', $data);
         exit;
     } catch (Exception $e) {

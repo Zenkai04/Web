@@ -14,35 +14,37 @@
         </div>
     </header>
     <main>
-    <div class="container d-flex justify-content-center align-items-center vh-100">
-        <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px;">
-            <div class="card-body">
-                <h1 class="card-title text-center mb-4">Connexion</h1>
-                <form method="POST">
-                    <div class="mb-3">
-                        <label for="role" class="form-label">Je suis</label>
-                        <select class="form-select" id="role" name="role" required>
-                            <option value="etudiant">Étudiant</option>
-                            <option value="professeur">Professeur</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="identifiant" class="form-label">Identifiant</label>
-                        <input type="text" class="form-control" id="identifiant" name="identifiant" placeholder="Votre identifiant" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="mdp" class="form-label">Mot de passe</label>
-                        <input type="password" class="form-control" id="mdp" name="mdp" placeholder="Votre mot de passe" required>
-                        <button type="button" class="btn btn-outline-secondary" id="togglePassword">Afficher</button>
-                    </div>
-                    {% if error %}
-                        <div class="alert alert-danger">{{ error }}</div>
-                    {% endif %}
-                    <button type="submit" class="btn btn-primary w-100 mt-3">Se connecter</button>
-                </form>
+        <div class="container d-flex justify-content-center align-items-center vh-100">
+            <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px;">
+                <div class="card-body">
+                    <h1 class="card-title text-center mb-4">Connexion</h1>
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Je suis</label>
+                            <select class="form-select" id="role" name="role" required>
+                                <option value="etudiant">Étudiant</option>
+                                <option value="professeur">Professeur</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="identifiant" class="form-label">Identifiant</label>
+                            <input type="text" class="form-control" id="identifiant" name="identifiant" placeholder="Votre identifiant" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="mdp" class="form-label">Mot de passe</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="mdp" name="mdp" placeholder="Votre mot de passe" required>
+                                <button type="button" class="btn btn-outline-secondary" id="togglePassword">Afficher</button>
+                            </div>
+                        </div>
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error }}</div>
+                        {% endif %}
+                        <button type="submit" class="btn btn-primary w-100 mt-3">Se connecter</button>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
     </main>
 
     <script src="{{ routes.bootstrap | replace({'.css': '.bundle.min.js'}) }}"></script>

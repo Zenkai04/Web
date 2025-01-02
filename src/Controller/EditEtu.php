@@ -25,7 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mdp = $_POST['mdp'];
             $en_activite = isset($_POST['en_activite']) ? 1 : 0;
 
-
             updateEtudiant($pdo, $num_etudiant, $nom, $prenom, $login, $mdp, $en_activite);
             header('Location: ?page=stagiaire');
             exit;
@@ -40,7 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $num_etudiant = $_GET['num_etudiant'];
         $etudiant = getEtudiantInfo($pdo, $num_etudiant);
         $classes = getClasses($pdo);
-        // Passer les données et les routes dans un tableau
         $data = [
             'routes' => $routes,
             'etudiant' => $etudiant,
@@ -48,7 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'current_page' => 'editEtu',
             'error' => isset($error) ? $error : null
         ];
-        // Charger le template Twig
         echo $twig->render('EditEtu.twig', $data);
         exit;
     } catch (Exception $e) {

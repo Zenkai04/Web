@@ -61,11 +61,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 } else {
     // Récupération des entreprises et des spécialités
-    $entreprises = getEntreprises1($pdo);
+    $entreprises = getEntreprises($pdo);
     $specialites = getSpecialites($pdo);
 }
-
-// Assurez-vous que les variables sont définies même en cas d'erreur
+// En cas d'erreur
 $entreprises = $entreprises ?? [];
 $specialites = $specialites ?? [];
 

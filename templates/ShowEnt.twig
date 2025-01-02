@@ -8,124 +8,123 @@
     <link rel="stylesheet" href="{{ routes.css }}/styles.scss">
 </head>
 <body>
-<div class="navbar navbar-dark bg-dark box-shadow">
-    <div class="container d-flex justify-content-between">
-        <!-- Logo ou Titre de la page -->
-        <a href="?page=home" class="navbar-brand d-flex align-items-center {% if current_page == 'home' %}active{% endif %}">
-            <img src="{{ routes.images }}/home.png" width="25" height="25">
-            <p class="mb-0">Accueil</p>
-        </a>
+    <div class="navbar navbar-dark bg-dark box-shadow">
+        <div class="container d-flex justify-content-between">
+            <a href="?page=home" class="navbar-brand d-flex align-items-center {% if current_page == 'home' %}active{% endif %}">
+                <img src="{{ routes.images }}/home.png" width="25" height="25">
+                <p class="mb-0">Accueil</p>
+            </a>
 
-        <a href="?page=entreprise" class="navbar-brand d-flex align-items-center {% if current_page == 'entreprise' %}active{% endif %}">
-            <img src="{{ routes.images }}/entreprise.png" width="25" height="25" class="me-2">
-            <p class="mb-0">Entreprise</p>
-        </a>
+            <a href="?page=entreprise" class="navbar-brand d-flex align-items-center {% if current_page == 'entreprise' or current_page == 'showEnt' %}active{% endif %}">
+                <img src="{{ routes.images }}/entreprise.png" width="25" height="25" class="me-2">
+                <p class="mb-0">Entreprise</p>
+            </a>
 
-        <a href="?page=stagiaire" class="navbar-brand d-flex align-items-center {% if current_page == 'stagiaire' %}active{% endif %}">
-            <img src="{{ routes.images }}/stage.png" width="25" height="25" class="me-2">
-            <strong>Stagiaire</strong>
-        </a>
+            <a href="?page=stagiaire" class="navbar-brand d-flex align-items-center {% if current_page == 'stagiaire' %}active{% endif %}">
+                <img src="{{ routes.images }}/stage.png" width="25" height="25" class="me-2">
+                <strong>Stagiaire</strong>
+            </a>
 
-        <a href="?page=inscription" class="navbar-brand d-flex align-items-center {% if current_page == 'inscription' %}active{% endif %}">
-            <img src="{{ routes.images }}/inscrire.png" width="25" height="25" class="me-2">
-            <p class="mb-0">Inscription</p>
-        </a>
+            <a href="?page=inscription" class="navbar-brand d-flex align-items-center {% if current_page == 'inscription' %}active{% endif %}">
+                <img src="{{ routes.images }}/inscrire.png" width="25" height="25" class="me-2">
+                <p class="mb-0">Inscription</p>
+            </a>
 
-        <a href="?page=aide" class="navbar-brand d-flex align-items-center {% if current_page == 'aide' %}active{% endif %}">
-            <img src="{{ routes.images }}/aide.png" width="25" height="25" class="me-2">
-            <p class="mb-0">Aide</p>
-        </a>
+            <a href="?page=aide" class="navbar-brand d-flex align-items-center {% if current_page == 'aide' %}active{% endif %}">
+                <img src="{{ routes.images }}/aide.png" width="25" height="25" class="me-2">
+                <p class="mb-0">Aide</p>
+            </a>
 
-        <a href="?page=deconnexion" class="navbar-brand d-flex align-items-center">
-            <img src="{{ routes.images }}/deconnexion.png" width="25" height="25" class="me-2">
-            <p class="mb-0">Déconnexion</p>
-        </a>
+            <a href="?page=deconnexion" class="navbar-brand d-flex align-items-center">
+                <img src="{{ routes.images }}/deconnexion.png" width="25" height="25" class="me-2">
+                <p class="mb-0">Déconnexion</p>
+            </a>
+        </div>
     </div>
-</div>
 
-<main class="container">
-    <h1>Détails de l'entreprise</h1>
+    <main class="container">
+        <h1>Détails de l'entreprise</h1>
 
-    {% if entreprise %}
-        <table class="table">
-            <tr>
-                <th>Raison Sociale</th>
-                <td>{{ entreprise.raison_sociale }}</td>
-            </tr>
-            <tr>
-                <th>Nom du Contact</th>
-                <td>{{ entreprise.nom_contact }}</td>
-            </tr>
-            <tr>
-                <th>Nom du Responsable</th>
-                <td>{{ entreprise.nom_resp }}</td>
-            </tr>
-            <tr>
-                <th>Adresse</th>
-                <td>{{ entreprise.rue_entreprise }}<br>{{ entreprise.cp_entreprise }}, {{ entreprise.ville_entreprise }}</td>
-            </tr>
-            <tr>
-                <th>Téléphone</th>
-                <td>{{ entreprise.tel_entreprise }}</td>
-            </tr>
-            <tr>
-                <th>Fax</th>
-                <td>{{ entreprise.fax_entreprise }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ entreprise.email }}</td>
-            </tr>
-            <tr>
-                <th>Site Web</th>
-                <td>
-                    {% if entreprise.site_entreprise %}
-                        <a href="{{ entreprise.site_entreprise }}" target="_blank">{{ entreprise.site_entreprise }}</a>
-                    {% else %}
-                        N/A
-                    {% endif %}
-                </td>
-            </tr>
-            <tr>
-                <th>Spécialités</th>
-                <td>{{ entreprise.specialites }}</td>
-            </tr>
-            <tr>
-                <th>En activité</th>
-                <td>{{ entreprise.en_activite ? 'Oui' : 'Non' }}</td>
-            </tr>
-        </table>
-    {% else %}
-        <p>Aucune entreprise trouvée.</p>
-    {% endif %}
-
-    <div class="stages">
-        <h2>Stages</h2>
-        <table class="table table-striped">
-            <thead>
+        {% if entreprise %}
+            <table class="table">
                 <tr>
-                    <th>Étudiant</th>
-                    <th>Classe</th>
-                    <th>Début</th>
-                    <th>Fin</th>
+                    <th>Raison Sociale</th>
+                    <td>{{ entreprise.raison_sociale }}</td>
                 </tr>
-            </thead>
-            <tbody>
-                {% for stage in stages %}
-                    <tr>
-                        <td>{{ stage.nom_etudiant }} {{ stage.prenom_etudiant }}</td>
-                        <td>{{ stage.nom_classe }}</td>
-                        <td>{{ stage.debut_stage }}</td>
-                        <td>{{ stage.fin_stage }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    <button type="button" class="btn btn-secondary mt-3" onclick="window.location.href='?page=entreprise'">Retour</button>
-</main>
+                <tr>
+                    <th>Nom du Contact</th>
+                    <td>{{ entreprise.nom_contact }}</td>
+                </tr>
+                <tr>
+                    <th>Nom du Responsable</th>
+                    <td>{{ entreprise.nom_resp }}</td>
+                </tr>
+                <tr>
+                    <th>Adresse</th>
+                    <td>{{ entreprise.rue_entreprise }}<br>{{ entreprise.cp_entreprise }}, {{ entreprise.ville_entreprise }}</td>
+                </tr>
+                <tr>
+                    <th>Téléphone</th>
+                    <td>{{ entreprise.tel_entreprise }}</td>
+                </tr>
+                <tr>
+                    <th>Fax</th>
+                    <td>{{ entreprise.fax_entreprise }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ entreprise.email }}</td>
+                </tr>
+                <tr>
+                    <th>Site Web</th>
+                    <td>
+                        {% if entreprise.site_entreprise %}
+                            <a href="{{ entreprise.site_entreprise }}" target="_blank">{{ entreprise.site_entreprise }}</a>
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Spécialités</th>
+                    <td>{{ entreprise.specialites }}</td>
+                </tr>
+                <tr>
+                    <th>En activité</th>
+                    <td>{{ entreprise.en_activite ? 'Oui' : 'Non' }}</td>
+                </tr>
+            </table>
+        {% else %}
+            <p>Aucune entreprise trouvée.</p>
+        {% endif %}
 
-<script src="{{ routes.bootstrap | replace({'.css': '.bundle.min.js'}) }}"></script>
-<script src="{{ routes.js }}/javascript.js"></script>
+        <div class="stages">
+            <h2>Stages</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Étudiant</th>
+                        <th>Classe</th>
+                        <th>Début</th>
+                        <th>Fin</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for stage in stages %}
+                        <tr>
+                            <td>{{ stage.nom_etudiant }} {{ stage.prenom_etudiant }}</td>
+                            <td>{{ stage.nom_classe }}</td>
+                            <td>{{ stage.debut_stage }}</td>
+                            <td>{{ stage.fin_stage }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <button type="button" class="btn btn-secondary mt-3" onclick="window.location.href='?page=entreprise'">Retour</button>
+    </main>
+
+    <script src="{{ routes.bootstrap | replace({'.css': '.bundle.min.js'}) }}"></script>
+    <script src="{{ routes.js }}/javascript.js"></script>
 </body>
 </html>

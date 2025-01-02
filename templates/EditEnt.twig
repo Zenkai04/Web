@@ -8,107 +8,106 @@
     <link rel="stylesheet" href="{{ routes.css }}/styles.scss">
 </head>
 <body>
-<div class="navbar navbar-dark bg-dark box-shadow">
-    <div class="container d-flex justify-content-between">
-        <!-- Logo ou Titre de la page -->
-        <a href="?page=home" class="navbar-brand d-flex align-items-center {% if current_page == 'home' %}active{% endif %}">
-            <img src="{{ routes.images }}/home.png" width="25" height="25">
-            <p class="mb-0">Accueil</p>
-        </a>
+    <div class="navbar navbar-dark bg-dark box-shadow">
+        <div class="container d-flex justify-content-between">
+            <a href="?page=home" class="navbar-brand d-flex align-items-center {% if current_page == 'home' %}active{% endif %}">
+                <img src="{{ routes.images }}/home.png" width="25" height="25">
+                <p class="mb-0">Accueil</p>
+            </a>
 
-        <a href="?page=entreprise" class="navbar-brand d-flex align-items-center {% if current_page == 'entreprise' or current_page == 'editEnt' %}active{% endif %}">
-            <img src="{{ routes.images }}/entreprise.png" width="25" height="25" class="me-2">
-            <strong>Entreprise</strong>
-        </a>
+            <a href="?page=entreprise" class="navbar-brand d-flex align-items-center {% if current_page == 'entreprise' or current_page == 'editEnt' %}active{% endif %}">
+                <img src="{{ routes.images }}/entreprise.png" width="25" height="25" class="me-2">
+                <strong>Entreprise</strong>
+            </a>
 
-        <a href="?page=stagiaire" class="navbar-brand d-flex align-items-center {% if current_page == 'stagiaire' %}active{% endif %}">
-            <img src="{{ routes.images }}/stage.png" width="25" height="25" class="me-2">
-            <p class="mb-0">Stagiaire</p>
-        </a>
+            <a href="?page=stagiaire" class="navbar-brand d-flex align-items-center {% if current_page == 'stagiaire' %}active{% endif %}">
+                <img src="{{ routes.images }}/stage.png" width="25" height="25" class="me-2">
+                <p class="mb-0">Stagiaire</p>
+            </a>
 
-        <a href="?page=inscription" class="navbar-brand d-flex align-items-center {% if current_page == 'inscription' %}active{% endif %}">
-            <img src="{{ routes.images }}/inscrire.png" width="25" height="25" class="me-2">
-            <p class="mb-0">Inscription</p>
-        </a>
+            <a href="?page=inscription" class="navbar-brand d-flex align-items-center {% if current_page == 'inscription' %}active{% endif %}">
+                <img src="{{ routes.images }}/inscrire.png" width="25" height="25" class="me-2">
+                <p class="mb-0">Inscription</p>
+            </a>
 
-        <a href="?page=aide" class="navbar-brand d-flex align-items-center {% if current_page == 'aide' %}active{% endif %}">
-            <img src="{{ routes.images }}/aide.png" width="25" height="25" class="me-2">
-            <p class="mb-0">Aide</p>
-        </a>
+            <a href="?page=aide" class="navbar-brand d-flex align-items-center {% if current_page == 'aide' %}active{% endif %}">
+                <img src="{{ routes.images }}/aide.png" width="25" height="25" class="me-2">
+                <p class="mb-0">Aide</p>
+            </a>
 
-        <a href="?page=deconnexion" class="navbar-brand d-flex align-items-center">
-            <img src="{{ routes.images }}/deconnexion.png" width="25" height="25" class="me-2">
-            <p class="mb-0">Déconnexion</p>
-        </a>
+            <a href="?page=deconnexion" class="navbar-brand d-flex align-items-center">
+                <img src="{{ routes.images }}/deconnexion.png" width="25" height="25" class="me-2">
+                <p class="mb-0">Déconnexion</p>
+            </a>
+        </div>
     </div>
-</div>
 
-<main class="container">
-    <h1 style="text-align: center;">Modifier les informations de l'entreprise</h1>
-    {% if error %}
-        <div class="alert alert-danger">{{ error }}</div>
-    {% endif %}
-    <form id="edit-form" action="?page=editEnt" method="post">
-        <input type="hidden" name="action" value="update">
-        <input type="hidden" name="num_entreprise" value="{{ entreprise.num_entreprise }}">
-        <div class="mb-3">
-            <label for="raison_sociale" class="form-label">Raison Sociale</label>
-            <input type="text" class="form-control" id="raison_sociale" name="raison_sociale" value="{{ entreprise.raison_sociale }}">
-        </div>
-        <div class="mb-3">
-            <label for="nom_contact" class="form-label">Nom du Contact</label>
-            <input type="text" class="form-control" id="nom_contact" name="nom_contact" value="{{ entreprise.nom_contact }}">
-        </div>
-        <div class="mb-3">
-            <label for="nom_resp" class="form-label">Nom du Responsable</label>
-            <input type="text" class="form-control" id="nom_resp" name="nom_resp" value="{{ entreprise.nom_resp }}">
-        </div>
-        <div class="mb-3">
-            <label for="rue_entreprise" class="form-label">Rue</label>
-            <input type="text" class="form-control" id="rue_entreprise" name="rue_entreprise" value="{{ entreprise.rue_entreprise }}">
-        </div>
-        <div class="mb-3">
-            <label for="cp_entreprise" class="form-label">Code Postal</label>
-            <input type="text" class="form-control" id="cp_entreprise" name="cp_entreprise" value="{{ entreprise.cp_entreprise }}">
-        </div>
-        <div class="mb-3">
-            <label for="ville_entreprise" class="form-label">Ville</label>
-            <input type="text" class="form-control" id="ville_entreprise" name="ville_entreprise" value="{{ entreprise.ville_entreprise }}">
-        </div>
-        <div class="mb-3">
-            <label for="tel_entreprise" class="form-label">Téléphone</label>
-            <input type="text" class="form-control" id="tel_entreprise" name="tel_entreprise" value="{{ entreprise.tel_entreprise }}">
-        </div>
-        <div class="mb-3">
-            <label for="fax_entreprise" class="form-label">Fax</label>
-            <input type="text" class="form-control" id="fax_entreprise" name="fax_entreprise" value="{{ entreprise.fax_entreprise }}">
-        </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email" value="{{ entreprise.email }}">
-        </div>
-        <div class="mb-3">
-            <label for="observations" class="form-label">Observations</label>
-            <textarea class="form-control" id="observations" name="observations">{{ entreprise.observations }}</textarea>
-        </div>
-        <div class="mb-3">
-            <label for="site_entreprise" class="form-label">Site Web</label>
-            <input type="url" class="form-control" id="site_entreprise" name="site_entreprise" value="{{ entreprise.site_entreprise }}">
-        </div>
-        <div class="mb-3">
-            <label for="niveau" class="form-label">Niveau</label>
-            <input type="text" class="form-control" id="niveau" name="niveau" value="{{ entreprise.niveau }}">
-        </div>
-        <div class="mb-3">
-            <label for="en_activite" class="form-label">En activité</label>
-            <input type="checkbox" class="form-check-input" id="en_activite" name="en_activite" {{ entreprise.en_activite ? 'checked' : '' }}>
-        </div>
-        <button type="submit" class="btn btn-primary">Enregistrer</button>
-        <button type="button" class="btn btn-secondary" onclick="window.location.href='?page=entreprise'">Annuler</button>
-    </form>
-</main>
+    <main class="container">
+        <h1 style="text-align: center;">Modifier les informations de l'entreprise</h1>
+        {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+        <form id="edit-form" action="?page=editEnt" method="post">
+            <input type="hidden" name="action" value="update">
+            <input type="hidden" name="num_entreprise" value="{{ entreprise.num_entreprise }}">
+            <div class="mb-3">
+                <label for="raison_sociale" class="form-label">Raison Sociale</label>
+                <input type="text" class="form-control" id="raison_sociale" name="raison_sociale" value="{{ entreprise.raison_sociale }}">
+            </div>
+            <div class="mb-3">
+                <label for="nom_contact" class="form-label">Nom du Contact</label>
+                <input type="text" class="form-control" id="nom_contact" name="nom_contact" value="{{ entreprise.nom_contact }}">
+            </div>
+            <div class="mb-3">
+                <label for="nom_resp" class="form-label">Nom du Responsable</label>
+                <input type="text" class="form-control" id="nom_resp" name="nom_resp" value="{{ entreprise.nom_resp }}">
+            </div>
+            <div class="mb-3">
+                <label for="rue_entreprise" class="form-label">Rue</label>
+                <input type="text" class="form-control" id="rue_entreprise" name="rue_entreprise" value="{{ entreprise.rue_entreprise }}">
+            </div>
+            <div class="mb-3">
+                <label for="cp_entreprise" class="form-label">Code Postal</label>
+                <input type="text" class="form-control" id="cp_entreprise" name="cp_entreprise" value="{{ entreprise.cp_entreprise }}">
+            </div>
+            <div class="mb-3">
+                <label for="ville_entreprise" class="form-label">Ville</label>
+                <input type="text" class="form-control" id="ville_entreprise" name="ville_entreprise" value="{{ entreprise.ville_entreprise }}">
+            </div>
+            <div class="mb-3">
+                <label for="tel_entreprise" class="form-label">Téléphone</label>
+                <input type="text" class="form-control" id="tel_entreprise" name="tel_entreprise" value="{{ entreprise.tel_entreprise }}">
+            </div>
+            <div class="mb-3">
+                <label for="fax_entreprise" class="form-label">Fax</label>
+                <input type="text" class="form-control" id="fax_entreprise" name="fax_entreprise" value="{{ entreprise.fax_entreprise }}">
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ entreprise.email }}">
+            </div>
+            <div class="mb-3">
+                <label for="observations" class="form-label">Observations</label>
+                <textarea class="form-control" id="observations" name="observations">{{ entreprise.observations }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="site_entreprise" class="form-label">Site Web</label>
+                <input type="url" class="form-control" id="site_entreprise" name="site_entreprise" value="{{ entreprise.site_entreprise }}">
+            </div>
+            <div class="mb-3">
+                <label for="niveau" class="form-label">Niveau</label>
+                <input type="text" class="form-control" id="niveau" name="niveau" value="{{ entreprise.niveau }}">
+            </div>
+            <div class="mb-3">
+                <label for="en_activite" class="form-label">En activité</label>
+                <input type="checkbox" class="form-check-input" id="en_activite" name="en_activite" {{ entreprise.en_activite ? 'checked' : '' }}>
+            </div>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <button type="button" class="btn btn-secondary" onclick="window.location.href='?page=entreprise'">Annuler</button>
+        </form>
+    </main>
 
-<script src="{{ routes.bootstrap | replace({'.css': '.bundle.min.js'}) }}"></script>
-<script src="{{ routes.js }}/javascript.js"></script>
+    <script src="{{ routes.bootstrap | replace({'.css': '.bundle.min.js'}) }}"></script>
+    <script src="{{ routes.js }}/javascript.js"></script>
 </body>
 </html>

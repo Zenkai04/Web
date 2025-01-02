@@ -8,125 +8,123 @@
     <link rel="stylesheet" href="{{ routes.css }}/styles.scss">
 </head>
 <body>
-<div class="navbar navbar-dark bg-dark box-shadow">
-    <div class="container d-flex justify-content-between">
-        <!-- Logo ou Titre de la page -->
-        <a href="?page=home" class="navbar-brand d-flex align-items-center {% if current_page == 'home' %}active{% endif %}">
-            <img src="{{ routes.images }}/home.png" width="25" height="25">
-            <p class="mb-0">Accueil</p>
-        </a>
+    <div class="navbar navbar-dark bg-dark box-shadow">
+        <div class="container d-flex justify-content-between">
+            <a href="?page=home" class="navbar-brand d-flex align-items-center {% if current_page == 'home' %}active{% endif %}">
+                <img src="{{ routes.images }}/home.png" width="25" height="25">
+                <p class="mb-0">Accueil</p>
+            </a>
 
-        <a href="?page=entreprise" class="navbar-brand d-flex align-items-center {% if current_page == 'entreprise' %}active{% endif %}">
-            <img src="{{ routes.images }}/entreprise.png" width="25" height="25" class="me-2">
-            <strong>Entreprise</strong>
-        </a>
+            <a href="?page=entreprise" class="navbar-brand d-flex align-items-center {% if current_page == 'entreprise' %}active{% endif %}">
+                <img src="{{ routes.images }}/entreprise.png" width="25" height="25" class="me-2">
+                <strong>Entreprise</strong>
+            </a>
 
-        <a href="?page=stagiaire" class="navbar-brand d-flex align-items-center {% if current_page == 'stagiaire' %}active{% endif %}">
-            <img src="{{ routes.images }}/stage.png" width="25" height="25" class="me-2">
-            <p class="mb-0">Stagiaire</p>
-        </a>
+            <a href="?page=stagiaire" class="navbar-brand d-flex align-items-center {% if current_page == 'stagiaire' %}active{% endif %}">
+                <img src="{{ routes.images }}/stage.png" width="25" height="25" class="me-2">
+                <p class="mb-0">Stagiaire</p>
+            </a>
 
-        <a href="?page=inscription" class="navbar-brand d-flex align-items-center {% if current_page == 'inscription' %}active{% endif %}">
-            <img src="{{ routes.images }}/inscrire.png" width="25" height="25" class="me-2">
-            <p class="mb-0">Inscription</p>
-        </a>
+            <a href="?page=inscription" class="navbar-brand d-flex align-items-center {% if current_page == 'inscription' %}active{% endif %}">
+                <img src="{{ routes.images }}/inscrire.png" width="25" height="25" class="me-2">
+                <p class="mb-0">Inscription</p>
+            </a>
 
-        <a href="?page=aide" class="navbar-brand d-flex align-items-center {% if current_page == 'aide' %}active{% endif %}">
-            <img src="{{ routes.images }}/aide.png" width="25" height="25" class="me-2">
-            <p class="mb-0">Aide</p>
-        </a>
+            <a href="?page=aide" class="navbar-brand d-flex align-items-center {% if current_page == 'aide' %}active{% endif %}">
+                <img src="{{ routes.images }}/aide.png" width="25" height="25" class="me-2">
+                <p class="mb-0">Aide</p>
+            </a>
 
-        <a href="?page=deconnexion" class="navbar-brand d-flex align-items-center">
-            <img src="{{ routes.images }}/deconnexion.png" width="25" height="25" class="me-2">
-            <p class="mb-0">Déconnexion</p>
-        </a>
-    </div>
-</div>
-
-
-<main class="container">
-    <h1 style="text-align: center;">Liste des entreprises</h1>
-    {% if error %}
-        <div class="alert alert-danger">{{ error }}</div>
-    {% endif %}
-    {% if success %}
-        <div id="success-message" class="alert alert-success">
-            Entreprise ajoutée avec succès!
-            <button type="button" class="btn btn-success" onclick="hideSuccessMessage()">Fermer</button>
+            <a href="?page=deconnexion" class="navbar-brand d-flex align-items-center">
+                <img src="{{ routes.images }}/deconnexion.png" width="25" height="25" class="me-2">
+                <p class="mb-0">Déconnexion</p>
+            </a>
         </div>
-    {% endif %}
-    {% if delete %}
-        <div id="delete-success-message" class="alert alert-success">
-            Entreprise supprimée avec succès!
-            <button type="button" class="btn btn-success" onclick="hideSuccessMessage()">Fermer</button>
+    </div>
+
+    <main class="container">
+        <h1 style="text-align: center;">Liste des entreprises</h1>
+        {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+        {% if success %}
+            <div id="success-message" class="alert alert-success">
+                Entreprise ajoutée avec succès!
+                <button type="button" class="btn btn-success" onclick="hideSuccessMessage()">Fermer</button>
+            </div>
+        {% endif %}
+        {% if delete %}
+            <div id="success-message" class="alert alert-success">
+                Entreprise supprimée avec succès!
+                <button type="button" class="btn btn-success" onclick="hideSuccessMessage()">Fermer</button>
+            </div>
+        {% endif %}
+        <div class="text-end mb-3">
+            <button class="btn btn-primary" onclick="ajoutEnt()">Ajouter Entreprise</button>
+            <button class="btn btn-secondary" onclick="chercherEnt()">Rechercher</button>
         </div>
-    {% endif %}
-    <div class="text-end mb-3">
-        <button class="btn btn-primary" onclick="ajoutEnt()">Ajouter Entreprise</button>
-        <button class="btn btn-secondary" onclick="chercherEnt()">Rechercher</button>
-    </div>
-    <div id="add-form-container" style="display: none;">
-        <!-- Le formulaire sera inséré ici par JavaScript -->
-    </div>
-    <div id="search-form-container" style="display: none;">
-        <!-- Le formulaire de recherche sera inséré ici par JavaScript -->
-    </div>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Options</th>
-                <th>Raison Sociale</th>
-                <th>Contact</th>
-                <th>Adresse</th>
-                <th>Site Web</th>
-                <th>Spécialités</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for entreprise in entreprises %}
+        <div id="add-form-container" style="display: none;">
+            <!-- Le formulaire sera inséré ici par JavaScript -->
+        </div>
+        <div id="search-form-container" style="display: none;">
+            <!-- Le formulaire de recherche sera inséré ici par JavaScript -->
+        </div>
+        <table class="table table-striped">
+            <thead>
                 <tr>
-                    <td>
-                        <div class="btn-group" role="group">
-                            <form id="delete-form-{{ entreprise.num_entreprise }}" action="?page=entreprise" method="post" style="display: inline;">
-                                <input type="hidden" name="action" value="delete">
-                                <input type="hidden" name="num_entreprise" value="{{ entreprise.num_entreprise }}">
-                                <button type="button" class="btn btn-danger" onclick="confirmDeleteEnt({{ entreprise.num_entreprise }})">
-                                    <img src="{{ routes.images }}/supprimer.png" alt="Supprimer" width="25" height="25">
-                                </button>
-                            </form>
-                            <button class="btn btn-warning" onclick="window.location.href='?page=editEnt&num_entreprise={{ entreprise.num_entreprise }}'">
-                                <img src="{{ routes.images }}/modifier.png" alt="Modifier" width="25" height="25">
-                            </button>
-                            <button class="btn btn-info" onclick="window.location.href='?page=showEnt&num_entreprise={{ entreprise.num_entreprise }}'">
-                                <img src="{{ routes.images }}/voir.png" alt="Details" width="25" height="25">
-                            </button>
-                        </div>
-                    </td>
-                    <td>{{ entreprise.raison_sociale }}</td>
-                    <td>{{ entreprise.contacts }}</td>
-                    <td>{{ entreprise.rue_entreprise }} </br> 
-                        {{ entreprise.cp_entreprise }}, {{ entreprise.ville_entreprise }}</td>
-                    <td>
-                        {% if entreprise.site_entreprise %}
-                            <a href="{{ entreprise.site_entreprise }}" target="_blank" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;">
-                                <img src="{{ routes.images }}/lien.png" alt="Site Web" width="25" height="25">
-                            </a>
-                        {% else %}
-                            N/A
-                        {% endif %}
-                    </td>
-                    <td>{{ entreprise.specialites }}</td>
+                    <th>Options</th>
+                    <th>Raison Sociale</th>
+                    <th>Contact</th>
+                    <th>Adresse</th>
+                    <th>Site Web</th>
+                    <th>Spécialités</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</main>
+            </thead>
+            <tbody>
+                {% for entreprise in entreprises %}
+                    <tr>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <form id="delete-form-{{ entreprise.num_entreprise }}" action="?page=entreprise" method="post" style="display: inline;">
+                                    <input type="hidden" name="action" value="delete">
+                                    <input type="hidden" name="num_entreprise" value="{{ entreprise.num_entreprise }}">
+                                    <button type="button" class="btn btn-danger" onclick="confirmDeleteEnt({{ entreprise.num_entreprise }})">
+                                        <img src="{{ routes.images }}/supprimer.png" alt="Supprimer" width="25" height="25">
+                                    </button>
+                                </form>
+                                <button class="btn btn-warning" onclick="window.location.href='?page=editEnt&num_entreprise={{ entreprise.num_entreprise }}'">
+                                    <img src="{{ routes.images }}/modifier.png" alt="Modifier" width="25" height="25">
+                                </button>
+                                <button class="btn btn-info" onclick="window.location.href='?page=showEnt&num_entreprise={{ entreprise.num_entreprise }}'">
+                                    <img src="{{ routes.images }}/voir.png" alt="Details" width="25" height="25">
+                                </button>
+                            </div>
+                        </td>
+                        <td>{{ entreprise.raison_sociale }}</td>
+                        <td>{{ entreprise.contacts }}</td>
+                        <td>{{ entreprise.rue_entreprise }} </br> 
+                            {{ entreprise.cp_entreprise }}, {{ entreprise.ville_entreprise }}</td>
+                        <td>
+                            {% if entreprise.site_entreprise %}
+                                <a href="{{ entreprise.site_entreprise }}" target="_blank" style="display: inline-block; background-color: grey; padding: 5px; border-radius: 3px;">
+                                    <img src="{{ routes.images }}/lien.png" alt="Site Web" width="25" height="25">
+                                </a>
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                        <td>{{ entreprise.specialites }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
 
-<script>
-    const specialites = {{ specialites|json_encode|raw }};
-</script>
+    <script>
+        const specialites = {{ specialites|json_encode|raw }};
+    </script>
 
-<script src="{{ routes.bootstrap | replace({'.css': '.bundle.min.js'}) }}"></script>
-<script src="{{ routes.js }}/javascript.js"></script>
+    <script src="{{ routes.bootstrap | replace({'.css': '.bundle.min.js'}) }}"></script>
+    <script src="{{ routes.js }}/javascript.js"></script>
 </body>
 </html>

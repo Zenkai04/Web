@@ -2,7 +2,7 @@
 require_once('connect.php');
 
 // Fonction pour récupérer les entreprises avec leurs spécialités
-function getEntreprises1($pdo) {
+function getEntreprises($pdo) {
     $query = '
         SELECT 
             e.num_entreprise,
@@ -12,7 +12,7 @@ function getEntreprises1($pdo) {
             e.cp_entreprise,
             e.ville_entreprise,
             e.site_entreprise,
-    GROUP_CONCAT(s.libelle SEPARATOR ", ") AS specialites
+            GROUP_CONCAT(s.libelle SEPARATOR ", ") AS specialites
         FROM 
             entreprise e
         LEFT JOIN 
@@ -46,46 +46,6 @@ function getProfesseurs($pdo) {
     $query = $pdo->prepare("SELECT num_prof, nom_prof FROM professeur");
     $query->execute();
     return $query->fetchAll(PDO::FETCH_ASSOC);
-}
-
-// Fonction pour récupérer les entreprises
-function getEntreprises2($pdo) {
-    $query = $pdo->prepare("SELECT num_entreprise, raison_sociale FROM entreprise");
-    $query->execute();
-    return $query->fetchAll(PDO::FETCH_ASSOC);
-}
-
-// Fonction pour récupérer les numéros des étudiants à partir de leur nom et prénom
-function getEtudiant($pdo, $etudiant) {
-    $nom = substr($etudiant, 0, strpos($etudiant, ' '));
-    $prenom = substr($etudiant, strpos($etudiant, ' ') + 1);
-    $query = $pdo->prepare("SELECT num_etudiant FROM etudiant WHERE nom_etudiant = :nom AND prenom_etudiant = :prenom");
-    $query->bindParam(':nom', $nom);
-    $query->bindParam(':prenom', $prenom);
-    $query->execute();
-    $result = $query->fetch(PDO::FETCH_ASSOC);
-
-    return $result ? $result['num_etudiant'] : null;
-}
-
-// Fonction pour récupérer les numéros des professeurs à partir de leur nom
-function getProfesseur1($pdo, $professeur) {
-    $query = $pdo->prepare("SELECT num_prof FROM professeur WHERE nom_prof = :nom_prof");
-    $query->bindParam(':nom_prof', $professeur);
-    $query->execute();
-    $result = $query->fetch(PDO::FETCH_ASSOC);
-
-    return $result ? $result['num_prof'] : null;
-}
-
-// Fonction pour récupérer les numéros des entreprises à partir de leur raison sociale
-function getEntreprise($pdo, $entreprise) {
-    $query = $pdo->prepare("SELECT num_entreprise FROM entreprise WHERE raison_sociale = :raison_sociale");
-    $query->bindParam(':raison_sociale', $entreprise);
-    $query->execute();
-    $result = $query->fetch(PDO::FETCH_ASSOC);
-
-    return $result ? $result['num_entreprise'] : null;
 }
 
 // Fonction pour insérer les données d'inscription dans la base de données
@@ -186,48 +146,6 @@ function deleteEntreprise($pdo, $num_entreprise) {
     }
 }
 
-// Fonction qui retourne les stages d'une entreprise
-function getStagesByEntreprise($pdo, $num_entreprise) {
-    $query = $pdo->prepare("
-        SELECT 
-            num_stage, 
-            num_etudiant, 
-            num_prof, 
-            debut_stage, 
-            fin_stage, 
-            type_stage, 
-            desc_projet, 
-            observation_stage
-        FROM 
-            stage
-        WHERE 
-            num_entreprise = :num_entreprise
-    ");
-    $query->bindParam(':num_entreprise', $num_entreprise);
-    $query->execute();
-    return $query->fetchAll(PDO::FETCH_ASSOC);
-}
-
-// Fonction qui retourne l'identifiant d'une entreprise à partir de son nom
-function getEntrepriseId($pdo, $raison_sociale) {
-    $query = $pdo->prepare("SELECT num_entreprise FROM entreprise WHERE raison_sociale = :raison_sociale");
-    $query->bindParam(':raison_sociale', $raison_sociale);
-    $query->execute();
-    return $query->fetch(PDO::FETCH_ASSOC);
-}
-
-// Fonction qui retourne l'identifiant d'une spécialité à partir de son libellé
-function getSpecialiteId($pdo, $libelle) {
-    try {
-        $query = $pdo->prepare("SELECT num_spec FROM specialite WHERE libelle = :libelle");
-        $query->bindParam(':libelle', $libelle);
-        $query->execute();
-        return $query->fetchColumn();
-    } catch (PDOException $e) {
-        throw new Exception('Erreur lors de la récupération de l\'identifiant de la spécialité : ' . $e->getMessage());
-    }
-}
-
 // Fonction pour ajouter une entreprise
 function insertEntreprise($pdo, $raison_sociale, $nom_contact, $nom_resp, $rue_entreprise, $cp_entreprise, $ville_entreprise, $tel_entreprise, $fax_entreprise, $email, $observation, $site_entreprise, $niveau, $num_spec, $en_activite) {
     try {
@@ -294,19 +212,7 @@ function getClasseById($pdo, $num_classe) {
     }
 }
 
-// Fonction qui retourne le numéro d'une classe à partir de son nom
-function getClasseByName($pdo, $nom_classe) {
-    try {
-        $query = $pdo->prepare("SELECT num_classe FROM classe WHERE nom_classe = :nom_classe");
-        $query->bindParam(':nom_classe', $nom_classe);
-        $query->execute();
-        return $query->fetchColumn();
-    } catch (PDOException $e) {
-        throw new Exception('Erreur lors de la récupération de la classe : ' . $e->getMessage());
-    }
-}
-
-//Fonction pour ajouter un étudiant
+// Fonction pour ajouter un étudiant
 function insertEtudiant($pdo, $nom_etudiant, $prenom_etudiant, $login, $mdp, $annee_obtention, $num_classe, $en_activite) {
     try {
         $query = $pdo->prepare("
@@ -384,11 +290,11 @@ function searchEtudiants($pdo, $criteria, $value) {
 
         $queryStr = '
             SELECT 
-            etu.num_etudiant, 
-            etu.nom_etudiant, 
-            etu.prenom_etudiant, 
-            GROUP_CONCAT(e.raison_sociale SEPARATOR ", ") AS entreprises, 
-            GROUP_CONCAT(p.nom_prof SEPARATOR ", ") AS professeurs
+                etu.num_etudiant, 
+                etu.nom_etudiant, 
+                etu.prenom_etudiant, 
+                GROUP_CONCAT(e.raison_sociale SEPARATOR ", ") AS entreprises, 
+                GROUP_CONCAT(p.nom_prof SEPARATOR ", ") AS professeurs
             FROM etudiant etu
             LEFT JOIN stage s ON etu.num_etudiant = s.num_etudiant
             LEFT JOIN entreprise e ON s.num_entreprise = e.num_entreprise
@@ -398,22 +304,22 @@ function searchEtudiants($pdo, $criteria, $value) {
         if ($criteria === 'raison_sociale') {
             $queryStr .= "
             WHERE 
-            e.raison_sociale LIKE :value
+                e.raison_sociale LIKE :value
             GROUP BY 
-            etu.num_etudiant, etu.nom_etudiant, etu.prenom_etudiant
+                etu.num_etudiant, etu.nom_etudiant, etu.prenom_etudiant
             ";
         } elseif ($criteria === 'nom_prof') {
             $queryStr .= "
             WHERE 
-            p.nom_prof LIKE :value
+                p.nom_prof LIKE :value
             GROUP BY 
-            etu.num_etudiant, etu.nom_etudiant, etu.prenom_etudiant
+                etu.num_etudiant, etu.nom_etudiant, etu.prenom_etudiant
             ";
         } else {
             $queryStr .= "
             WHERE etu.{$criteria} LIKE :value
             GROUP BY 
-            etu.num_etudiant, etu.nom_etudiant, etu.prenom_etudiant
+                etu.num_etudiant, etu.nom_etudiant, etu.prenom_etudiant
             ";
         }
 
@@ -427,7 +333,7 @@ function searchEtudiants($pdo, $criteria, $value) {
     }
 }
 
-//Fonction qui retourne toutes les informations d'un étudiant
+// Fonction qui retourne toutes les informations d'un étudiant
 function getEtudiantInfo($pdo, $num_etudiant) {
     $query = $pdo->prepare("
         SELECT 
@@ -448,7 +354,7 @@ function getEtudiantInfo($pdo, $num_etudiant) {
     return $query->fetch(PDO::FETCH_ASSOC);
 }
 
-//Fonction qui retourne toutes les informations d'une entreprise
+// Fonction qui retourne toutes les informations d'une entreprise
 function getEntrepriseInfo($pdo, $num_entreprise) {
     $query = $pdo->prepare("
         SELECT 
@@ -476,7 +382,7 @@ function getEntrepriseInfo($pdo, $num_entreprise) {
     return $query->fetch(PDO::FETCH_ASSOC);
 }
 
-//Fonction pour mettre à jour un étudiant
+// Fonction pour mettre à jour un étudiant
 function updateEtudiant($pdo, $num_etudiant, $nom, $prenom, $login, $mdp, $en_activite) {
     try {
         $query = $pdo->prepare("
@@ -503,7 +409,7 @@ function updateEtudiant($pdo, $num_etudiant, $nom, $prenom, $login, $mdp, $en_ac
     }
 }
 
-//Fonction pour mettre à jour une entreprise
+// Fonction pour mettre à jour une entreprise
 function updateEntreprise($pdo, $num_entreprise, $raison_sociale, $nom_contact, $nom_responeable, $rue_entreprise, $cp_entreprise, $ville_entreprise, $tel_entreprise, $fax_entreprise, $email, $observation, $site_entreprise, $niveau, $en_activite) {
     try {
         $query = $pdo->prepare("

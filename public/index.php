@@ -57,7 +57,6 @@ switch ($page) {
         $data = require_once('../src/Controller/ShowEnt.php');
         $template = 'ShowEnt.twig';
         break;
-    // Ajoutez d'autres cas ici si nécessaire
     default:
         $data = require_once('../src/Controller/Accueil.php');
         $template = 'Accueil.twig';

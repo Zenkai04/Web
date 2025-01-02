@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $classes = getClasses($pdo);
 }
 
-// Assurez-vous que les variables sont définies même en cas d'erreur
+// En cas d'erreur
 $etudiants = $etudiants ?? [];
 $classes = $classes ?? [];
 
