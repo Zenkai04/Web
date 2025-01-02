@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="{{ routes.bootstrap }}">
     <link rel="stylesheet" href="{{ routes.css }}/styles.scss">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <!-- Barre de navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow fixed-top" >
         <div class="container">
             <a href="?page=home" class="navbar-brand d-flex align-items-center {% if current_page == 'home' %}active{% endif %}">
                 <img src="{{ routes.images }}/home.png" alt="Accueil" width="25" height="25" class="me-2">
@@ -104,6 +104,17 @@
             </div>
         </section>
     </div>
+
+    <footer class="bg-dark text-white py-3 mt-auto fixed-bottom">
+        <div class="container d-flex justify-content-between">
+            <div>
+                &copy; 2023-2024 Polytech Lyon 3A Info
+            </div>
+            <div>
+                Plateforme créée par : MESSAOUDI Amin 12108951, NADIR Ayoub 12101440
+            </div>
+        </div>
+    </footer>
 
     <script src="{{ routes.bootstrap | replace({'.css': '.bundle.min.js'}) }}"></script>    
 </body>
