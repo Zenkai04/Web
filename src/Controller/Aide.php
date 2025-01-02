@@ -1,12 +1,16 @@
 <?php
 require_once(__DIR__ . '/../Model/connect.php');
-require_once(__DIR__ . '/../Model/model.php'); 
+require_once(__DIR__ . '/../Model/model.php');
 
-// Passer les données et les routes dans un tableau
 $data = [
-    'aide' => $routes,
+    'routes' => [
+        'bootstrap' => 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css',
+        'css' => '/path/to/your/css',
+        'images' => '/path/to/your/images',
+        'js' => '/path/to/your/js',
+    ],
+    'current_page' => 'aide',
 ];
 
-// Retourner les données
 return $data;
 ?>
