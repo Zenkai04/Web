@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $num_etudiant = $_POST['num_etudiant'];
             deleteEtudiant($pdo, $num_etudiant);
             // Rediriger vers la page des stagiaires après la suppression
-            header('Location: /projets/Web/public/?page=stagiaire&delete=1');
+            header('Location: ?page=stagiaire&delete=1');
             exit;
         } catch (Exception $e) {
             echo json_encode(['success' => false, 'message' => $e->getMessage()]);
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             insertEtudiant($pdo, $nom_etudiant, $prenom_etudiant, $login, $mdp, $annee_obtention, $num_classe, $en_activite);
 
             // Rediriger vers la page des stagiaires après l'ajout avec succès
-            header('Location: /projets/Web/public/?page=stagiaire&success=1');
+            header('Location: ?page=stagiaire&success=1');
             exit;
         } catch (Exception $e) {
             $error = $e->getMessage();

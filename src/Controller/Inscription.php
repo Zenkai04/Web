@@ -31,11 +31,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         insertInscription($pdo, $entreprise, $etudiant, $professeur, $date_debut, $date_fin, $type, $description, $observations);
 
         // Rediriger vers la page d'inscription avec un message de succès
-        header('Location: /projets/Web/public/?page=inscription&success=1');
+        header('Location: ?page=inscription&success=1');
         exit;
     } catch (Exception $e) {
         $error = $e->getMessage();
-        header('Location: /projets/Web/public/?page=inscription&error=' . urlencode($error));
+        header('Location: ?page=inscription&error=' . urlencode($error));
         exit;
     }
 } else {
