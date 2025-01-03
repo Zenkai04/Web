@@ -49,7 +49,7 @@
         </div>
     </header>
 
-    <main class="container mt-5">
+    <main class="container mt-5" style="padding-bottom: 60px">
         {% block content %}
             <h1 class="mb-4">Détails de l'étudiant</h1>
 
@@ -85,7 +85,15 @@
             {% endif %}
         {% endblock %}
 
-        <button type="button" class="btn btn-secondary mt-3" onclick="window.location.href='?page=stagiaire'">Retour</button>
+        <div class="d-flex mt-3">
+            <button type="button" class="btn btn-secondary" onclick="window.location.href='?page=stagiaire'">Retour</button>
+            <button type="button" class="btn btn-primary" onclick="window.location.href='?page=editEtu&num_etudiant={{ etudiant.num_etudiant }}'">Modifier</button>
+            <form id="delete-form-{{ etudiant.num_etudiant }}" action="?page=stagiaire" method="post" style="display: inline;">
+                <input type="hidden" name="action" value="delete">
+                <input type="hidden" name="num_etudiant" value="{{ etudiant.num_etudiant }}">
+                <button type="button" class="btn btn-danger" onclick="confirmDeleteEtu({{ etudiant.num_etudiant }})">Supprimer</button>
+            </form>
+        </div>
     </main>
 
     <footer class="bg-dark text-white py-3 mt-auto fixed-bottom">

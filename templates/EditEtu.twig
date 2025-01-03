@@ -49,7 +49,7 @@
         </div>
     </header>
 
-    <main class="container">
+    <main class="container" style="padding-bottom: 60px">
         <h1 style="text-align: center;">Modifier les informations de l'étudiant</h1>
         {% if error %}
             <div class="alert alert-danger">{{ error }}</div>
@@ -58,24 +58,30 @@
             <input type="hidden" name="action" value="update">
             <input type="hidden" name="num_etudiant" value="{{ etudiant.num_etudiant }}">
             <div class="mb-3">
-                <label for="nom" class="form-label">Nom</label>
-                <input type="text" class="form-control" id="nom" name="nom" value="{{ etudiant.nom_etudiant }}">
+                <label for="nom" class="form-label">Nom*</label>
+                <input type="text" class="form-control" id="nom" name="nom" value="{{ etudiant.nom_etudiant }}" required>
             </div>
             <div class="mb-3">
-                <label for="prenom" class="form-label">Prénom</label>
-                <input type="text" class="form-control" id="prenom" name="prenom" value="{{ etudiant.prenom_etudiant }}">
+                <label for="prenom" class="form-label">Prénom*</label>
+                <input type="text" class="form-control" id="prenom" name="prenom" value="{{ etudiant.prenom_etudiant }}" required>
             </div>
             <div class="mb-3">
-                <label for="login" class="form-label">Login</label>
+                <label for="login" class="form-label">Login*</label>
                 <input type="text" class="form-control" id="login" name="login" value="{{ etudiant.login }}">
             </div>
-            <div class="input-group">
-                <input type="password" class="form-control" id="mdp" name="mdp" value="{{ etudiant.mdp }}" required>
-                <button type="button" class="btn btn-outline-secondary" id="togglePassword">Afficher</button>
+            <div>
+                <label for="mdp" class="form-label">Mot de passe*</label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="mdp" name="mdp" value="{{ etudiant.mdp }}" required>
+                    <button type="button" class="btn btn-outline-secondary" id="togglePassword">Afficher</button>
+                </div>
             </div>
             <div class="mb-3">
                 <label for="en_activite" class="form-label">En activité</label>
                 <input type="checkbox" class="form-check-input" id="en_activite" name="en_activite" {{ etudiant.en_activite ? 'checked' : '' }}>
+            </div>
+            <div class="mb-3" style="text-align: center; background-color: #ff6161; color: white; padding: 10px;">
+                <p>Les champs désignés par un * sont obligatoires</p>
             </div>
             <button type="submit" class="btn btn-primary">Enregistrer</button>
             <button type="button" class="btn btn-secondary" onclick="window.location.href='?page=stagiaire'">Annuler</button>

@@ -5,17 +5,7 @@ require_once(__DIR__ . '/../Model/model.php');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
 
-    if ($action === 'delete') {
-        // Suppression d'une entreprise
-        try {
-            $num_entreprise = $_POST['num_entreprise'];
-            deleteEntreprise($pdo, $num_entreprise);
-            header('Location: ?page=entreprise');
-            exit;
-        } catch (Exception $e) {
-            echo json_encode(['success' => false, 'message' => $e->getMessage()]);
-        }
-    } elseif ($action === 'update') {
+    if ($action === 'update') {
         // Mise à jour d'une entreprise
         try {
             $num_entreprise = $_POST['num_entreprise'];
@@ -34,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $en_activite = isset($_POST['en_activite']) ? 1 : 0;
 
             updateEntreprise($pdo, $num_entreprise, $raison_sociale, $nom_contact, $nom_resp, $rue_entreprise, $cp_entreprise, $ville_entreprise, $tel_entreprise, $fax_entreprise, $email, $observation, $site_entreprise, $niveau, $en_activite);
-            header('Location: ?page=entreprise');
+            header('Location: ?page=entreprise&success=1');
             exit;
         } catch (Exception $e) {
             echo json_encode(['success' => false, 'message' => $e->getMessage()]);

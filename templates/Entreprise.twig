@@ -49,14 +49,14 @@
         </div>
     </header>
 
-    <main class="container">
+    <main class="container" style="padding-bottom: 60px">
         <h1 style="text-align: center;">Liste des entreprises</h1>
         {% if error %}
             <div class="alert alert-danger">{{ error }}</div>
         {% endif %}
         {% if success %}
             <div id="success-message" class="alert alert-success">
-                Entreprise ajoutée avec succès!
+                L'opération s'est déroulée avec succès!
                 <button type="button" class="btn btn-success" onclick="hideSuccessMessage()">Fermer</button>
             </div>
         {% endif %}
@@ -80,7 +80,7 @@
             <thead>
                 <tr>
                     <th>Options</th>
-                    <th>Raison Sociale</th>
+                    <th>Entreprise</th>
                     <th>Contact</th>
                     <th>Adresse</th>
                     <th>Site Web</th>
@@ -127,6 +127,8 @@
         </table>
     </main>
 
+    
+    
     <footer class="bg-dark text-white py-3 mt-auto fixed-bottom">
         <div class="container d-flex justify-content-between">
             <div>

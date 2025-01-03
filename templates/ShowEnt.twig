@@ -49,7 +49,7 @@
         </div>
     </header>
 
-    <main class="container">
+    <main class="container" style="padding-bottom: 60px">
         <h1>Détails de l'entreprise</h1>
 
         {% if entreprise %}
@@ -128,7 +128,15 @@
                 </tbody>
             </table>
         </div>
-        <button type="button" class="btn btn-secondary mt-3" onclick="window.location.href='?page=entreprise'">Retour</button>
+        <div class="d-flex mt-3">
+            <button type="button" class="btn btn-secondary" onclick="window.location.href='?page=entreprise'">Retour</button>
+            <button type="button" class="btn btn-primary" onclick="window.location.href='?page=editEnt&num_entreprise={{ entreprise.num_entreprise }}'">Modifier</button>
+            <form id="delete-form-{{ entreprise.num_entreprise }}" action="?page=entreprise" method="post" style="display: inline;">
+                <input type="hidden" name="action" value="delete">
+                <input type="hidden" name="num_entreprise" value="{{ entreprise.num_entreprise }}">
+                <button type="button" class="btn btn-danger" onclick="confirmDeleteEnt({{ entreprise.num_entreprise }})">Supprimer</button>
+            </form>
+        </div>
     </main>
 
     <footer class="bg-dark text-white py-3 mt-auto fixed-bottom">

@@ -49,14 +49,14 @@
         </div>
     </header>
 
-    <main class="container">
+    <main class="container" style="padding-bottom: 60px">
         <h1 style="text-align: center;">Liste des stagiaires</h1>
         {% if error %}
             <div class="alert alert-danger">{{ error }}</div>
         {% endif %}
         {% if success %}
             <div id="success-message" class="alert alert-success">
-                Étudiant ajouté avec succès!
+                L'opération s'est déroulée avec succès!
                 <button type="button" class="btn btn-success" onclick="hideSuccessMessage()">Fermer</button>
             </div>
         {% endif %}

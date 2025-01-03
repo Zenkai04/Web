@@ -140,6 +140,11 @@ function ajoutEnt() {
                 </select>
             </div>
 
+            <div class="mb-3">
+                <label for="en_activite" class="form-label">En activité</label>
+                <input type="checkbox" class="form-check-input" id="en_activite" name="en_activite" {{ entreprise.en_activite ? 'checked' : '' }}>
+            </div>
+
             <div class="mb-3" style="text-align: center; background-color: #ff6161; color: white; padding: 10px;">
                 <p>Les champs désignés par un * sont obligatoires</p>
             </div>
