@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['num_entreprise'])) {
         $num_entreprise = $_GET['num_entreprise'];
         $entreprise = getEntrepriseInfo($pdo, $num_entreprise);
         $stages = getStages($pdo, $num_entreprise);
-        $classes = getClasses($pdo);
+
         // Passer les données et les routes dans un tableau
         $data = [
             'routes' => $routes,
@@ -17,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['num_entreprise'])) {
             'current_page' => 'showEnt',
             'error' => isset($error) ? $error : null,
         ];
+        
         // Charger le template Twig
         echo $twig->render('ShowEnt.twig', $data);
         exit;

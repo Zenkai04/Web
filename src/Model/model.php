@@ -127,6 +127,11 @@ function deleteEntreprise($pdo, $num_entreprise) {
         // Commencer une transaction
         $pdo->beginTransaction();
 
+        // Supprimer les enregistrements dans la table stage qui référencent l'entreprise
+        $query = $pdo->prepare("DELETE FROM stage WHERE num_entreprise = :num_entreprise");
+        $query->bindParam(':num_entreprise', $num_entreprise);
+        $query->execute();
+
         // Supprimer les enregistrements dans la table spec_entreprise qui référencent l'entreprise
         $query = $pdo->prepare("DELETE FROM spec_entreprise WHERE num_entreprise = :num_entreprise");
         $query->bindParam(':num_entreprise', $num_entreprise);
@@ -358,24 +363,29 @@ function getEtudiantInfo($pdo, $num_etudiant) {
 function getEntrepriseInfo($pdo, $num_entreprise) {
     $query = $pdo->prepare("
         SELECT 
-            num_entreprise, 
-            raison_sociale, 
-            nom_contact, 
-            nom_resp, 
-            rue_entreprise, 
-            cp_entreprise, 
-            ville_entreprise, 
-            tel_entreprise, 
-            fax_entreprise, 
-            email, 
-            observation, 
-            site_entreprise, 
-            niveau, 
-            en_activite
+            e.num_entreprise, 
+            e.raison_sociale, 
+            e.nom_contact, 
+            e.nom_resp, 
+            e.rue_entreprise, 
+            e.cp_entreprise, 
+            e.ville_entreprise, 
+            e.tel_entreprise, 
+            e.fax_entreprise, 
+            e.email, 
+            e.observation, 
+            e.site_entreprise, 
+            e.niveau, 
+            e.en_activite,
+            GROUP_CONCAT(s.libelle SEPARATOR ', ') AS specialites
         FROM 
-            entreprise
+            entreprise e 
+        LEFT JOIN 
+            spec_entreprise se ON e.num_entreprise = se.num_entreprise
+        LEFT JOIN 
+            specialite s ON se.num_spec = s.num_spec
         WHERE 
-            num_entreprise = :num_entreprise
+            e.num_entreprise = :num_entreprise
     ");
     $query->bindParam(':num_entreprise', $num_entreprise);
     $query->execute();
