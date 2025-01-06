@@ -12,6 +12,13 @@ if (!isset($_SESSION['user']) && $page !== 'connexion') {
 
 $data = [];
 
+// Restrict access based on user role
+if (isset($_SESSION['role']) && $_SESSION['role'] === 'etudiant' && !in_array($page, ['home', 'entreprise', 'aide', 'stagiaire', 'deconnexion'])) {
+    $_SESSION['error_message'] = "Vous n'avez pas les droits nécessaires pour accéder à cette page.";
+    header('Location: ?page=home');
+    exit;
+}
+
 switch ($page) {
     case 'home':
         $data = require_once('../src/Controller/Accueil.php');
@@ -33,14 +40,14 @@ switch ($page) {
         $data = require_once('../src/Controller/Aide.php');
         $template = 'Aide.twig';
         break;
-    case 'deconnexion':
-        session_destroy();
-        header('Location: ?page=connexion');
-        exit;
     case 'connexion':
         $data = require_once('../src/Controller/Connexion.php');
         $template = 'Connexion.twig';
         break;
+    case 'deconnexion':
+        session_destroy();
+        header('Location: ?page=connexion');
+        exit;
     case 'editEtu':
         $data = require_once('../src/Controller/EditEtu.php');
         $template = 'EditEtu.twig';
@@ -61,6 +68,11 @@ switch ($page) {
         $data = require_once('../src/Controller/Accueil.php');
         $template = 'Accueil.twig';
         break;
+}
+
+if (isset($_SESSION['error_message'])) {
+    $data['error_message'] = $_SESSION['error_message'];
+    unset($_SESSION['error_message']);
 }
 
 echo $twig->render($template, $data);

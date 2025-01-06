@@ -5,16 +5,25 @@ require_once(__DIR__ . '/../Model/model.php');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
 
+    // Restrict actions for students
+    if ($_SESSION['role'] === 'etudiant' && in_array($action, ['delete', 'add', 'update'])) {
+        $_SESSION['error_message'] = "Vous n'avez pas les droits nécessaires pour effectuer cette action.";
+        header('Location: ?page=home');
+        exit;
+    }
+
     if ($action === 'delete') {
         // Suppression d'une entreprise
         try {
             $num_entreprise = $_POST['num_entreprise'];
             deleteEntreprise($pdo, $num_entreprise);
-            // Rediriger vers la page des entreprises après l'ajout avec succès
-            header('Location: ?page=entreprise&delete=1');
+            $_SESSION['success_message'] = "Entreprise supprimée avec succès.";
+            header('Location: ?page=entreprise');
             exit;
         } catch (Exception $e) {
-            echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+            $_SESSION['error_message'] = "Erreur lors de la suppression de l'entreprise : " . $e->getMessage();
+            header('Location: ?page=entreprise');
+            exit;
         }
     } elseif ($action === 'add') {
         // Ajout d'une entreprise
@@ -37,11 +46,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Appel à la fonction pour insérer l'entreprise
             insertEntreprise($pdo, $raison_sociale, $nom_contact, $nom_resp, $rue_entreprise, $cp_entreprise, $ville_entreprise, $tel_entreprise, $fax_entreprise, $email, $observation, $site_entreprise, $niveau, $specialite, $en_activite);
 
-            // Rediriger vers la page des entreprises après l'ajout avec succès
-            header('Location: ?page=entreprise&success=1');
+            $_SESSION['success_message'] = "Entreprise ajoutée avec succès.";
+            header('Location: ?page=entreprise');
             exit;
         } catch (Exception $e) {
-            $error = $e->getMessage();
+            $_SESSION['error_message'] = "Erreur lors de l'ajout de l'entreprise : " . $e->getMessage();
+            header('Location: ?page=entreprise');
+            exit;
         }
     } elseif ($action === 'search') {
         // Recherche d'une entreprise
@@ -73,9 +84,8 @@ $data = [
     'entreprises' => $entreprises,
     'specialites' => $specialites,
     'current_page' => 'entreprise',
-    'success' => isset($_GET['success']),
-    'delete' => isset($_GET['delete']),
-    'error' => isset($error) ? $error : null,
+    'success' => isset($_SESSION['success_message']) ? $_SESSION['success_message'] : null,
+    'error' => isset($_SESSION['error_message']) ? $_SESSION['error_message'] : null,
 ];
 
 // Retourner les données pour l'inclusion

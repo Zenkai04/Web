@@ -23,6 +23,8 @@ SET time_zone = "+00:00";
 CREATE DATABASE bdd_geststages ;
 USE bdd_geststages ;
 
+DROP USER IF EXISTS 'usergs'@'%';
+
 CREATE USER 'usergs'@'%' IDENTIFIED BY 'mdpGS';
 GRANT ALL PRIVILEGES ON bdd_geststages.* TO 'usergs'@'%';
 

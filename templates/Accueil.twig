@@ -39,15 +39,26 @@
     </nav>
 
     <header class="mt-5 pt-3">
+        {% if error_message %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ error_message }}
+            </div>
+        {% endif %}
+
+        {% if success_message %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ success_message }}
+            </div>
+        {% endif %}
+    </header>
+
+    <main class="container" style="padding-bottom: 60px">
         <div class="container text-center">
             <h1>Stage BTS</h1>
             <p>Bienvenue sur la page de gestion des stages</p>
             <hr class="my-4" />
             <img src="{{ routes.images }}/logo.png" width="600" height="600"/>
-        </div>
-    </header>
-
-    <main class="container" style="padding-bottom: 60px">
+        </div>        
     </main>
 
     <footer class="bg-dark text-white py-3 mt-auto fixed-bottom">
@@ -62,5 +73,6 @@
     </footer>
 
     <script src="{{ routes.bootstrap | replace({'.css': '.bundle.min.js'}) }}"></script>
+    <script src="{{ routes.js }}/javascript.js"></script>
 </body>
 </html>
