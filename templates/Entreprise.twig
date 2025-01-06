@@ -56,14 +56,20 @@
         {% endif %}
         {% if success %}
             <div id="success-message" class="alert alert-success">
-                L'opération s'est déroulée avec succès!
-                <button type="button" class="btn btn-success" onclick="hideSuccessMessage()">Fermer</button>
+                Entreprise ajoutée avec succès!
+                <button type="button" class="btn btn-success" onclick="hideMessage('success-message')">Fermer</button>
             </div>
         {% endif %}
         {% if delete %}
-            <div id="success-message" class="alert alert-success">
+            <div id="delete-message" class="alert alert-success">
                 Entreprise supprimée avec succès!
-                <button type="button" class="btn btn-success" onclick="hideSuccessMessage()">Fermer</button>
+                <button type="button" class="btn btn-success" onclick="hideMessage('delete-message')">Fermer</button>
+            </div>
+        {% endif %}
+        {% if edit %}
+            <div id="edit-message" class="alert alert-success">
+                Entreprise modifiée avec succès!
+                <button type="button" class="btn btn-success" onclick="hideMessage('edit-message')">Fermer</button>
             </div>
         {% endif %}
         <div class="text-end mb-3">

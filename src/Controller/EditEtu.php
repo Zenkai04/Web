@@ -16,10 +16,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $en_activite = isset($_POST['en_activite']) ? 1 : 0;
 
             updateEtudiant($pdo, $num_etudiant, $nom, $prenom, $login, $mdp, $en_activite);
-            header('Location: ?page=stagiaire&success=1');
+            $_SESSION['edit_message'] = "Étudiant modifié avec succès.";
+            header('Location: ?page=stagiaire&edit=1');
             exit;
         } catch (Exception $e) {
-            echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+            $_SESSION['error_message'] = "Erreur lors de la modification de l'étudiant : " . $e->getMessage();
+            header('Location: ?page=stagiaire');
             exit;
         }
     }
@@ -39,7 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo $twig->render('EditEtu.twig', $data);
         exit;
     } catch (Exception $e) {
-        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+        $_SESSION['error_message'] = "Erreur lors de la récupération des informations de l'étudiant : " . $e->getMessage();
+        header('Location: ?page=stagiaire');
         exit;
     }
 } else {

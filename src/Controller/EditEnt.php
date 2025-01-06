@@ -24,10 +24,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $en_activite = isset($_POST['en_activite']) ? 1 : 0;
 
             updateEntreprise($pdo, $num_entreprise, $raison_sociale, $nom_contact, $nom_resp, $rue_entreprise, $cp_entreprise, $ville_entreprise, $tel_entreprise, $fax_entreprise, $email, $observation, $site_entreprise, $niveau, $en_activite);
-            header('Location: ?page=entreprise&success=1');
+            $_SESSION['edit_message'] = "Entreprise modifiée avec succès.";
+            header('Location: ?page=entreprise&edit=1');
             exit;
         } catch (Exception $e) {
-            echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+            $_SESSION['error_message'] = "Erreur lors de la modification de l'entreprise : " . $e->getMessage();
+            header('Location: ?page=entreprise');
             exit;
         }
     }
@@ -45,7 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo $twig->render('EditEnt.twig', $data);
         exit;
     } catch (Exception $e) {
-        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+        $_SESSION['error_message'] = "Erreur lors de la récupération des informations de l'entreprise : " . $e->getMessage();
+        header('Location: ?page=entreprise');
         exit;
     }
 } else {

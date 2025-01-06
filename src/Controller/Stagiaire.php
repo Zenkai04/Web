@@ -17,8 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $num_etudiant = $_POST['num_etudiant'];
             deleteEtudiant($pdo, $num_etudiant);
-            $_SESSION['success_message'] = "Étudiant supprimé avec succès.";
-            header('Location: ?page=stagiaire');
+            $_SESSION['delete_message'] = "Étudiant supprimé avec succès.";
+            header('Location: ?page=stagiaire&delete=1');
             exit;
         } catch (Exception $e) {
             $_SESSION['error_message'] = "Erreur lors de la suppression de l'étudiant : " . $e->getMessage();
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             insertEtudiant($pdo, $nom_etudiant, $prenom_etudiant, $login, $mdp, $annee_obtention, $num_classe, $en_activite);
 
             $_SESSION['success_message'] = "Étudiant ajouté avec succès.";
-            header('Location: ?page=stagiaire');
+            header('Location: ?page=stagiaire&success=1');
             exit;
         } catch (Exception $e) {
             $_SESSION['error_message'] = "Erreur lors de l'ajout de l'étudiant : " . $e->getMessage();
@@ -81,9 +81,16 @@ $data = [
     'classes' => $classes,
     'success' => isset($_SESSION['success_message']) ? $_SESSION['success_message'] : null,
     'delete' => isset($_SESSION['delete_message']) ? $_SESSION['delete_message'] : null,
+    'edit' => isset($_SESSION['edit_message']) ? $_SESSION['edit_message'] : null,
     'current_page' => 'stagiaire',
     'error' => isset($_SESSION['error_message']) ? $_SESSION['error_message'] : null,
 ];
+
+// Effacer le message de succès après l'affichage
+unset($_SESSION['success_message']);
+unset($_SESSION['error_message']);
+unset($_SESSION['delete_message']);
+unset($_SESSION['edit_message']);
 
 // Retourner les données pour l'inclusion
 return $data;

@@ -270,8 +270,8 @@ function hideSearchForm() {
     document.getElementById('search-form-container').style.display = 'none';
 }
 
-function hideSuccessMessage() {
-    document.getElementById('success-message').style.display = 'none';
+function hideMessage(id) {
+    document.getElementById(id).style.display = 'none';
 }
 
 document.getElementById('togglePassword').addEventListener('click', function () {

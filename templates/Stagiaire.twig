@@ -54,18 +54,24 @@
         {% if error %}
             <div class="alert alert-danger">{{ error }}</div>
         {% endif %}
-        {% if success %}
-            <div id="success-message" class="alert alert-success">
-                L'opération s'est déroulée avec succès!
-                <button type="button" class="btn btn-success" onclick="hideSuccessMessage()">Fermer</button>
-            </div>
-        {% endif %}
-        {% if delete %}
-            <div id="success-message" class="alert alert-success">
-                Étudiant supprimé avec succès!
-                <button type="button" class="btn btn-success" onclick="hideSuccessMessage()">Fermer</button>
-            </div>
-        {% endif %}
+    {% if success %}
+        <div id="success-message" class="alert alert-success">
+            Étudiant ajouté avec succès!
+            <button type="button" class="btn btn-success" onclick="hideMessage('success-message')">Fermer</button>
+        </div>
+    {% endif %}
+    {% if delete %}
+        <div id="delete-message" class="alert alert-success">
+            Étudiant supprimé avec succès!
+            <button type="button" class="btn btn-success" onclick="hideMessage('delete-message')">Fermer</button>
+        </div>
+    {% endif %}
+    {% if edit %}
+        <div id="edit-message" class="alert alert-success">
+            Étudiant modifié avec succès!
+            <button type="button" class="btn btn-success" onclick="hideMessage('edit-message')">Fermer</button>
+        </div>
+    {% endif %}
         <div class="text-end mb-3">
             <button class="btn btn-primary" onclick="ajoutEtu()">Ajouter Stagiaire</button>
             <button class="btn btn-secondary" onclick="chercherEtu()">Rechercher</button>

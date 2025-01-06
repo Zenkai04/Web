@@ -17,8 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $num_entreprise = $_POST['num_entreprise'];
             deleteEntreprise($pdo, $num_entreprise);
-            $_SESSION['success_message'] = "Entreprise supprimée avec succès.";
-            header('Location: ?page=entreprise');
+            $_SESSION['delete_message'] = "Entreprise supprimée avec succès.";
+            header('Location: ?page=entreprise&delete=1');
             exit;
         } catch (Exception $e) {
             $_SESSION['error_message'] = "Erreur lors de la suppression de l'entreprise : " . $e->getMessage();
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             insertEntreprise($pdo, $raison_sociale, $nom_contact, $nom_resp, $rue_entreprise, $cp_entreprise, $ville_entreprise, $tel_entreprise, $fax_entreprise, $email, $observation, $site_entreprise, $niveau, $specialite, $en_activite);
 
             $_SESSION['success_message'] = "Entreprise ajoutée avec succès.";
-            header('Location: ?page=entreprise');
+            header('Location: ?page=entreprise&success=1');
             exit;
         } catch (Exception $e) {
             $_SESSION['error_message'] = "Erreur lors de l'ajout de l'entreprise : " . $e->getMessage();
@@ -85,8 +85,16 @@ $data = [
     'specialites' => $specialites,
     'current_page' => 'entreprise',
     'success' => isset($_SESSION['success_message']) ? $_SESSION['success_message'] : null,
+    'delete' => isset($_SESSION['delete_message']) ? $_SESSION['delete_message'] : null,
+    'edit' => isset($_SESSION['edit_message']) ? $_SESSION['edit_message'] : null,
     'error' => isset($_SESSION['error_message']) ? $_SESSION['error_message'] : null,
 ];
+
+// Effacer les messages après l'affichage
+unset($_SESSION['success_message']);
+unset($_SESSION['delete_message']);
+unset($_SESSION['edit_message']);
+unset($_SESSION['error_message']);
 
 // Retourner les données pour l'inclusion
 return $data;
