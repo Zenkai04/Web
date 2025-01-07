@@ -102,6 +102,15 @@ function deleteEtudiant($pdo, $num_etudiant) {
         // Commencer une transaction
         $pdo->beginTransaction();
 
+        // Supprimer les enregistrements dans la table mission qui référencent les stages de l'étudiant
+        $query = $pdo->prepare("
+            DELETE m FROM mission m
+            JOIN stage s ON m.num_stage = s.num_stage
+            WHERE s.num_etudiant = :num_etudiant
+        ");
+        $query->bindParam(':num_etudiant', $num_etudiant);
+        $query->execute();
+
         // Supprimer les enregistrements dans la table stage qui référencent l'étudiant
         $query = $pdo->prepare("DELETE FROM stage WHERE num_etudiant = :num_etudiant");
         $query->bindParam(':num_etudiant', $num_etudiant);
@@ -126,6 +135,15 @@ function deleteEntreprise($pdo, $num_entreprise) {
     try {
         // Commencer une transaction
         $pdo->beginTransaction();
+
+        // Supprimer les enregistrements dans la table mission qui référencent les stages de l'entreprise
+        $query = $pdo->prepare("
+            DELETE m FROM mission m
+            JOIN stage s ON m.num_stage = s.num_stage
+            WHERE s.num_entreprise = :num_entreprise
+        ");
+        $query->bindParam(':num_entreprise', $num_entreprise);
+        $query->execute();
 
         // Supprimer les enregistrements dans la table stage qui référencent l'entreprise
         $query = $pdo->prepare("DELETE FROM stage WHERE num_entreprise = :num_entreprise");
