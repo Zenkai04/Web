@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
 
     // Restrict actions for students
-    if ($_SESSION['role'] === 'etudiant' && in_array($action, ['delete', 'add', 'update']) && $_POST['num_etudiant'] != $_SESSION['user']['num_etudiant']) {
+    if ($_SESSION['role'] === 'etudiant' && in_array($action, ['delete', 'add', 'update'])) {
         $_SESSION['error_message'] = "Vous n'avez pas les droits nécessaires pour effectuer cette action.";
         header('Location: ?page=home');
         exit;
